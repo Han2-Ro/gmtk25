@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://djw8wsyabf6xn"]
+
+[ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/grid_container.gd" id="1_ebq2e"]
+
+[node name="GridContainer" type="GridContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3
+script = ExtResource("1_ebq2e")
+
+[node name="Button1" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button4" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button5" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button6" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button7" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button8" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Button9" type="Button" parent="."]
+layout_mode = 2
+text = "X"
