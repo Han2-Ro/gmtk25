@@ -14,3 +14,7 @@ config/name="GMTK 25"
 run/main_scene="uid://bk1igfk6y2ooh"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+UpgradeManager="*res://upgrades/upgrade_manager.gd"

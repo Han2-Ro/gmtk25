@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://upgrades/joker_5050/joker_5050_upgrade.gd" id="1_joker"]
+
+[resource]
+script = ExtResource("1_joker")
+id = "joker_5050"
+name = "50/50 Joker"
+description = "Eliminates half the wrong tiles (1 use per sequence)"
+cost = 20
+is_stackable = true
+max_stack = -1
+purchased_count = 0
+is_active = false
+elimination_percentage = 0.5
+min_buttons_to_eliminate = 1

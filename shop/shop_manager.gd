@@ -3,78 +3,54 @@
 class_name ShopManager
 extends Node
 
-
-class ShopItemData:
-	var id: String
-	var name: String
-	var description: String
-	var cost: int
-	var is_purchased: bool = false
-	var is_stackable: bool = false
-	var count: int = 0
-
-	func _init(
-		id_p: String,
-		name_p: String,
-		description_p: String,
-		cost_p: int,
-		is_stackable_p: bool = false,
-	) -> void:
-		self.id = id_p
-		self.name = name_p
-		self.description = description_p
-		self.cost = cost_p
-		self.is_stackable = is_stackable_p
-
-	func can_purchase() -> bool:
-		return is_stackable or not is_purchased
-
-	func purchase() -> void:
-		if self.is_purchased and not self.is_stackable:
-			push_error("Tried to buy {0} again".format(self.id))
-			return
-		is_purchased = true
-		count += 1
-
-
-signal purchase_completed(item: ShopItemData)
-signal purchase_failed(item: ShopItemData, reason: String)
-
-# Upgrade IDs
-const EXTRA_LIFE = "extra_life"
-const COIN_MULTIPLIER = "coin_multiplier"
-const SKIP_BUTTON = "skip_button"
-const SLOWER_SEQUENCE = "slower_sequence"
-
-# Shop items data
-var shop_items: Array[ShopItemData] = [
-	ShopItemData.new(EXTRA_LIFE, "Extra Life", "+1 starting life", 10, true),
-	ShopItemData.new(COIN_MULTIPLIER, "Coin Multiplier", "2x coins per action", 25, false),
-	ShopItemData.new(SKIP_BUTTON, "Skip Token", "Skip one step in sequence", 15, true),
-	ShopItemData.new(SLOWER_SEQUENCE, "Slow Motion", "More time between flashes", 20, false)
-]
+signal purchase_completed(upgrade: BaseUpgrade)
+signal purchase_failed(upgrade_id: String, reason: String)
 
 var cash_manager: CashManager
+var upgrade_manager: Node
 
 
-func can_afford(item: ShopItemData) -> bool:
-	return cash_manager.can_afford(item.cost)
+func _ready():
+	# Get upgrade manager reference
+	upgrade_manager = get_node_or_null("/root/UpgradeManager")
+	if upgrade_manager:
+		# Load saved upgrade states
+		upgrade_manager.load_upgrades_state()
 
 
-func purchase_item(item: ShopItemData) -> bool:
-	if not item.can_purchase():
-		purchase_failed.emit(item.id, "Already purchased")
+func can_afford(upgrade: BaseUpgrade) -> bool:
+	return cash_manager.can_afford(upgrade.cost)
+
+
+func get_purchasable_upgrades() -> Array[BaseUpgrade]:
+	if not upgrade_manager:
+		return []
+	return upgrade_manager.get_purchasable_upgrades()
+
+
+func purchase_upgrade(upgrade_id: String) -> bool:
+	if not upgrade_manager:
+		purchase_failed.emit(upgrade_id, "Upgrade system not initialized")
 		return false
 
-	if not can_afford(item):
-		purchase_failed.emit(item.id, "Not enough coins")
+	var upgrade = upgrade_manager.get_upgrade(upgrade_id)
+	if not upgrade:
+		purchase_failed.emit(upgrade_id, "Upgrade not found")
+		return false
+
+	if not upgrade.can_purchase():
+		purchase_failed.emit(upgrade_id, "Already purchased maximum")
+		return false
+
+	if not can_afford(upgrade):
+		purchase_failed.emit(upgrade_id, "Not enough coins")
 		return false
 
 	# Deduct cost
-	cash_manager.pay(item.cost)
+	cash_manager.pay(upgrade.cost)
 
-	# Mark as purchased
-	item.purchase()
+	# Purchase through upgrade manager
+	upgrade_manager.purchase_upgrade(upgrade_id)
 
-	purchase_completed.emit(item)
+	purchase_completed.emit(upgrade)
 	return true

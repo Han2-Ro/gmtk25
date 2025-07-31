@@ -13,31 +13,41 @@ signal purchase_requested(item_id: String)
 @onready var buy_button: Button = $VBoxContainer/HBoxContainer/BuyButton
 
 var shop_manager: ShopManager
-var item_data: ShopManager.ShopItemData
+var upgrade: BaseUpgrade
 
 
-func setup(id: String, data: ShopManager.ShopItemData, manager: ShopManager) -> void:
-	item_id = id
-	item_data = data
+func setup(upgrade_ref: BaseUpgrade, manager: ShopManager) -> void:
+	upgrade = upgrade_ref
+	item_id = upgrade.id
 	shop_manager = manager
 
-	name_label.text = data.name
-	description_label.text = data.description
-	cost_label.text = "%d coins" % data.cost
+	name_label.text = upgrade.get_display_name()
+	description_label.text = upgrade.description
+	cost_label.text = "%d coins" % upgrade.cost
 
 	update_button_state()
 
 
 func update_button_state() -> void:
-	if not item_data.is_stackable and item_data.is_purchased:
+	if not upgrade:
+		return
+
+	# Update name with count if applicable
+	name_label.text = upgrade.get_display_name()
+
+	if not upgrade.is_stackable and upgrade.purchased_count > 0:
 		buy_button.text = "Owned"
 		buy_button.disabled = true
-	elif item_data.is_stackable and item_data.count > 0:
-		buy_button.text = "Buy (%d)" % item_data.count
-		buy_button.disabled = not shop_manager.can_afford(item_data)
+	elif upgrade.is_stackable and upgrade.purchased_count > 0:
+		if upgrade.max_stack > 0 and upgrade.purchased_count >= upgrade.max_stack:
+			buy_button.text = "Max (%d)" % upgrade.purchased_count
+			buy_button.disabled = true
+		else:
+			buy_button.text = "Buy"
+			buy_button.disabled = not shop_manager.can_afford(upgrade)
 	else:
 		buy_button.text = "Buy"
-		buy_button.disabled = not shop_manager.can_afford(item_data)
+		buy_button.disabled = not shop_manager.can_afford(upgrade)
 
 
 func _on_buy_button_pressed() -> void:
