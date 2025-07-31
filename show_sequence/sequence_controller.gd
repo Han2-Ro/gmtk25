@@ -7,6 +7,9 @@ signal sequence_flash_end
 signal pressed_correct(button: SequenceButton)
 signal pressed_wrong(button: SequenceButton)
 signal step_completed
+signal sequence_completed
+
+@export_range(2, 20, 1, "or_greater") var sequence_length = 5
 
 @export var grid_width: int = 3
 @export var grid_height: int = 3
@@ -64,7 +67,7 @@ func start_game() -> void:
 		button.pressed.connect(_on_wrong_button_pressed.bind(button))
 		button._controller_ready(self)
 
-	var sequence = generate_sequence(buttons, 10)
+	var sequence = generate_sequence(buttons, sequence_length)
 
 	for i in range(len(sequence)):
 		for button in buttons:
@@ -74,7 +77,7 @@ func start_game() -> void:
 		var sub_sequence = sequence.slice(0, i + 1)
 		await play_sequence(sub_sequence)
 
-	print("FULLY WON THIS SHIT!!!")
+	sequence_completed.emit()
 
 
 func play_sequence(
