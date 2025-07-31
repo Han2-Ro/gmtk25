@@ -83,6 +83,9 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 
 
 func start_game() -> void:
+	# Reset player position at the start of each new level
+	sequence_flash_start.emit()
+	
 	var grid := generate_grid()
 
 	# Wait for the scene tree to process the new nodes

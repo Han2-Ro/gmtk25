@@ -8,4 +8,6 @@ func _ready() -> void:
 
 
 func on_sequence_flash_start() -> void:
-	self.transform = start_position
+	var tween = create_tween()
+	tween.tween_property(self, "position", start_position.origin, 0.3)
+	await tween.finished

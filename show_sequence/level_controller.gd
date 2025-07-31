@@ -12,6 +12,7 @@ var sequence_controller: SequenceController
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
 @onready var overlay: Control = $UI/Overlay
+@onready var player = $Player
 
 signal next_level
 
@@ -56,6 +57,10 @@ func setup_sequence_controller() -> SequenceController:
 
 	# Connect shop manager to sequence controller
 	sequence_controller.shop_manager = shop_manager
+
+	# Connect player to sequence controller signals
+	if player:
+		sequence_controller.sequence_flash_start.connect(player.on_sequence_flash_start)
 
 	return sequence_controller
 
