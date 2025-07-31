@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dj0w7to8dwnbd"]
+[gd_scene load_steps=4 format=3 uid="uid://dj0w7to8dwnbd"]
 
+[ext_resource type="Script" uid="uid://cse3ak6acvpr3" path="res://show_sequence/level_controller.gd" id="1_6kc8s"]
 [ext_resource type="PackedScene" uid="uid://djw8wsyabf6xn" path="res://show_sequence/sequence_controller.tscn" id="1_efccl"]
 [ext_resource type="Script" uid="uid://casspr8yi0vbn" path="res://show_sequence/life_counter.gd" id="1_exjnq"]
 
@@ -10,13 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Lives" type="Label" parent="."]
-layout_mode = 0
-offset_right = 53.0
-offset_bottom = 23.0
-text = "3 Lives"
-script = ExtResource("1_exjnq")
+script = ExtResource("1_6kc8s")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -29,21 +24,28 @@ grow_vertical = 2
 [node name="SequenceController" parent="CenterContainer" instance=ExtResource("1_efccl")]
 layout_mode = 2
 
-[node name="Overlay" type="CenterContainer" parent="."]
+[node name="UI" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Overlay" type="CenterContainer" parent="UI"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 260.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
-[node name="Panel" type="Panel" parent="Overlay"]
+[node name="Panel" type="Panel" parent="UI/Overlay"]
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Overlay/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Overlay/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,16 +54,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="Overlay/Panel/VBoxContainer"]
+[node name="Label" type="Label" parent="UI/Overlay/Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "YOU ARE A LOOOOOSER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartButton" type="Button" parent="Overlay/Panel/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="UI/Overlay/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Restart"
 
-[connection signal="pressed_wrong" from="CenterContainer/SequenceController" to="Lives" method="_on_sequence_controller_pressed_wrong"]
-[connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButton" to="Lives" method="_on_restart_button_pressed"]
+[node name="Lives" type="Label" parent="UI"]
+layout_mode = 0
+offset_right = 53.0
+offset_bottom = 23.0
+text = "3 Lives"
+script = ExtResource("1_exjnq")
+
+[connection signal="pressed" from="UI/Overlay/Panel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

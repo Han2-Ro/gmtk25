@@ -1,5 +1,5 @@
-extends Node
 class_name SequenceController
+extends Node
 
 signal sequence_flash_start
 signal flash_button(button: SequenceButton)
@@ -24,15 +24,12 @@ func generate_sequence(buttons: Array[SequenceButton], length: int):
 	return sequence
 
 
-func _ready() -> void:
-	# can't directly assign get_childred()
-	# because it's type is Array[Node]
-	# this way we get almost compile time type checking
+func start_game() -> void:
 	var buttons: Array[SequenceButton]
 	for button: SequenceButton in get_children():
 		buttons.append(button)
-		button._controller_ready(self)
 		button.pressed.connect(_on_wrong_button_pressed.bind(button))
+		button._controller_ready(self)
 
 	var sequence = generate_sequence(buttons, 10)
 
