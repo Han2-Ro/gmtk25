@@ -44,7 +44,7 @@ text = "Coins: 0"
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
 
