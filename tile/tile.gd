@@ -30,10 +30,20 @@ func _on_pressed_correct_button(_btn):
 
 func flash():
 	print("flashing: ", self)
-	self.translate(Vector3(0, 0.3, 0))
-	await get_tree().create_timer(.8).timeout
-	self.translate(Vector3(0, -0.3, 0))
-	await get_tree().create_timer(.2).timeout
+	var original_position = self.position
+
+	# Tween up
+	var tween = create_tween()
+	tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
+	await tween.finished
+
+	# Wait at the top
+	await get_tree().create_timer(0.6).timeout
+
+	# Tween back down
+	var tween2 = create_tween()
+	tween2.tween_property(self, "position", original_position, 0.2)
+	await tween2.finished
 
 
 func _reset():
