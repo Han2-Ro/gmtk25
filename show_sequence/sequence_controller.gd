@@ -2,10 +2,10 @@ extends Node
 class_name SequenceController
 
 signal sequence_flash_start
-signal flash_button(SequenceButton)
+signal flash_button(button: SequenceButton)
 signal sequence_flash_end
-signal pressed_correct(SequenceButton)
-signal pressed_wrong(SequenceButton)
+signal pressed_correct(button: SequenceButton)
+signal pressed_wrong(button: SequenceButton)
 signal step_completed
 
 
@@ -29,7 +29,7 @@ func _ready() -> void:
 	# because it's type is Array[Node]
 	# this way we get almost compile time type checking
 	var buttons: Array[SequenceButton]
-	for button in get_children():
+	for button: SequenceButton in get_children():
 		buttons.append(button)
 		button._controller_ready(self)
 		button.pressed.connect(_on_wrong_button_pressed.bind(button))
