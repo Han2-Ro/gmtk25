@@ -37,6 +37,8 @@ func _ready() -> void:
 	var sequence = generate_sequence(buttons, 10)
 
 	for i in range(len(sequence)):
+		# wait a moment between each new step
+		await get_tree().create_timer(2.0).timeout
 		var sub_sequence = sequence.slice(0, i + 1)
 		await play_sequence(sub_sequence)
 
@@ -46,7 +48,6 @@ func _ready() -> void:
 func play_sequence(
 	sequence: Array[SequenceButton],
 ):
-	await get_tree().create_timer(2.0).timeout
 	flash_sequence(sequence)
 
 	for step in sequence:

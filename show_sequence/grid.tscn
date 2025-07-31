@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://djw8wsyabf6xn"]
 
-[ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/grid_container.gd" id="1_ebq2e"]
+[ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/sequence_controller.gd" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://c46sl5awk5amp" path="res://show_sequence/sequence_button.tscn" id="2_xbaag"]
 
-[node name="GridContainer" type="GridContainer"]
+[node name="SequenceController" type="GridContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
 columns = 3
