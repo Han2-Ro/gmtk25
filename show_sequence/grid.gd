@@ -13,9 +13,9 @@ var array: Array[SequenceButton]:
 		return _data
 
 
-func _init(width: int, height: int):
-	self.width = width
-	self.height = height
+func _init(width_p: int, height_p: int):
+	self.width = width_p
+	self.height = height_p
 	_data = []
 	_data.resize(width * height)
 

@@ -29,10 +29,10 @@ func setup(id: String, data: ShopManager.ShopItemData, manager: ShopManager) -> 
 
 
 func update_button_state() -> void:
-	if not item_data.stackable and item_data.purchased:
+	if not item_data.is_stackable and item_data.is_purchased:
 		buy_button.text = "Owned"
 		buy_button.disabled = true
-	elif item_data.stackable and item_data.count > 0:
+	elif item_data.is_stackable and item_data.count > 0:
 		buy_button.text = "Buy (%d)" % item_data.count
 		buy_button.disabled = not shop_manager.can_afford(item_data)
 	else:

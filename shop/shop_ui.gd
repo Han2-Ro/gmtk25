@@ -32,7 +32,7 @@ func create_shop_items() -> void:
 	# Create item UI for each shop item
 	var items = shop_manager.shop_items
 	for item in items:
-		var item_instance = shop_item_scene.instantiate()
+		var item_instance: ShopItem = shop_item_scene.instantiate()
 		items_container.add_child(item_instance)
 		item_instance.setup(item.id, item, shop_manager)
 		item_instance.purchase_requested.connect(_on_item_purchase_requested)
@@ -41,7 +41,7 @@ func create_shop_items() -> void:
 
 func update_cash_display() -> void:
 	if shop_manager and shop_manager.cash_manager:
-		cash_label.text = "Coins: %d" % shop_manager.cash_manager.get_cash()
+		cash_label.text = "Coins: %d" % shop_manager.cash_manager.current_cash
 	else:
 		cash_label.text = "Coins: 0"
 

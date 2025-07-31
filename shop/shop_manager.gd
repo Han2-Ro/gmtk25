@@ -9,31 +9,31 @@ class ShopItemData:
 	var name: String
 	var description: String
 	var cost: int
-	var purchased: bool = false
-	var stackable: bool = false
+	var is_purchased: bool = false
+	var is_stackable: bool = false
 	var count: int = 0
 
 	func _init(
-		id: String,
-		name: String,
-		description: String,
-		cost: int,
-		is_stackable: bool = false,
+		id_p: String,
+		name_p: String,
+		description_p: String,
+		cost_p: int,
+		is_stackable_p: bool = false,
 	) -> void:
-		self.id = id
-		self.name = name
-		self.description = description
-		self.cost = cost
-		self.stackable = is_stackable
+		self.id = id_p
+		self.name = name_p
+		self.description = description_p
+		self.cost = cost_p
+		self.is_stackable = is_stackable_p
 
 	func can_purchase() -> bool:
-		return stackable or not purchased
+		return is_stackable or not is_purchased
 
 	func purchase() -> void:
-		if self.purchased and not self.stackable:
+		if self.is_purchased and not self.is_stackable:
 			push_error("Tried to buy {0} again".format(self.id))
 			return
-		purchased = true
+		is_purchased = true
 		count += 1
 
 
@@ -57,17 +57,6 @@ var shop_items: Array[ShopItemData] = [
 var cash_manager: CashManager
 
 
-func set_cash_manager(manager: CashManager) -> void:
-	cash_manager = manager
-
-
-func _find_item(item_id: String) -> ShopItemData:
-	for item in shop_items:
-		if item.id == item_id:
-			return item
-	return null
-
-
 func can_afford(item: ShopItemData) -> bool:
 	return cash_manager.can_afford(item.cost)
 
@@ -82,7 +71,7 @@ func purchase_item(item: ShopItemData) -> bool:
 		return false
 
 	# Deduct cost
-	cash_manager.add_cash(-item.cost)
+	cash_manager.pay(item.cost)
 
 	# Mark as purchased
 	item.purchase()
