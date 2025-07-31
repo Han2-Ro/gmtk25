@@ -18,7 +18,6 @@ signal next_level
 
 
 func _ready() -> void:
-	print("CALL READY")
 	# Initialize shop manager first
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
@@ -66,12 +65,9 @@ func setup_sequence_controller() -> SequenceController:
 
 
 func start_game() -> void:
-	print(range(3, 13, 2))
-
 	for length in range(3, 13, 2):
 		sequence_controller = setup_sequence_controller()
 
-		print(length)
 		sequence_controller.sequence_length = length
 
 		await sequence_controller.start_game()

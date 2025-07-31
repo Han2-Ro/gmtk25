@@ -30,8 +30,6 @@ func _on_pressed_correct_button(_btn):
 
 
 func flash():
-	print("flashing: ", self)
-
 	var tween = create_tween()
 	tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
 	tween.tween_interval(0.6)
@@ -51,8 +49,6 @@ func _reset():
 
 
 func this_pressed_correct():
-	var distance = player.position.distance_to(self.position)
-	print(distance)
 	var tween = create_tween()
 	tween.tween_property(player, "position", self.position, 0.1)
 	await tween.finished
