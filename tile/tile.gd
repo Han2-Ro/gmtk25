@@ -7,10 +7,7 @@ var disabled := false
 var mouse_inside := false
 # TODO: is there a better way to get the player?
 @onready var player = get_tree().current_scene.find_child("Player", true, false)
-
-
-func _ready() -> void:
-	pass
+@onready var original_position: Vector3 = self.position
 
 
 func _controller_ready(controller: SequenceController):
@@ -20,7 +17,6 @@ func _controller_ready(controller: SequenceController):
 
 
 func on_sequence_flash_start():
-	self._reset()
 	self.disabled = true
 
 
@@ -30,34 +26,47 @@ func _on_pressed_correct_button(_btn):
 
 func flash():
 	print("flashing: ", self)
-	var original_position = self.position
 
-	# Tween up
 	var tween = create_tween()
 	tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
+	tween.tween_interval(0.6)
+	tween.tween_property(self, "position", original_position, 0.2)
+
 	await tween.finished
-
-	# Wait at the top
-	await get_tree().create_timer(0.6).timeout
-
-	# Tween back down
-	var tween2 = create_tween()
-	tween2.tween_property(self, "position", original_position, 0.2)
-	await tween2.finished
 
 
 func _reset():
 	self.show()
+
+	var tween = create_tween()
+	tween.tween_property(self, "position", original_position, 0.3)
+	await tween.finished
+
 	self.disabled = false
 
 
 func this_pressed_correct():
-	player.transform = self.transform
+	var distance = player.position.distance_to(self.position)
+	print(distance)
+	var tween = create_tween()
+	tween.tween_property(player, "position", self.position, 0.1)
+	await tween.finished
 
 
 func this_pressed_wrong():
-	self.hide()
 	self.disabled = true
+
+	# Shake animation - quick left-right movement
+	var tween = create_tween()
+	tween.set_loops(3)
+	tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
+	tween.tween_property(self, "position", original_position + Vector3(-0.1, 0, 0), 0.05)
+	tween.tween_property(self, "position", original_position, 0.05)
+	tween.set_loops(1)
+	tween.tween_property(self, "position", original_position + Vector3(0, -0.8, 0), 0.3)
+	await tween.finished
+
+	self.hide()
 
 
 func _on_area_3d_mouse_entered() -> void:
