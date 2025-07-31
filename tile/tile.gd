@@ -14,6 +14,7 @@ func _controller_ready(controller: SequenceController):
 	controller.sequence_flash_start.connect(on_sequence_flash_start)
 	controller.sequence_flash_end.connect(_reset)
 	controller.pressed_correct.connect(_on_pressed_correct_button)
+	original_position = self.position
 
 
 func on_sequence_flash_start():
