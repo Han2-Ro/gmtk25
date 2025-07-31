@@ -1,4 +1,4 @@
-extends GridContainer
+extends Node
 class_name SequenceController
 
 signal sequence_flash_start
