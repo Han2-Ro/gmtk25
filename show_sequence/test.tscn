@@ -25,3 +25,4 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="UI" parent="." instance=ExtResource("3_kob85")]
+layout_mode = 1

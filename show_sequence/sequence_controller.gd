@@ -11,6 +11,7 @@ signal subsequence_completed(current_round: int, total_rounds: int)
 signal sequence_completed
 
 @export_range(2, 20, 1, "or_greater") var sequence_length = 5
+@export_range(1, 20, 1, "or_greater") var steps_to_reveal = 1
 
 @export var grid_width: int = 3
 @export var grid_height: int = 3
@@ -61,8 +62,9 @@ func generate_grid() -> Grid:
 func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceButton]:
 	var path: Array[SequenceButton] = []
 	var current_coordinates: Vector2i = start
+	var previous_coordinates: Vector2i = start
 	path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
-	for i in range(length):
+	for i in range(length - 1):
 		var choices: Array[Vector2i] = [
 			Vector2i(current_coordinates.x, current_coordinates.y + 1),
 			Vector2i(current_coordinates.x + 1, current_coordinates.y),
@@ -70,9 +72,11 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 			Vector2i(current_coordinates.x - 1, current_coordinates.y)
 		]
 		choices = choices.filter(func(c): return grid.get_at(c.x, c.y))
+		choices = choices.filter(func(c): return c != previous_coordinates)
 		if choices.is_empty():
 			push_error("No valid choices available for path generation.")
 			return []
+		previous_coordinates = current_coordinates
 		current_coordinates = choices.pick_random()
 		path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
 	return path
@@ -90,15 +94,15 @@ func start_game() -> void:
 
 	var sequence := generate_sequence(grid.array, sequence_length)
 
-	for i in range(len(sequence)):
+	for i in range(steps_to_reveal, len(sequence), steps_to_reveal):
 		for button in grid.array:
 			button.disabled = true
 		# wait a moment between each new subsequence
 		await get_tree().create_timer(2).timeout
 
-		var sub_sequence = sequence.slice(0, i + 1)
+		var sub_sequence = sequence.slice(0, i)
 		await play_sequence(sub_sequence)
-		subsequence_completed.emit(i + 1, len(sequence))
+		subsequence_completed.emit(i, len(sequence))
 
 	sequence_completed.emit()
 
