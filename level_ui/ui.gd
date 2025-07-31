@@ -6,6 +6,7 @@ signal restart_button_pressed
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
+@onready var cash_label: Label = $Cash
 
 
 func show_overlay(is_win: bool) -> void:
@@ -42,3 +43,7 @@ func show_mini_win(current_step: int, total_steps: int) -> void:
 
 func _on_restart_button_pressed() -> void:
 	restart_button_pressed.emit()
+
+
+func update_cash(amount: int) -> void:
+	cash_label.text = "Coins: %d" % amount

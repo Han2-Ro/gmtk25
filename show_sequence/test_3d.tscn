@@ -17,7 +17,7 @@ script = ExtResource("1_tkm1j")
 
 [node name="SequenceController" type="Node3D" parent="."]
 script = ExtResource("1_xqh8s")
-grid_width = 6
+grid_width = 5
 grid_height = 5
 button_scene = ExtResource("2_4xm1u")
 
