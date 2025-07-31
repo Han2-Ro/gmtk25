@@ -35,12 +35,3 @@ layout_mode = 2
 
 [node name="Button9" parent="." instance=ExtResource("2_xbaag")]
 layout_mode = 2
-[connection signal="pressed" from="Button1" to="." method="_on_button_pressed" binds= [1]]
-[connection signal="pressed" from="Button2" to="." method="_on_button_pressed" binds= [2]]
-[connection signal="pressed" from="Button3" to="." method="_on_button_pressed" binds= [3]]
-[connection signal="pressed" from="Button4" to="." method="_on_button_pressed" binds= [4]]
-[connection signal="pressed" from="Button5" to="." method="_on_button_pressed" binds= [5]]
-[connection signal="pressed" from="Button6" to="." method="_on_button_pressed" binds= [6]]
-[connection signal="pressed" from="Button7" to="." method="_on_button_pressed" binds= [7]]
-[connection signal="pressed" from="Button8" to="." method="_on_button_pressed" binds= [8]]
-[connection signal="pressed" from="Button9" to="." method="_on_button_pressed" binds= [9]]

@@ -8,6 +8,7 @@ func flash_sequence(sequence: Array[int]):
 		selected_button.text = "X"
 
 var level_sequence = generate_sequence(3)
+var buttons: Array[BaseButton]
 var user_presses = []
 
 func generate_sequence(length: int):
@@ -17,6 +18,15 @@ func generate_sequence(length: int):
 	return sequence
 
 func _ready() -> void:
+	# can't directly assign get_childred()
+	# because it's type is Array[Node]
+	# this way we get almost compile time type checking
+	for button in get_children():
+		buttons.append(button)
+	
+	for button_index in range(len(buttons)):
+		var button: BaseButton = buttons[button_index]
+		button.connect("pressed", _on_button_pressed.bind(button_index))
 	flash_sequence(level_sequence)
 
 
