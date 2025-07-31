@@ -4,10 +4,14 @@ extends Node3D
 signal pressed
 
 var disabled := false
-var mouse_inside := false
 # TODO: is there a better way to get the player?
 @onready var player = get_tree().current_scene.find_child("Player", true, false)
 @onready var original_position: Vector3 = self.position
+
+
+func _ready() -> void:
+	# Connect to Area3D input_event signal for proper 3D click detection
+	$Area3D.input_event.connect(_on_area_3d_input_event)
 
 
 func _controller_ready(controller: SequenceController):
@@ -70,16 +74,10 @@ func this_pressed_wrong():
 	self.hide()
 
 
-func _on_area_3d_mouse_entered() -> void:
-	mouse_inside = true
-
-
-func _on_area_3d_mouse_exited() -> void:
-	mouse_inside = false
-
-
-func _input(event: InputEvent) -> void:
+func _on_area_3d_input_event(
+	_camera: Camera3D, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int
+) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if mouse_inside && !disabled:
+		if not disabled:
 			pressed.emit()
 			print("tile clicked!")
