@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://djw8wsyabf6xn"]
+[gd_scene load_steps=3 format=3 uid="uid://djw8wsyabf6xn"]
 
 [ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/sequence_controller.gd" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://cax8iqmfslx2y" path="res://tile/square_tile.tscn" id="2_q8o3l"]
@@ -6,6 +6,7 @@
 [node name="SequenceController" type="Node3D"]
 script = ExtResource("1_ebq2e")
 sequence_length = 3
+steps_to_reveal = 2
 grid_width = 5
 grid_height = 5
 button_scene = ExtResource("2_q8o3l")

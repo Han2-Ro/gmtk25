@@ -94,15 +94,26 @@ func start_game() -> void:
 
 	var sequence := generate_sequence(grid.array, sequence_length)
 
-	for i in range(steps_to_reveal, len(sequence), steps_to_reveal):
+	var current_step = steps_to_reveal
+	while current_step < len(sequence):
 		for button in grid.array:
 			button.disabled = true
 		# wait a moment between each new subsequence
 		await get_tree().create_timer(2).timeout
 
-		var sub_sequence = sequence.slice(0, i)
+		var sub_sequence = sequence.slice(0, current_step)
 		await play_sequence(sub_sequence)
-		subsequence_completed.emit(i, len(sequence))
+		subsequence_completed.emit(current_step, len(sequence))
+		
+		current_step += steps_to_reveal
+
+	# Always play the full sequence at the end
+	for button in grid.array:
+		button.disabled = true
+	await get_tree().create_timer(2).timeout
+
+	await play_sequence(sequence)
+	subsequence_completed.emit(len(sequence), len(sequence))
 
 	sequence_completed.emit()
 
