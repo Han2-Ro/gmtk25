@@ -17,6 +17,7 @@ func _ready() -> void:
 
 	sequence_controller.pressed_wrong.connect(_on_sequence_controller_pressed_wrong)
 	sequence_controller.sequence_completed.connect(_on_sequence_controller_sequence_completed)
+	sequence_controller.subsequence_completed.connect(_on_sequence_controller_subsequence_completed)
 
 	level_ui.restart_button_pressed.connect(_on_restart_button_pressed)
 
@@ -36,6 +37,10 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 
 func _on_sequence_controller_sequence_completed() -> void:
 	game_won()
+
+
+func _on_sequence_controller_subsequence_completed(current_round: int, total_rounds: int) -> void:
+	level_ui.show_mini_win(current_round, total_rounds)
 
 
 func game_over() -> void:

@@ -6,7 +6,8 @@ signal flash_button(button: SequenceButton)
 signal sequence_flash_end
 signal pressed_correct(button: SequenceButton)
 signal pressed_wrong(button: SequenceButton)
-signal step_completed
+signal step_completed(current_step: int, total_steps: int)
+signal subsequence_completed(current_round: int, total_rounds: int)
 signal sequence_completed
 
 @export_range(2, 20, 1, "or_greater") var sequence_length = 5
@@ -76,16 +77,16 @@ func start_game() -> void:
 		await get_tree().create_timer(2.0).timeout
 		var sub_sequence = sequence.slice(0, i + 1)
 		await play_sequence(sub_sequence)
+		subsequence_completed.emit(i + 1, len(sequence))
 
 	sequence_completed.emit()
 
 
-func play_sequence(
-	sequence: Array[SequenceButton],
-):
+func play_sequence(sequence: Array[SequenceButton]):
 	flash_sequence(sequence)
 
-	for step in sequence:
+	for i in range(len(sequence)):
+		var step = sequence[i]
 		step.pressed.disconnect(_on_wrong_button_pressed)
 
 		await step.pressed
@@ -94,7 +95,7 @@ func play_sequence(
 
 		step.pressed.connect(_on_wrong_button_pressed.bind(step))
 
-		step_completed.emit()
+		step_completed.emit(i + 1, len(sequence))
 		print("Correct")
 
 	print("SEQUENCE COMPLETE")
