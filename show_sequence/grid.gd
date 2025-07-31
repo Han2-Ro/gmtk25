@@ -8,6 +8,9 @@ var height: int:
 	get:
 		return height
 var _data: Array[SequenceButton]
+var array: Array[SequenceButton]:
+	get:
+		return _data
 
 func _init(width: int, height: int):
 	self.width = width
@@ -17,7 +20,6 @@ func _init(width: int, height: int):
 
 func get_at(x: int, y: int) -> SequenceButton:
 	if x < 0 or x >= width or y < 0 or y >= height:
-		push_error("Grid coordinates out of bounds: (%d, %d)" % [x, y])
 		return null
 
 	return _data[y * width + x]

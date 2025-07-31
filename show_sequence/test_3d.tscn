@@ -17,8 +17,8 @@ script = ExtResource("1_tkm1j")
 
 [node name="SequenceController" type="Node3D" parent="."]
 script = ExtResource("1_xqh8s")
-grid_width = 7
-grid_height = 7
+grid_width = 6
+grid_height = 5
 button_scene = ExtResource("2_4xm1u")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -36,7 +36,7 @@ light_energy = 1.5
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
 script = ExtResource("4_pdy1x")
 
 [node name="UI" parent="." instance=ExtResource("6_g8eee")]

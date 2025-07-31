@@ -55,6 +55,20 @@ func generate_grid() -> Grid:
 
 	return button_grid
 
+func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceButton]:
+	var path: Array[SequenceButton] = []
+	var current_coordinates: Vector2i = start
+	path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
+	for i in range(length):
+		var choices: Array[Vector2i] = [Vector2i(current_coordinates.x, current_coordinates.y + 1), Vector2i(current_coordinates.x + 1, current_coordinates.y),
+			Vector2i(current_coordinates.x, current_coordinates.y - 1), Vector2i(current_coordinates.x - 1, current_coordinates.y)]
+		choices = choices.filter(func(c): return grid.get_at(c.x, c.y))
+		if choices.is_empty():
+			push_error("No valid choices available for path generation.")
+			return []
+		current_coordinates = choices.pick_random()
+		path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
+	return path
 
 func start_game() -> void:
 	var grid := generate_grid()
@@ -62,16 +76,14 @@ func start_game() -> void:
 	# Wait for the scene tree to process the new nodes
 	await get_tree().process_frame
 
-	var buttons: Array[SequenceButton]
-	for button: SequenceButton in get_children():
-		buttons.append(button)
+	for button in grid.array:
 		button.pressed.connect(_on_wrong_button_pressed.bind(button))
 		button._controller_ready(self)
 
-	var sequence = generate_sequence(buttons, sequence_length)
+	var sequence := generate_path(grid, sequence_length, Vector2i(0, 0))
 
 	for i in range(len(sequence)):
-		for button in buttons:
+		for button in grid.array:
 			button.disabled = true;
 		# wait a moment between each new step
 		await get_tree().create_timer(2.0).timeout

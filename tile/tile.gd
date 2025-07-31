@@ -71,12 +71,10 @@ func this_pressed_wrong():
 
 func _on_area_3d_mouse_entered() -> void:
 	mouse_inside = true
-	print("mouse entered")
 
 
 func _on_area_3d_mouse_exited() -> void:
 	mouse_inside = false
-	print("mouse exited")
 
 
 func _input(event: InputEvent) -> void:
