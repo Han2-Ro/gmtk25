@@ -58,6 +58,30 @@ func generate_grid() -> Grid:
 
 	return button_grid
 
+func generate_hexagon_grid() -> Grid:
+	# Calculate grid center offset
+	var grid_center_x = (grid_width - 1) * button_spacing * 0.5
+	var grid_center_y = (grid_height - 1) * button_spacing * 0.5
+
+	var max_width = grid_width * 2 - 1;
+	var button_grid = Grid.new(max_width, max_width)
+
+	# store it in acial coords https://www.redblobgames.com/grids/hexagons/#map-storage
+	for y in range(grid_height * 2 - 1):
+		for x in range(clamp(-grid_width + y, 0, max_width), clamp(grid_width + y, 0, max_width)):
+			print("Coords: ", y, x)
+			var button_instance = button_scene.instantiate()
+			add_child(button_instance)
+
+			# used these formulas: https://www.redblobgames.com/grids/hexagons/#hex-to-pixel
+			var pos_x = (sqrt(3) * x + sqrt(3)/2 * y) * button_spacing - grid_center_x
+			var pos_z = y * (3./2) * button_spacing - grid_center_y
+			button_instance.position = Vector3(pos_x, 0, pos_z)
+
+			# Add button to grid
+			button_grid.set_at(x, y, button_instance)
+
+	return button_grid
 
 func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceButton]:
 	var path: Array[SequenceButton] = []
