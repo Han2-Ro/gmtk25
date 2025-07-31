@@ -5,7 +5,8 @@ extends Node
 @export_range(1, 10, 1, "or_greater") var start_lives = 3
 var current_lives: int
 
-@onready var sequence_controller: SequenceController = $CenterContainer/SequenceController
+@onready var sequence_controller: SequenceController = $SequenceController
+@onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
 @onready var overlay: Control = $UI/Overlay
 
@@ -15,6 +16,8 @@ func _ready() -> void:
 	life_counter.update_lives(current_lives)
 
 	sequence_controller.pressed_wrong.connect(_on_sequence_controller_pressed_wrong)
+
+	level_ui.restart_button_pressed.connect(_on_restart_button_pressed)
 
 	start_game()
 

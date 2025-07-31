@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://rva1gifcma7"]
+[gd_scene load_steps=9 format=3 uid="uid://rva1gifcma7"]
 
+[ext_resource type="Script" uid="uid://cse3ak6acvpr3" path="res://show_sequence/level_controller.gd" id="1_tkm1j"]
 [ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/sequence_controller.gd" id="1_xqh8s"]
 [ext_resource type="PackedScene" uid="uid://cax8iqmfslx2y" path="res://tile/square_tile.tscn" id="2_4xm1u"]
 [ext_resource type="PackedScene" uid="uid://thaxomy1voq1" path="res://player/pawn.blend" id="3_4xm1u"]
 [ext_resource type="Script" uid="uid://dvnpkg1cdwtuv" path="res://player/player.gd" id="4_pdy1x"]
+[ext_resource type="PackedScene" uid="uid://nvt00bg5xc4l" path="res://level_ui/ui.tscn" id="6_g8eee"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xqh8s"]
 
@@ -11,6 +13,7 @@
 albedo_color = Color(0, 0.35, 0.0291666, 1)
 
 [node name="Test3d" type="Node3D"]
+script = ExtResource("1_tkm1j")
 
 [node name="SequenceController" type="Node3D" parent="."]
 script = ExtResource("1_xqh8s")
@@ -58,3 +61,5 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("3_4xm1u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 script = ExtResource("4_pdy1x")
+
+[node name="UI" parent="." instance=ExtResource("6_g8eee")]
