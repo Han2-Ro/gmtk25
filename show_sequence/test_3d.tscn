@@ -17,32 +17,9 @@ script = ExtResource("1_tkm1j")
 
 [node name="SequenceController" type="Node3D" parent="."]
 script = ExtResource("1_xqh8s")
-
-[node name="SquareTile" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-
-[node name="SquareTile2" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-
-[node name="SquareTile3" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-
-[node name="SquareTile4" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
-[node name="SquareTile5" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
-
-[node name="SquareTile6" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
-
-[node name="SquareTile7" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
-
-[node name="SquareTile8" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
-
-[node name="SquareTile9" parent="SequenceController" instance=ExtResource("2_4xm1u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+grid_width = 7
+grid_height = 7
+button_scene = ExtResource("2_4xm1u")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.29516, 0, 0, 0, 7.29516, 0, 0, 0, 7.29516, 0, 0, 0)

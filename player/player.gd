@@ -1,9 +1,9 @@
 extends Node3D
 
+var start_position: Transform3D
 @onready var sequence_controller: SequenceController = get_tree().current_scene.get_node(
 	"SequenceController"
 )
-var start_position: Transform3D
 
 
 func _ready() -> void:
