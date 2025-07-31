@@ -17,6 +17,8 @@ signal sequence_completed
 @export var button_scene: PackedScene
 @export var button_spacing: float = 1.0
 
+var shop_manager: ShopManager
+
 
 func flash_sequence(sequence: Array[SequenceButton]):
 	sequence_flash_start.emit()
@@ -55,13 +57,18 @@ func generate_grid() -> Grid:
 
 	return button_grid
 
+
 func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceButton]:
 	var path: Array[SequenceButton] = []
 	var current_coordinates: Vector2i = start
 	path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
 	for i in range(length):
-		var choices: Array[Vector2i] = [Vector2i(current_coordinates.x, current_coordinates.y + 1), Vector2i(current_coordinates.x + 1, current_coordinates.y),
-			Vector2i(current_coordinates.x, current_coordinates.y - 1), Vector2i(current_coordinates.x - 1, current_coordinates.y)]
+		var choices: Array[Vector2i] = [
+			Vector2i(current_coordinates.x, current_coordinates.y + 1),
+			Vector2i(current_coordinates.x + 1, current_coordinates.y),
+			Vector2i(current_coordinates.x, current_coordinates.y - 1),
+			Vector2i(current_coordinates.x - 1, current_coordinates.y)
+		]
 		choices = choices.filter(func(c): return grid.get_at(c.x, c.y))
 		if choices.is_empty():
 			push_error("No valid choices available for path generation.")
@@ -69,6 +76,7 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 		current_coordinates = choices.pick_random()
 		path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
 	return path
+
 
 func start_game() -> void:
 	var grid := generate_grid()
@@ -84,9 +92,10 @@ func start_game() -> void:
 
 	for i in range(len(sequence)):
 		for button in grid.array:
-			button.disabled = true;
-		# wait a moment between each new step
-		await get_tree().create_timer(2.0).timeout
+			button.disabled = true
+		# wait a moment between each new subsequence
+		await get_tree().create_timer(2).timeout
+
 		var sub_sequence = sequence.slice(0, i + 1)
 		await play_sequence(sub_sequence)
 		subsequence_completed.emit(i + 1, len(sequence))

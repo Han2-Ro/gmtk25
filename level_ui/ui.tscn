@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=4 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
 [ext_resource type="Script" uid="uid://casspr8yi0vbn" path="res://show_sequence/life_counter.gd" id="1_lpxan"]
+[ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -42,6 +43,10 @@ theme_override_font_sizes/font_size = 24
 text = "YOU ARE A LOOOOOSER"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ShopButton" type="Button" parent="Overlay/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Go to Shop"
 
 [node name="RestartButton" type="Button" parent="Overlay/Panel/VBoxContainer"]
 layout_mode = 2
@@ -85,4 +90,8 @@ text = "Perfect!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ShopUI" parent="." instance=ExtResource("3_shop")]
+visible = false
+
+[connection signal="pressed" from="Overlay/Panel/VBoxContainer/ShopButton" to="." method="_on_shop_button_pressed"]
 [connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

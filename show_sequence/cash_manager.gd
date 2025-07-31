@@ -6,8 +6,15 @@ extends Node
 signal cash_changed(new_amount: int)
 
 var current_cash: int = 0
-var cash_per_step: int = 1
-var subsequence_bonus: int = 1
+
+@export_range(1, 20, 1, "or_greater") var cash_per_step: int = 1
+@export_range(1, 20, 1, "or_greater") var subsequence_bonus: int = 1
+
+var shop_manager: ShopManager
+
+
+func get_cash() -> int:
+	return current_cash
 
 
 func add_cash(amount: int) -> void:
@@ -15,8 +22,15 @@ func add_cash(amount: int) -> void:
 	cash_changed.emit(current_cash)
 
 
-func get_cash() -> int:
-	return current_cash
+func pay(amount: int) -> bool:
+	if current_cash >= amount:
+		current_cash -= amount
+		return true
+	return false
+
+
+func can_afford(price: int) -> bool:
+	return current_cash >= price
 
 
 func reset_cash() -> void:

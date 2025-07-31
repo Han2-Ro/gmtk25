@@ -5,6 +5,7 @@ extends Node
 @export_range(1, 10, 1, "or_greater") var start_lives = 3
 var current_lives: int
 var cash_manager: CashManager
+var shop_manager: ShopManager
 
 @onready var sequence_controller: SequenceController = $SequenceController
 @onready var level_ui: LevelUI = $UI
@@ -13,13 +14,23 @@ var cash_manager: CashManager
 
 
 func _ready() -> void:
+	# Initialize shop manager first
+	shop_manager = ShopManager.new()
+	cash_manager = CashManager.new()
+
+	shop_manager.cash_manager = cash_manager
+	cash_manager.shop_manager = shop_manager
+	cash_manager.cash_changed.connect(_on_cash_changed)
+
+	add_child(shop_manager)
+	add_child(cash_manager)
+
+	# Apply upgrades to starting lives
 	current_lives = start_lives
 	life_counter.update_lives(current_lives)
 
-	# Initialize cash manager
-	cash_manager = CashManager.new()
-	add_child(cash_manager)
-	cash_manager.cash_changed.connect(_on_cash_changed)
+	# Setup shop UI through level UI
+	level_ui.setup_shop(shop_manager)
 
 	sequence_controller.pressed_wrong.connect(_on_sequence_controller_pressed_wrong)
 	sequence_controller.sequence_completed.connect(_on_sequence_controller_sequence_completed)
@@ -27,6 +38,12 @@ func _ready() -> void:
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
 
 	level_ui.restart_button_pressed.connect(_on_restart_button_pressed)
+	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
+	level_ui.shop_closed.connect(_on_shop_closed)
+	level_ui.play_again_pressed.connect(_on_play_again_pressed)
+
+	# Connect shop manager to sequence controller
+	sequence_controller.shop_manager = shop_manager
 
 	start_game()
 
@@ -69,4 +86,16 @@ func game_won() -> void:
 
 
 func _on_restart_button_pressed() -> void:
+	get_tree().reload_current_scene()
+
+
+func _on_shop_button_pressed() -> void:
+	level_ui.open_shop()
+
+
+func _on_shop_closed() -> void:
+	pass
+
+
+func _on_play_again_pressed() -> void:
 	get_tree().reload_current_scene()

@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://c42sp7xo4imdi"]
+
+[ext_resource type="Script" uid="uid://gdvsay0fhyfy" path="res://shop/shop_item_button.gd" id="1_0"]
+
+[node name="ShopItem" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 80)
+script = ExtResource("1_0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Item Name"
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer"]
+modulate = Color(0.8, 0.8, 0.8, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Item description"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="CostLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "10 coins"
+
+[node name="BuyButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Buy"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]
