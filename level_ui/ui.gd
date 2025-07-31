@@ -32,7 +32,22 @@ func show_overlay(is_win: bool) -> void:
 
 
 func show_mini_win(current_step: int, total_steps: int) -> void:
-	var messages = ["Great!", "Perfect!", "Excellent!", "Keep going!", "Awesome!"]
+	var progress_percentage = (float(current_step) / float(total_steps)) * 100.0
+	var messages: Array[String] = []
+
+	if progress_percentage <= 25.0:
+		# First quarter - small encouragements
+		messages = ["Nice!", "Good!", "Keep going!", "You got it!", "Solid!"]
+	elif progress_percentage <= 50.0:
+		# Second quarter - medium encouragements
+		messages = ["Great!", "Perfect!", "Excellent!", "Well done!", "Fantastic!"]
+	elif progress_percentage <= 75.0:
+		# Third quarter - bigger encouragements
+		messages = ["Amazing!", "Outstanding!", "Incredible!", "You're on fire!", "Spectacular!"]
+	else:
+		# Final quarter - high-energy encouragements
+		messages = ["WOW!", "PHENOMENAL!", "UNSTOPPABLE!", "LEGENDARY!", "ABSOLUTELY AMAZING!"]
+
 	var message = messages.pick_random()
 	mini_win_label.text = "%s (%d/%d)" % [message, current_step, total_steps]
 
