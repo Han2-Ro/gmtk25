@@ -64,3 +64,4 @@ layout_mode = 2
 text = "Restart"
 
 [connection signal="pressed_wrong" from="CenterContainer/SequenceController" to="Lives" method="_on_sequence_controller_pressed_wrong"]
+[connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButton" to="Lives" method="_on_restart_button_pressed"]
