@@ -1,4 +1,11 @@
-[gd_scene format=3 uid="uid://c46sl5awk5amp"]
+[gd_scene load_steps=4 format=3 uid="uid://c46sl5awk5amp"]
 
-[node name="Button" type="Button"]
-text = "X"
+[ext_resource type="Texture2D" uid="uid://c885nu1qleavw" path="res://show_sequence/button_normal.svg" id="1_muv3v"]
+[ext_resource type="Texture2D" uid="uid://5cj370iafqhv" path="res://show_sequence/button_pressed.svg" id="2_muv3v"]
+[ext_resource type="Texture2D" uid="uid://b33ljuxwipmd3" path="res://show_sequence/button_hovered.svg" id="3_ybjfs"]
+
+[node name="Button" type="TextureButton"]
+texture_normal = ExtResource("1_muv3v")
+texture_pressed = ExtResource("2_muv3v")
+texture_hover = ExtResource("3_ybjfs")
+stretch_mode = 3
