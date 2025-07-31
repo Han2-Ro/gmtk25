@@ -47,9 +47,15 @@ func _on_button_pressed(index: int) -> void:
 	var expected_index = level_sequence[current_step]
 	var pressed_button = buttons[index]
 	if (expected_index == index):
-		pressed_button.modulate = Color.GREEN_YELLOW
+		for button in buttons:
+			button.disabled = false
+			button.modulate = Color.WHITE
 		user_presses.append(index)
+		pressed_button.modulate = Color.GREEN_YELLOW
+		await get_tree().create_timer(.8).timeout
+		pressed_button.modulate = Color.WHITE
 	else:
 		# TODO: disable wrong button until next step
 		pressed_button.modulate = Color.INDIAN_RED
+		pressed_button.disabled = true
 		print("WRONG! Should have been button", expected_index)
