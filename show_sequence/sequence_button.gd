@@ -9,6 +9,7 @@ func _controller_ready(controller: SequenceController):
 	controller.pressed_correct.connect(_on_pressed_correct_button)
 
 func on_sequence_flash_start():
+	self._reset()
 	self.disabled = true
 	
 func _on_pressed_correct_button(_btn):
