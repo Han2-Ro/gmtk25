@@ -7,13 +7,17 @@ var current_lives: int
 var cash_manager: CashManager
 var shop_manager: ShopManager
 
-@onready var sequence_controller: SequenceController = $SequenceController
+var sequence_controller: SequenceController
+@export var sequence_controller_scene: PackedScene
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
 @onready var overlay: Control = $UI/Overlay
 
+signal next_level
+
 
 func _ready() -> void:
+	print("CALL READY")
 	# Initialize shop manager first
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
@@ -32,24 +36,45 @@ func _ready() -> void:
 	# Setup shop UI through level UI
 	level_ui.setup_shop(shop_manager)
 
+	level_ui.restart_button_pressed.connect(_on_restart_pressed)
+	level_ui.next_level_pressed.connect(_on_play_again_pressed)
+	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
+	level_ui.shop_closed.connect(_on_shop_closed)
+	level_ui.play_again_pressed.connect(_on_play_again_pressed)
+
+	start_game()
+
+
+func setup_sequence_controller() -> SequenceController:
+	sequence_controller = sequence_controller_scene.instantiate()
+	add_child(sequence_controller)
+
 	sequence_controller.pressed_wrong.connect(_on_sequence_controller_pressed_wrong)
 	sequence_controller.sequence_completed.connect(_on_sequence_controller_sequence_completed)
 	sequence_controller.subsequence_completed.connect(_on_sequence_controller_subsequence_completed)
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
 
-	level_ui.restart_button_pressed.connect(_on_restart_button_pressed)
-	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
-	level_ui.shop_closed.connect(_on_shop_closed)
-	level_ui.play_again_pressed.connect(_on_play_again_pressed)
-
 	# Connect shop manager to sequence controller
 	sequence_controller.shop_manager = shop_manager
 
-	start_game()
+	return sequence_controller
 
 
 func start_game() -> void:
-	sequence_controller.start_game()
+	print(range(3, 13, 2))
+
+	for length in range(3, 13, 2):
+		sequence_controller = setup_sequence_controller()
+
+		print(length)
+		sequence_controller.sequence_length = length
+
+		await sequence_controller.start_game()
+		await next_level
+		print("Finished Difficulty: ", length)
+		level_ui.close()
+
+		sequence_controller.queue_free()
 
 
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
@@ -85,10 +110,6 @@ func game_won() -> void:
 	level_ui.show_overlay(true)
 
 
-func _on_restart_button_pressed() -> void:
-	get_tree().reload_current_scene()
-
-
 func _on_shop_button_pressed() -> void:
 	level_ui.open_shop()
 
@@ -97,5 +118,9 @@ func _on_shop_closed() -> void:
 	pass
 
 
-func _on_play_again_pressed() -> void:
+func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_play_again_pressed() -> void:
+	next_level.emit()

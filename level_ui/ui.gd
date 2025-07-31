@@ -2,6 +2,7 @@ class_name LevelUI
 extends Control
 
 signal restart_button_pressed
+signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
 signal play_again_pressed
@@ -11,16 +12,22 @@ signal play_again_pressed
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Label = $Cash
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
+@onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
+
+var is_win_state: bool = false
 
 
 func show_overlay(is_win: bool) -> void:
+	is_win_state = is_win
 	if is_win:
 		overlay_label.text = "YOU WON!"
 		shop_button.visible = true
+		restart_button.text = "Next level"
 	else:
 		overlay_label.text = "YOU ARE A LOOOOOSER"
 		shop_button.visible = false
+		restart_button.text = "Start again"
 	overlay.visible = true
 
 
@@ -49,7 +56,10 @@ func show_mini_win(current_step: int, total_steps: int) -> void:
 
 
 func _on_restart_button_pressed() -> void:
-	restart_button_pressed.emit()
+	if is_win_state:
+		next_level_pressed.emit()
+	else:
+		restart_button_pressed.emit()
 
 
 func update_cash(amount: int) -> void:
@@ -74,6 +84,15 @@ func open_shop() -> void:
 func close_shop() -> void:
 	shop_ui.hide()
 	overlay.visible = true
+
+
+func close_overlay() -> void:
+	overlay.visible = false
+
+
+func close() -> void:
+	close_shop()
+	close_overlay()
 
 
 func _on_shop_closed() -> void:

@@ -1,37 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://djw8wsyabf6xn"]
 
 [ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/sequence_controller.gd" id="1_ebq2e"]
-[ext_resource type="PackedScene" uid="uid://c46sl5awk5amp" path="res://show_sequence/sequence_button.tscn" id="2_xbaag"]
+[ext_resource type="PackedScene" uid="uid://cax8iqmfslx2y" path="res://tile/square_tile.tscn" id="2_q8o3l"]
 
-[node name="SequenceController" type="GridContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
-columns = 3
+[node name="SequenceController" type="Node3D"]
 script = ExtResource("1_ebq2e")
-
-[node name="Button1" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button2" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button3" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button4" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button5" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button6" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button7" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button8" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
-
-[node name="Button9" parent="." instance=ExtResource("2_xbaag")]
-layout_mode = 2
+sequence_length = 3
+grid_width = 5
+grid_height = 5
+button_scene = ExtResource("2_q8o3l")

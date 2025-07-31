@@ -28,7 +28,7 @@ func flash_sequence(sequence: Array[SequenceButton]):
 	sequence_flash_end.emit()
 
 
-func generate_sequence(buttons: Array[SequenceButton], length: int):
+func generate_sequence(buttons: Array[SequenceButton], length: int) -> Array[SequenceButton]:
 	var sequence: Array[SequenceButton] = []
 	for i in range(length):
 		sequence.append(buttons.pick_random())
@@ -88,7 +88,7 @@ func start_game() -> void:
 		button.pressed.connect(_on_wrong_button_pressed.bind(button))
 		button._controller_ready(self)
 
-	var sequence := generate_path(grid, sequence_length, Vector2i(0, 0))
+	var sequence := generate_sequence(grid.array, sequence_length)
 
 	for i in range(len(sequence)):
 		for button in grid.array:
