@@ -16,3 +16,7 @@ func generate_sequence(length: int):
 func _ready() -> void:
 	var sequence = generate_sequence(10)
 	flash_sequence(sequence)
+
+
+func _on_button_pressed(id: int) -> void:
+	print(id)
