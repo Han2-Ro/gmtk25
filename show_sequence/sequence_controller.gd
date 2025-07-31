@@ -34,6 +34,8 @@ func start_game() -> void:
 	var sequence = generate_sequence(buttons, 10)
 
 	for i in range(len(sequence)):
+		for button in buttons:
+			button.disabled = true;
 		# wait a moment between each new step
 		await get_tree().create_timer(2.0).timeout
 		var sub_sequence = sequence.slice(0, i + 1)
