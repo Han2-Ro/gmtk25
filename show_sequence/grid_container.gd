@@ -31,28 +31,36 @@ func _ready() -> void:
 		buttons.append(button)
 		button._controller_ready(self)
 		
-	var sequence = generate_sequence(buttons, 3)
-	play_sequence(buttons, sequence)
+	var sequence = generate_sequence(buttons, 10)
+	
+	for i in range(len(sequence)):
+		var sub_sequence = sequence.slice(0, i+1)
+		await play_sequence(buttons, sub_sequence)
+	
+	print("FULLY WON THIS SHIT!!!")
 	
 func play_sequence(
 	buttons: Array[SequenceButton],
-	level_sequence: Array[SequenceButton],
+	sequence: Array[SequenceButton],
 ):
-	flash_sequence(level_sequence)
+	await get_tree().create_timer(2.0).timeout
+	flash_sequence(sequence)
 	
-	for button in level_sequence:
-		var wrong_buttons = buttons.filter(func(b): return b != button)
+	for step in sequence:
+		var wrong_buttons = buttons.filter(func(b): return b != step)
 		connect_wrong_buttons(wrong_buttons)
 		
-		await button.pressed	
-		pressed_correct.emit(button)
-		await button.this_pressed_correct()
+		await step.pressed
+		pressed_correct.emit(step)
+		step.this_pressed_correct()
 		
 		disconnect_wrong_buttons(wrong_buttons)
+		
 		step_completed.emit()
 		print("Correct")
 	
-	print("WINNER")
+	print("SEQUENCE COMPLETE")
+	
 	
 func connect_wrong_buttons(buttons):
 	for other_button in buttons:

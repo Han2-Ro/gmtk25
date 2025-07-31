@@ -6,7 +6,6 @@ class_name SequenceButton
 func _controller_ready(controller: SequenceController):
 	controller.sequence_flash_start.connect(on_sequence_flash_start)
 	controller.sequence_flash_end.connect(_reset)
-	controller.step_completed.connect(on_step_completed)
 	controller.pressed_correct.connect(_on_pressed_correct_button)
 
 func on_sequence_flash_start():
@@ -27,11 +26,7 @@ func _reset():
 
 func this_pressed_correct():
 	self.modulate = Color.GREEN_YELLOW
-	await get_tree().create_timer(.8).timeout
 
 func this_pressed_wrong():
 	self.modulate = Color.INDIAN_RED
 	self.disabled = true
-	
-func on_step_completed():
-	self._reset()
