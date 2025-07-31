@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cax8iqmfslx2y"]
+
+[ext_resource type="PackedScene" uid="uid://b06olxljfb0gu" path="res://tile/square_tile2.blend" id="1_3of3s"]
+[ext_resource type="Script" uid="uid://bfr4ofwolt458" path="res://tile/tile.gd" id="2_l2ggg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8uh7m"]
+size = Vector3(1, 0.106445, 1)
+
+[node name="SquareTile" type="Node3D"]
+script = ExtResource("2_l2ggg")
+
+[node name="square_tile" parent="." instance=ExtResource("1_3of3s")]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_8uh7m")
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]
