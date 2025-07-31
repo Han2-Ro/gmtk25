@@ -15,12 +15,8 @@ func flash_sequence(sequence: Array[SequenceButton]):
 		await step.flash()
 	sequence_flash_end.emit()
 
-var buttons: Array[SequenceButton]
 
-var level_sequence: Array[SequenceButton]
-var user_presses: Array[SequenceButton] = []
-
-func generate_sequence(length: int):
+func generate_sequence(buttons: Array[SequenceButton], length: int):
 	var sequence: Array[SequenceButton] = []
 	for i in range(length):
 		sequence.append(buttons.pick_random())
@@ -30,27 +26,43 @@ func _ready() -> void:
 	# can't directly assign get_childred()
 	# because it's type is Array[Node]
 	# this way we get almost compile time type checking
+	var buttons: Array[SequenceButton]
 	for button in get_children():
 		buttons.append(button)
 		button._controller_ready(self)
 		
-		# TODO: do not use index but actual tile
-		button.pressed.connect(_on_button_pressed.bind(button))
-		
-	level_sequence = generate_sequence(9)
+	var sequence = generate_sequence(buttons, 3)
+	play_sequence(buttons, sequence)
+	
+func play_sequence(
+	buttons: Array[SequenceButton],
+	level_sequence: Array[SequenceButton],
+):
 	flash_sequence(level_sequence)
-
-
-func _on_button_pressed(pressed_button: SequenceButton) -> void:
-	var current_step = len(user_presses)
-	var expected_button = level_sequence[current_step]
-	var is_correct = expected_button == pressed_button
-	if is_correct:
-		user_presses.append(pressed_button)
-		pressed_correct.emit(pressed_button)
-		await pressed_button.this_pressed_correct()
+	
+	for button in level_sequence:
+		var wrong_buttons = buttons.filter(func(b): return b != button)
+		connect_wrong_buttons(wrong_buttons)
+		
+		await button.pressed	
+		pressed_correct.emit(button)
+		await button.this_pressed_correct()
+		
+		disconnect_wrong_buttons(wrong_buttons)
 		step_completed.emit()
-	else:
-		print("WRONG! Should have been button", expected_button)
-		pressed_wrong.emit(pressed_button)
-		await pressed_button.this_pressed_wrong()
+		print("Correct")
+	
+	print("WINNER")
+	
+func connect_wrong_buttons(buttons):
+	for other_button in buttons:
+		other_button.pressed.connect(_on_wrong_button_pressed.bind(other_button))
+	
+func disconnect_wrong_buttons(buttons):
+	for other_button in buttons:
+		other_button.pressed.disconnect(_on_wrong_button_pressed)
+
+func _on_wrong_button_pressed(pressed_button: SequenceButton):
+	print("WRONG!")
+	pressed_wrong.emit(pressed_button)
+	await pressed_button.this_pressed_wrong()
