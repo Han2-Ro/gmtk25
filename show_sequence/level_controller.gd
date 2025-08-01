@@ -3,6 +3,9 @@
 extends Node
 
 @export_range(1, 10, 1, "or_greater") var start_lives = 3
+@export_group("Debug")
+@export var debug_start_money: int = 0
+@export var debug_open_shop_on_start: bool = false
 var current_lives: int
 var cash_manager: CashManager
 var shop_manager: ShopManager
@@ -42,7 +45,17 @@ func _ready() -> void:
 
 	level_ui.shop_closed.connect(_on_shop_closed)
 
-	start_game()
+	# Apply debug settings
+	if debug_start_money > 0:
+		cash_manager.add_cash(debug_start_money)
+		print("Debug: Added %d starting money" % debug_start_money)
+
+	if debug_open_shop_on_start:
+		await get_tree().process_frame
+		level_ui.open_shop()
+		print("Debug: Opening shop on start")
+	else:
+		start_game()
 
 
 func setup_sequence_controller() -> SequenceController:
@@ -116,7 +129,9 @@ func _on_shop_button_pressed() -> void:
 
 
 func _on_shop_closed() -> void:
-	pass
+	# If shop was opened on start and no game has started yet, start it now
+	if debug_open_shop_on_start and not sequence_controller:
+		start_game()
 
 
 func _on_restart_pressed() -> void:

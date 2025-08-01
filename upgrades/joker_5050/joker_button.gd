@@ -4,15 +4,11 @@ extends Button
 
 var upgrade: BaseUpgrade
 var upgrade_manager: UpgradeManager
-var sequence_controller: SequenceController
 
 
 func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
 	upgrade = upgrade_ref
 	upgrade_manager = manager
-
-	# Get sequence controller reference
-	sequence_controller = upgrade_manager.sequence_controller
 
 	# Connect button press
 	pressed.connect(_on_pressed)
@@ -20,14 +16,30 @@ func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
 	# Update display
 	_update_display()
 
-	# Listen for sequence events to update button state
+	# Connect to sequence events using lazy initialization
+	_setup_sequence_connections()
+
+
+func get_sequence_controller() -> SequenceController:
+	if upgrade_manager:
+		return upgrade_manager.sequence_controller
+	return null
+
+
+func _setup_sequence_connections():
+	var sequence_controller = get_sequence_controller()
 	if sequence_controller:
-		sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
-		sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
+		# Only connect if not already connected
+		if not sequence_controller.sequence_flash_start.is_connected(_on_sequence_flash_start):
+			sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
+		if not sequence_controller.sequence_flash_end.is_connected(_on_sequence_flash_end):
+			sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
 
 
 func _process(_delta):
 	_update_display()
+	# Ensure sequence connections are set up when controller becomes available
+	_setup_sequence_connections()
 
 
 func _update_display():
@@ -51,6 +63,7 @@ func _update_display():
 
 
 func _on_pressed():
+	var sequence_controller = get_sequence_controller()
 	if not sequence_controller:
 		return
 

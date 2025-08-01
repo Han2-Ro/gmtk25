@@ -26,6 +26,10 @@ func _ready():
 	if upgrade_manager:
 		upgrade_manager.register_ui_container(upgrades_container)
 
+	# Ensure overlay is hidden at start
+	overlay.visible = false
+	overlay_label.text = ""
+
 
 func show_overlay(is_win: bool) -> void:
 	is_win_state = is_win
@@ -120,7 +124,10 @@ func close() -> void:
 
 
 func _on_shop_closed() -> void:
-	close_shop()
+	shop_ui.hide()
+	# Only show overlay if game has started (overlay was previously shown)
+	if overlay_label.text != "":
+		overlay.visible = true
 	shop_closed.emit()
 
 
