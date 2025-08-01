@@ -23,7 +23,8 @@ var current_step: int = 0
 func _ready():
 	# Load all upgrades from the preloaded array
 	for upgrade_resource in ALL_UPGRADE_RESOURCES:
-		var upgrade = upgrade_resource as BaseUpgrade
+		# Duplicate, otherwise it keeps state across scene reloads
+		var upgrade = upgrade_resource.duplicate() as BaseUpgrade
 		all_upgrades[upgrade.id] = upgrade
 		if upgrade.is_active:
 			active_upgrades.append(upgrade)
