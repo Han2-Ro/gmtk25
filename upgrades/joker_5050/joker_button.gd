@@ -103,18 +103,24 @@ func _on_pressed():
 
 
 func _eliminate_button(button: SequenceButton):
+	# Safety check - only eliminate if button exists and is visible
+	if not button or not button.visible:
+		return
+
 	# Disable the button
 	button.disabled = true
 
-	# Visual effect - fade out
+	# Visual effect - sink and fade out using position tweening like existing animations
 	var tween = create_tween()
-	tween.tween_property(button, "modulate:a", 0.3, 0.3)
-
-	# Optional: Add particle effect or other visual feedback
-	# You could also change the button color, add an X overlay, etc.
+	tween.tween_property(button, "position", button.position + Vector3(0, -0.3, 0), 0.3)
+	tween.tween_callback(func(): button.hide())
 
 
 func _show_joker_used_effect():
+	# Safety check - ensure we can modulate this button
+	if not is_inside_tree():
+		return
+
 	# Flash the joker button to indicate usage
 	var original_modulate = modulate
 
