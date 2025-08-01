@@ -63,8 +63,8 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 	upgrade._on_purchase()
 	upgrade_purchased.emit(upgrade)
 
-	# Create UI if needed
-	if upgrade_ui_container and upgrade.ui_scene:
+	# Create UI if needed (only for first purchase)
+	if upgrade_ui_container and upgrade.ui_scene and upgrade.purchased_count == 1:
 		add_upgrade_ui(upgrade)
 
 	return true
