@@ -1,9 +1,12 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bx36hex5wjnxe"]
 
-[ext_resource type="Script" path="res://upgrades/joker_5050/joker_5050_upgrade.gd" id="1_joker"]
+[ext_resource type="Script" uid="uid://dd4tdg2nfuy4u" path="res://upgrades/joker_5050/joker_5050_upgrade.gd" id="1_joker"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_joker")
+elimination_percentage = 0.5
+min_buttons_to_eliminate = 1
 id = "joker_5050"
 name = "50/50 Joker"
 description = "Eliminates half the wrong tiles (1 use per sequence)"
@@ -12,5 +15,3 @@ is_stackable = true
 max_stack = -1
 purchased_count = 0
 is_active = false
-elimination_percentage = 0.5
-min_buttons_to_eliminate = 1

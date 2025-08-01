@@ -13,19 +13,11 @@ signal shop_closed
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
-@onready var upgrades_container: HBoxContainer = $UpgradesContainer
-
-var upgrade_manager: Node
 
 var is_win_state: bool = false
 
 
 func _ready():
-	# Get upgrade manager reference and register upgrades container
-	upgrade_manager = get_node_or_null("/root/UpgradeManager")
-	if upgrade_manager:
-		upgrade_manager.register_ui_container(upgrades_container)
-
 	# Ensure overlay is hidden at start
 	overlay.visible = false
 	overlay_label.text = ""
@@ -96,6 +88,11 @@ func update_cash(amount: int) -> void:
 
 func _on_shop_button_pressed() -> void:
 	shop_button_pressed.emit()
+
+
+func setup_upgrades(upgrade_manager: UpgradeManager) -> void:
+	var upgrades_container: HBoxContainer = $UpgradesContainer
+	upgrade_manager.register_ui_container(upgrades_container)
 
 
 func setup_shop(shop_manager: ShopManager) -> void:

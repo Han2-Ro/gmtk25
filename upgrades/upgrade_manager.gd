@@ -1,6 +1,7 @@
 # ABOUTME: Central manager for all upgrades, handles loading, lifecycle, and event broadcasting
 # ABOUTME: Singleton pattern ensures single source of truth for upgrade state
-extends Node
+class_name UpgradeManager
+extends Resource
 
 signal upgrade_purchased(upgrade: BaseUpgrade)
 signal upgrade_activated(upgrade: BaseUpgrade)
@@ -13,14 +14,17 @@ const ALL_UPGRADE_RESOURCES = [
 var all_upgrades: Dictionary = {}  # id -> BaseUpgrade
 var active_upgrades: Array[BaseUpgrade] = []
 var upgrade_ui_container: Control
-var sequence_controller: SequenceController
 
 # For tracking current game state
 var current_sequence: Array[SequenceButton] = []
 var current_step: int = 0
 
+# TODO: remove this global reference?
+# The joker upgrade uses it to access all the available buttons
+var sequence_controller: SequenceController
 
-func _ready():
+
+func _init() -> void:
 	# Load all upgrades from the preloaded array
 	for upgrade_resource in ALL_UPGRADE_RESOURCES:
 		# Duplicate, otherwise it keeps state across scene reloads
@@ -79,7 +83,8 @@ func broadcast_game_start():
 		upgrade._on_game_start()
 
 
-func broadcast_sequence_start():
+func broadcast_sequence_start(sequence: Array[SequenceButton]):
+	current_sequence = sequence
 	show_upgrade_buttons()
 	current_step = 0
 	for upgrade in active_upgrades:
@@ -126,13 +131,16 @@ func register_ui_container(container: Control):
 
 func register_sequence_controller(controller: SequenceController):
 	sequence_controller = controller
-	# Connect to sequence controller signals and re-emit them
+	# broadcast bus to all upgrades
+
 	controller.sequence_flash_start.connect(broadcast_sequence_flash_start)
 	controller.flash_button.connect(broadcast_flash_button)
 	controller.sequence_flash_end.connect(broadcast_sequence_flash_end)
 	controller.pressed_correct.connect(broadcast_pressed_correct)
 	controller.pressed_wrong.connect(broadcast_pressed_wrong)
 	controller.step_completed.connect(broadcast_step_completed)
+	controller.sequence_start.connect(broadcast_sequence_start)
+	controller.subsequence_start.connect(broadcast_subsequence_start)
 	controller.subsequence_completed.connect(broadcast_subsequence_completed)
 	controller.sequence_completed.connect(broadcast_sequence_completed)
 
@@ -157,10 +165,9 @@ func enable_upgrade_buttons():
 
 func broadcast_sequence_flash_start():
 	disable_upgrade_buttons()
-	broadcast_sequence_start()
 
 
-func broadcast_flash_button(button: SequenceButton):
+func broadcast_flash_button(_button: SequenceButton):
 	pass
 
 

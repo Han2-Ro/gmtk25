@@ -31,7 +31,6 @@ text = "Coins: 0"
 horizontal_alignment = 2
 
 [node name="UpgradesContainer" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0

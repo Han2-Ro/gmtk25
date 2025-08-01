@@ -4,11 +4,15 @@ extends Node
 signal sequence_flash_start
 signal flash_button(button: SequenceButton)
 signal sequence_flash_end
+
 signal pressed_correct(button: SequenceButton)
 signal pressed_wrong(button: SequenceButton)
+
+signal sequence_start(sequence: Array[SequenceButton])
+signal subsequence_start(current_round: int, total_rounds: int)
 signal step_completed(current_step: int, total_steps: int)
 signal subsequence_completed(current_round: int, total_rounds: int)
-signal sequence_completed
+signal sequence_completed(sequence: Array[SequenceButton])
 
 enum TileShape { SQUARE, HEXAGON }
 
@@ -22,7 +26,6 @@ enum TileShape { SQUARE, HEXAGON }
 @export var tile_shape: TileShape
 
 var shop_manager: ShopManager
-var upgrade_manager: Node
 
 
 func flash_sequence(sequence: Array[SequenceButton]):
@@ -115,13 +118,6 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 	return path
 
 
-func _ready():
-	# Get upgrade manager reference
-	upgrade_manager = get_node_or_null("/root/UpgradeManager")
-	if upgrade_manager:
-		upgrade_manager.register_sequence_controller(self)
-
-
 func start_game() -> void:
 	# Reset player position at the start of each new level
 	sequence_flash_start.emit()
@@ -133,10 +129,6 @@ func start_game() -> void:
 		TileShape.HEXAGON:
 			grid = generate_hexagon_grid()
 
-	# Notify upgrade manager
-	if upgrade_manager:
-		upgrade_manager.broadcast_game_start()
-
 	# Wait for the scene tree to process the new nodes
 	await get_tree().process_frame
 
@@ -145,10 +137,7 @@ func start_game() -> void:
 		button._controller_ready(self)
 
 	var sequence := generate_sequence(grid.array, sequence_length)
-
-	# Store sequence in upgrade manager
-	if upgrade_manager:
-		upgrade_manager.current_sequence = sequence
+	sequence_start.emit(sequence)
 
 	var current_step = steps_to_reveal
 	while current_step < len(sequence):
@@ -158,8 +147,7 @@ func start_game() -> void:
 		await get_tree().create_timer(2).timeout
 
 		var sub_sequence = sequence.slice(0, current_step)
-		if upgrade_manager:
-			upgrade_manager.broadcast_subsequence_start(current_step, len(sequence))
+		subsequence_start.emit(current_step, len(sequence))
 		await play_sequence(sub_sequence)
 		subsequence_completed.emit(current_step, len(sequence))
 
@@ -170,8 +158,7 @@ func start_game() -> void:
 		button.disabled = true
 	await get_tree().create_timer(2).timeout
 
-	if upgrade_manager:
-		upgrade_manager.broadcast_subsequence_start(len(sequence), len(sequence))
+	subsequence_start.emit(len(sequence), len(sequence))
 	await play_sequence(sequence)
 	subsequence_completed.emit(len(sequence), len(sequence))
 

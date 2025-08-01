@@ -10,6 +10,7 @@ extends Node
 var current_lives: int
 var cash_manager: CashManager
 var shop_manager: ShopManager
+var upgrade_manager: UpgradeManager
 
 var sequence_controller: SequenceController
 @onready var level_ui: LevelUI = $UI
@@ -24,8 +25,11 @@ func _ready() -> void:
 	# Initialize shop manager first
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
+	upgrade_manager = UpgradeManager.new()
 
 	shop_manager.cash_manager = cash_manager
+	shop_manager.upgrade_manager = upgrade_manager
+
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)
 
@@ -38,6 +42,7 @@ func _ready() -> void:
 
 	# Setup shop UI through level UI
 	level_ui.setup_shop(shop_manager)
+	level_ui.setup_upgrades(upgrade_manager)
 
 	level_ui.restart_button_pressed.connect(_on_restart_pressed)
 	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
@@ -78,8 +83,13 @@ func setup_sequence_controller() -> SequenceController:
 
 
 func start_game() -> void:
+	# TODO: turn into signal?
+	upgrade_manager.broadcast_game_start()
+
 	for length in range(3, 13, 2):
 		sequence_controller = setup_sequence_controller()
+
+		upgrade_manager.register_sequence_controller(sequence_controller)
 
 		sequence_controller.sequence_length = length
 

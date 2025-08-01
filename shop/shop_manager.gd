@@ -7,12 +7,7 @@ signal purchase_completed(upgrade: BaseUpgrade)
 signal purchase_failed(upgrade_id: String, reason: String)
 
 var cash_manager: CashManager
-var upgrade_manager: Node
-
-
-func _ready():
-	# Get upgrade manager reference
-	upgrade_manager = $/root/UpgradeManager
+var upgrade_manager: UpgradeManager
 
 
 func can_afford(upgrade: BaseUpgrade) -> bool:

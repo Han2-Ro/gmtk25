@@ -56,6 +56,8 @@ func _on_pressed():
 	if not grid:
 		return
 
+	upgrade_manager.upgrade_activated.emit(upgrade)
+
 	var all_buttons: Array[SequenceButton] = []
 	for child in grid.get_children():
 		if child is SequenceButton:
@@ -66,15 +68,22 @@ func _on_pressed():
 	if upgrade.has_method("use_joker"):
 		eliminated = await upgrade.use_joker(correct_button, all_buttons)
 
+	var original_modulate = modulate
+	var intro_tween = create_tween()
+	intro_tween.tween_property(self, "modulate", Color.YELLOW, 0.3)
+	await intro_tween.finished
+
 	# Apply elimination effects
 	for button in eliminated:
 		await _highlight_button(button)
 
-	# Visual feedback for joker usage
-	await _show_joker_used_effect()
+	# the other tween is already finished
+	var outro_tween = create_tween()
+	outro_tween.tween_property(self, "modulate", original_modulate, 0.3)
+	outro_tween.tween_property(self, "modulate:a", 0.5, 0.1)
+	await outro_tween.finished
 
-	# Update display immediately
-	_update_display()
+	await _update_display()
 
 
 func _highlight_button(button: SequenceButton):
@@ -85,22 +94,15 @@ func _highlight_button(button: SequenceButton):
 	await button.flash()
 
 
-func _show_joker_used_effect():
-	# Flash the joker button to indicate usage
-	var original_modulate = modulate
-
-	var tween = create_tween()
-	tween.tween_property(self, "modulate", Color.YELLOW, 0.1)
-	tween.tween_interval(0.2)
-	tween.tween_property(self, "modulate", original_modulate, 0.2)
-	await tween.finished
-
-
 func disable():
 	disabled = true
-	modulate.a = 0.5
+
+	var tween = create_tween()
+	await tween.tween_property(self, "modulate:a", 0.5, 0.1)
 
 
 func enable():
 	disabled = false
-	modulate.a = 1.0
+
+	var tween = create_tween()
+	await tween.tween_property(self, "modulate:a", 1.0, 0.1)
