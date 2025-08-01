@@ -5,7 +5,6 @@ signal restart_button_pressed
 signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
-signal play_again_pressed
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
@@ -126,4 +125,4 @@ func _on_shop_closed() -> void:
 
 
 func _on_play_again_pressed() -> void:
-	play_again_pressed.emit()
+	next_level_pressed.emit()

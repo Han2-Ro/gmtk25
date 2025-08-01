@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bdp5jqxkv8nxm"]
 
-[ext_resource type="Script" path="res://upgrades/joker_5050/joker_button.gd" id="1_n4xmg"]
+[ext_resource type="Script" uid="uid://c7p7jd0hnn1ny" path="res://upgrades/joker_5050/joker_button.gd" id="1_n4xmg"]
 
 [node name="JokerButton" type="Button"]
 custom_minimum_size = Vector2(100, 40)

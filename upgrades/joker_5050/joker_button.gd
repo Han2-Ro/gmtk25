@@ -3,11 +3,11 @@
 extends Button
 
 var upgrade: BaseUpgrade
-var upgrade_manager: Node
+var upgrade_manager: UpgradeManager
 var sequence_controller: SequenceController
 
 
-func setup(upgrade_ref: BaseUpgrade, manager: Node):
+func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
 	upgrade = upgrade_ref
 	upgrade_manager = manager
 

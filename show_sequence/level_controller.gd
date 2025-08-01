@@ -37,10 +37,10 @@ func _ready() -> void:
 	level_ui.setup_shop(shop_manager)
 
 	level_ui.restart_button_pressed.connect(_on_restart_pressed)
-	level_ui.next_level_pressed.connect(_on_play_again_pressed)
+	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
 	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
+
 	level_ui.shop_closed.connect(_on_shop_closed)
-	level_ui.play_again_pressed.connect(_on_play_again_pressed)
 
 	start_game()
 
@@ -120,8 +120,9 @@ func _on_shop_closed() -> void:
 
 
 func _on_restart_pressed() -> void:
+	print("RESTART")
 	get_tree().reload_current_scene()
 
 
-func _on_play_again_pressed() -> void:
+func _on_next_level_button_pressed() -> void:
 	next_level.emit()

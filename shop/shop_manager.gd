@@ -12,10 +12,7 @@ var upgrade_manager: Node
 
 func _ready():
 	# Get upgrade manager reference
-	upgrade_manager = get_node_or_null("/root/UpgradeManager")
-	if upgrade_manager:
-		# Load saved upgrade states
-		upgrade_manager.load_upgrades_state()
+	upgrade_manager = $/root/UpgradeManager
 
 
 func can_afford(upgrade: BaseUpgrade) -> bool:

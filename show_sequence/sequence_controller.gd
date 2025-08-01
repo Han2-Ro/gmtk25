@@ -148,7 +148,7 @@ func start_game() -> void:
 
 	# Store sequence in upgrade manager
 	if upgrade_manager:
-		upgrade_manager.set_current_sequence(sequence)
+		upgrade_manager.current_sequence = sequence
 
 	var current_step = steps_to_reveal
 	while current_step < len(sequence):
