@@ -10,15 +10,15 @@ signal step_completed(current_step: int, total_steps: int)
 signal subsequence_completed(current_round: int, total_rounds: int)
 signal sequence_completed
 
+enum TileShape { SQUARE, HEXAGON }
+
 @export_range(2, 20, 1, "or_greater") var sequence_length = 5
 @export_range(1, 20, 1, "or_greater") var steps_to_reveal = 1
-
 @export var grid_width: int = 3
 @export var grid_height: int = 3
 @export_category("Tiles")
 @export var tile_scene: PackedScene
 @export var tile_spaceing: float = 1.0
-enum TileShape {SQUARE, HEXAGON}
 @export var tile_shape: TileShape
 
 var shop_manager: ShopManager
@@ -61,8 +61,9 @@ func generate_grid() -> Grid:
 
 	return button_grid
 
+
 func generate_hexagon_grid() -> Grid:
-	var max_width = grid_width * 2 - 1;
+	var max_width = grid_width * 2 - 1
 
 	# Calculate grid center offset
 	var grid_center_x = (max_width - 1) * tile_spaceing * 0.5
@@ -72,13 +73,15 @@ func generate_hexagon_grid() -> Grid:
 
 	# store it in acial coords https://www.redblobgames.com/grids/hexagons/#map-storage
 	for y in range(grid_height * 2 - 1):
-		for x in range(clamp(-grid_width + y + 1, 0, max_width), clamp(grid_width + y, 0, max_width)):
+		for x in range(
+			clamp(-grid_width + y + 1, 0, max_width), clamp(grid_width + y, 0, max_width)
+		):
 			print("Coords: ", y, x)
 			var button_instance = tile_scene.instantiate()
 			add_child(button_instance)
 
 			# used these formulas: https://www.redblobgames.com/grids/hexagons/#hex-to-pixel
-			var pos_x = (2/sqrt(3) * x - sqrt(3)/3 * y) * tile_spaceing - grid_center_x
+			var pos_x = (2 / sqrt(3) * x - sqrt(3) / 3 * y) * tile_spaceing - grid_center_x
 			var pos_z = y * tile_spaceing - grid_center_y
 			button_instance.position = Vector3(pos_x, 0, pos_z)
 
@@ -86,6 +89,7 @@ func generate_hexagon_grid() -> Grid:
 			button_grid.set_at(x, y, button_instance)
 
 	return button_grid
+
 
 func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceButton]:
 	var path: Array[SequenceButton] = []
@@ -113,7 +117,7 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 func start_game() -> void:
 	# Reset player position at the start of each new level
 	sequence_flash_start.emit()
-	
+
 	var grid: Grid
 	match tile_shape:
 		TileShape.SQUARE:
@@ -140,7 +144,7 @@ func start_game() -> void:
 		var sub_sequence = sequence.slice(0, current_step)
 		await play_sequence(sub_sequence)
 		subsequence_completed.emit(current_step, len(sequence))
-		
+
 		current_step += steps_to_reveal
 
 	# Always play the full sequence at the end

@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cse3ak6acvpr3" path="res://show_sequence/level_controller.gd" id="1_tkm1j"]
 [ext_resource type="PackedScene" uid="uid://djw8wsyabf6xn" path="res://show_sequence/sequence_controller.tscn" id="2_fyuqc"]
 [ext_resource type="PackedScene" uid="uid://thaxomy1voq1" path="res://player/pawn.blend" id="3_4xm1u"]
-[ext_resource type="PackedScene" uid="uid://cnslnn81itky4" path="res://tile/hexagon_tile.tscn" id="3_tkm1j"]
 [ext_resource type="Script" uid="uid://dvnpkg1cdwtuv" path="res://player/player.gd" id="4_pdy1x"]
 [ext_resource type="PackedScene" uid="uid://nvt00bg5xc4l" path="res://level_ui/ui.tscn" id="6_g8eee"]
 
