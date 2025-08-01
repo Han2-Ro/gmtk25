@@ -73,11 +73,13 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 
 
 func broadcast_game_start():
+	disable_upgrade_buttons()
 	for upgrade in active_upgrades:
 		upgrade._on_game_start()
 
 
 func broadcast_sequence_start():
+	show_upgrade_buttons()
 	current_step = 0
 	for upgrade in active_upgrades:
 		upgrade._on_sequence_start()
@@ -100,11 +102,13 @@ func broadcast_step_completed(current: int, total: int):
 
 
 func broadcast_subsequence_completed(current_round: int, total: int):
+	disable_upgrade_buttons()
 	for upgrade in active_upgrades:
 		upgrade._on_subsequence_completed(current_round, total)
 
 
 func broadcast_sequence_complete():
+	hide_upgrade_buttons()
 	for upgrade in active_upgrades:
 		upgrade._on_sequence_complete()
 
@@ -132,9 +136,17 @@ func register_sequence_controller(controller: SequenceController):
 	controller.sequence_completed.connect(broadcast_sequence_completed)
 
 
+func hide_upgrade_buttons():
+	upgrade_ui_container.hide()
+
+
 func disable_upgrade_buttons():
 	for child in upgrade_ui_container.get_children():
 		child.call_deferred("disable")
+
+
+func show_upgrade_buttons():
+	upgrade_ui_container.show()
 
 
 func enable_upgrade_buttons():
@@ -164,6 +176,7 @@ func broadcast_pressed_wrong(button: SequenceButton):
 
 
 func broadcast_sequence_completed():
+	hide_upgrade_buttons()
 	for upgrade in active_upgrades:
 		upgrade._on_sequence_complete()
 

@@ -194,8 +194,6 @@ func play_sequence(sequence: Array[SequenceButton]):
 		step_completed.emit(i + 1, len(sequence))
 		print("Correct")
 
-	print("SEQUENCE COMPLETE")
-
 
 func _on_wrong_button_pressed(pressed_button: SequenceButton):
 	print("WRONG!")
