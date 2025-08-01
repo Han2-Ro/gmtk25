@@ -2,6 +2,7 @@
 # ABOUTME: Handles lives, game over conditions, restart functionality, and UI coordination
 extends Node
 
+@export var sequence_controller_scene: PackedScene
 @export_range(1, 10, 1, "or_greater") var start_lives = 3
 @export_group("Debug")
 @export var debug_start_money: int = 0
@@ -11,7 +12,6 @@ var cash_manager: CashManager
 var shop_manager: ShopManager
 
 var sequence_controller: SequenceController
-@export var sequence_controller_scene: PackedScene
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
 @onready var overlay: Control = $UI/Overlay

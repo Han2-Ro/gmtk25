@@ -13,9 +13,9 @@ albedo_color = Color(0, 0.35, 0.0291666, 1)
 
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
+sequence_controller_scene = ExtResource("2_fyuqc")
 debug_start_money = 100
 debug_open_shop_on_start = true
-sequence_controller_scene = ExtResource("2_fyuqc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.29516, 0, 0, 0, 7.29516, 0, 0, 0, 7.29516, 0, 0, 0)
