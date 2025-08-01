@@ -15,8 +15,11 @@ signal sequence_completed
 
 @export var grid_width: int = 3
 @export var grid_height: int = 3
-@export var button_scene: PackedScene
-@export var button_spacing: float = 1.0
+@export_category("Tiles")
+@export var tile_scene: PackedScene
+@export var tile_spaceing: float = 1.0
+enum TileShape {SQUARE, HEXAGON}
+@export var tile_shape: TileShape
 
 var shop_manager: ShopManager
 
@@ -38,19 +41,19 @@ func generate_sequence(buttons: Array[SequenceButton], length: int) -> Array[Seq
 
 func generate_grid() -> Grid:
 	# Calculate grid center offset
-	var grid_center_x = (grid_width - 1) * button_spacing * 0.5
-	var grid_center_y = (grid_height - 1) * button_spacing * 0.5
+	var grid_center_x = (grid_width - 1) * tile_spaceing * 0.5
+	var grid_center_y = (grid_height - 1) * tile_spaceing * 0.5
 
 	var button_grid = Grid.new(grid_width, grid_height)
 
 	for y in range(grid_height):
 		for x in range(grid_width):
-			var button_instance = button_scene.instantiate()
+			var button_instance = tile_scene.instantiate()
 			add_child(button_instance)
 
 			# Position button in grid
-			var pos_x = x * button_spacing - grid_center_x
-			var pos_z = y * button_spacing - grid_center_y
+			var pos_x = x * tile_spaceing - grid_center_x
+			var pos_z = y * tile_spaceing - grid_center_y
 			button_instance.position = Vector3(pos_x, 0, pos_z)
 
 			# Add button to grid
@@ -59,23 +62,24 @@ func generate_grid() -> Grid:
 	return button_grid
 
 func generate_hexagon_grid() -> Grid:
-	# Calculate grid center offset
-	var grid_center_x = (grid_width - 1) * button_spacing * 0.5
-	var grid_center_y = (grid_height - 1) * button_spacing * 0.5
-
 	var max_width = grid_width * 2 - 1;
+
+	# Calculate grid center offset
+	var grid_center_x = (max_width - 1) * tile_spaceing * 0.5
+	var grid_center_y = (max_width - 1) * tile_spaceing * 0.5
+
 	var button_grid = Grid.new(max_width, max_width)
 
 	# store it in acial coords https://www.redblobgames.com/grids/hexagons/#map-storage
 	for y in range(grid_height * 2 - 1):
-		for x in range(clamp(-grid_width + y, 0, max_width), clamp(grid_width + y, 0, max_width)):
+		for x in range(clamp(-grid_width + y + 1, 0, max_width), clamp(grid_width + y, 0, max_width)):
 			print("Coords: ", y, x)
-			var button_instance = button_scene.instantiate()
+			var button_instance = tile_scene.instantiate()
 			add_child(button_instance)
 
 			# used these formulas: https://www.redblobgames.com/grids/hexagons/#hex-to-pixel
-			var pos_x = (sqrt(3) * x + sqrt(3)/2 * y) * button_spacing - grid_center_x
-			var pos_z = y * (3./2) * button_spacing - grid_center_y
+			var pos_x = (2/sqrt(3) * x - sqrt(3)/3 * y) * tile_spaceing - grid_center_x
+			var pos_z = y * tile_spaceing - grid_center_y
 			button_instance.position = Vector3(pos_x, 0, pos_z)
 
 			# Add button to grid
@@ -110,7 +114,12 @@ func start_game() -> void:
 	# Reset player position at the start of each new level
 	sequence_flash_start.emit()
 	
-	var grid := generate_grid()
+	var grid: Grid
+	match tile_shape:
+		TileShape.SQUARE:
+			grid = generate_grid()
+		TileShape.HEXAGON:
+			grid = generate_hexagon_grid()
 
 	# Wait for the scene tree to process the new nodes
 	await get_tree().process_frame

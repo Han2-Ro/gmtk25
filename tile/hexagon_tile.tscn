@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnslnn81itky4"]
+
+[ext_resource type="Script" uid="uid://bfr4ofwolt458" path="res://tile/tile.gd" id="1_f7y23"]
+[ext_resource type="PackedScene" uid="uid://bbx8fjxgx3wbm" path="res://tile/hexagon_tile.blend" id="1_km7xx"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_f7y23"]
+height = 0.01
+
+[node name="HexagonTile" type="Node3D"]
+script = ExtResource("1_f7y23")
+
+[node name="hexagon_tile" parent="." instance=ExtResource("1_km7xx")]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CylinderShape3D_f7y23")
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]
