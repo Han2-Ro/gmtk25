@@ -4,20 +4,23 @@ extends Button
 
 var upgrade: BaseUpgrade
 var upgrade_manager: UpgradeManager
-var is_sequence_flashing: bool = false
 var sequence_controller: SequenceController
+
+
+func _ready() -> void:
+	# Start disabled until game/sequence begins
+	disabled = true
 
 
 func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
 	upgrade = upgrade_ref
 	upgrade_manager = manager
 
-	# Start disabled until game/sequence begins
-	disabled = true
-	is_sequence_flashing = true  # Treat initial state as "waiting for sequence"
-
 	# Connect button press
 	pressed.connect(_on_pressed)
+
+	# update the display when buying more
+	manager.upgrade_purchased.connect(func(_up): _update_display())
 
 	# Update display
 	_update_display()
@@ -46,7 +49,6 @@ func _setup_sequence_connections():
 
 
 func _process(_delta):
-	_update_display()
 	# Ensure sequence connections are set up when controller becomes available
 	if not sequence_controller:
 		_setup_sequence_connections()
@@ -59,23 +61,9 @@ func _update_display():
 	# Update button text with count
 	text = "50/50 (%d)" % upgrade.purchased_count
 
-	# Always disabled during sequence flashing
-	if is_sequence_flashing:
+	if not upgrade.can_use_joker():
 		disabled = true
 		modulate.a = 0.5
-		return
-
-	# Disable if can't use (check if this is a joker upgrade)
-	if upgrade.has_method("can_use_joker"):
-		disabled = not upgrade.can_use_joker()
-	else:
-		disabled = upgrade.purchased_count <= 0
-
-	# Additional visual feedback
-	if disabled:
-		modulate.a = 0.5
-	else:
-		modulate.a = 1.0
 
 
 func _on_pressed():
@@ -105,50 +93,39 @@ func _on_pressed():
 	# Use the joker
 	var eliminated = []
 	if upgrade.has_method("use_joker"):
-		eliminated = upgrade.use_joker(correct_button, all_buttons)
+		eliminated = await upgrade.use_joker(correct_button, all_buttons)
 
 	# Apply elimination effects
 	for button in eliminated:
-		_eliminate_button(button)
+		await _highlight_button(button)
 
 	# Visual feedback for joker usage
-	_show_joker_used_effect()
+	await _show_joker_used_effect()
 
 	# Update display immediately
 	_update_display()
 
 
-func _eliminate_button(button: SequenceButton):
+func _highlight_button(button: SequenceButton):
 	# Safety check - only eliminate if button exists and is visible
 	if not button or not button.visible:
 		return
 
-	# Disable the button
-	button.disabled = true
-
-	# Visual effect - sink and fade out using position tweening like existing animations
-	var tween = create_tween()
-	tween.tween_property(button, "position", button.position + Vector3(0, -0.3, 0), 0.3)
-	tween.tween_callback(func(): button.hide())
+	await button.flash()
 
 
 func _show_joker_used_effect():
-	# Safety check - ensure we can modulate this button
-	if not is_inside_tree():
-		return
-
 	# Flash the joker button to indicate usage
 	var original_modulate = modulate
 
 	var tween = create_tween()
 	tween.tween_property(self, "modulate", Color.YELLOW, 0.1)
+	tween.tween_interval(0.2)
 	tween.tween_property(self, "modulate", original_modulate, 0.2)
+	await tween.finished
 
 
 func _on_sequence_flash_start():
-	# Track that we're in sequence flashing mode
-	is_sequence_flashing = true
-	# Disable during sequence display
 	disabled = true
 	modulate.a = 0.5
 
@@ -159,7 +136,5 @@ func _on_sequence_completed():
 
 
 func _on_sequence_flash_end():
-	# Track that sequence flashing is done
-	is_sequence_flashing = false
-	# Re-enable after sequence display
-	_update_display()
+	disabled = false
+	modulate.a = 1.0

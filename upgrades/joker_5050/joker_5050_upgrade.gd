@@ -35,17 +35,9 @@ func use_joker(
 	if wrong_buttons.size() <= 1:
 		return []
 
-	var buttons_to_eliminate: int = max(
-		min_buttons_to_eliminate, int(wrong_buttons.size() * elimination_percentage)
-	)
-
-	# Make sure we don't eliminate all wrong buttons (leave at least one)
-	buttons_to_eliminate = min(buttons_to_eliminate, wrong_buttons.size() - 1)
-
-	wrong_buttons.shuffle()
-	var eliminated: Array[SequenceButton] = []
-	for i in buttons_to_eliminate:
-		eliminated.append(wrong_buttons[i])
+	var distractor = wrong_buttons.pick_random()
+	var buttons_to_flash: Array[SequenceButton] = [distractor, correct_button]
+	buttons_to_flash.shuffle()
 
 	session_data["used_this_sequence"] = true
 	purchased_count -= 1
@@ -56,7 +48,7 @@ func use_joker(
 		if manager and manager.has_method("save_upgrades"):
 			manager.save_upgrades()
 
-	return eliminated
+	return buttons_to_flash
 
 
 func get_display_name() -> String:
