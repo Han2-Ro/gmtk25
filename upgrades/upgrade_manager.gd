@@ -67,6 +67,8 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 	if upgrade_ui_container and upgrade.ui_scene and upgrade.purchased_count == 1:
 		add_upgrade_ui(upgrade)
 
+	refresh_upgrade_ui()
+
 	return true
 
 
@@ -119,30 +121,51 @@ func register_ui_container(container: Control):
 
 func register_sequence_controller(controller: SequenceController):
 	sequence_controller = controller
-	# Connect to sequence controller signals
-	controller.sequence_flash_start.connect(_on_sequence_flash_start)
-	controller.sequence_flash_end.connect(_on_sequence_flash_end)
-	controller.pressed_correct.connect(_on_pressed_correct)
-	controller.pressed_wrong.connect(_on_pressed_wrong)
+	# Connect to sequence controller signals and re-emit them
+	controller.sequence_flash_start.connect(broadcast_sequence_flash_start)
+	controller.flash_button.connect(broadcast_flash_button)
+	controller.sequence_flash_end.connect(broadcast_sequence_flash_end)
+	controller.pressed_correct.connect(broadcast_pressed_correct)
+	controller.pressed_wrong.connect(broadcast_pressed_wrong)
 	controller.step_completed.connect(broadcast_step_completed)
 	controller.subsequence_completed.connect(broadcast_subsequence_completed)
-	controller.sequence_completed.connect(broadcast_sequence_complete)
+	controller.sequence_completed.connect(broadcast_sequence_completed)
 
 
-func _on_sequence_flash_start():
+func disable_upgrade_buttons():
+	for child in upgrade_ui_container.get_children():
+		child.call_deferred("disable")
+
+
+func enable_upgrade_buttons():
+	for child in upgrade_ui_container.get_children():
+		child.call_deferred("enable")
+
+
+func broadcast_sequence_flash_start():
+	disable_upgrade_buttons()
 	broadcast_sequence_start()
 
 
-func _on_sequence_flash_end():
+func broadcast_flash_button(button: SequenceButton):
 	pass
 
 
-func _on_pressed_correct(button: SequenceButton):
+func broadcast_sequence_flash_end():
+	enable_upgrade_buttons()
+
+
+func broadcast_pressed_correct(button: SequenceButton):
 	broadcast_button_pressed(button, true)
 
 
-func _on_pressed_wrong(button: SequenceButton):
+func broadcast_pressed_wrong(button: SequenceButton):
 	broadcast_button_pressed(button, false)
+
+
+func broadcast_sequence_completed():
+	for upgrade in active_upgrades:
+		upgrade._on_sequence_complete()
 
 
 func refresh_upgrade_ui():

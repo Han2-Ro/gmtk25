@@ -4,7 +4,11 @@ extends Button
 
 var upgrade: BaseUpgrade
 var upgrade_manager: UpgradeManager
-var sequence_controller: SequenceController
+var sequence_controller:
+	get:
+		if upgrade_manager:
+			return upgrade_manager.sequence_controller as SequenceController
+		return null
 
 
 func _ready() -> void:
@@ -19,39 +23,8 @@ func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
 	# Connect button press
 	pressed.connect(_on_pressed)
 
-	# update the display when buying more
-	manager.upgrade_purchased.connect(func(_up): _update_display())
-
 	# Update display
 	_update_display()
-
-	# Connect to sequence events using lazy initialization
-	_setup_sequence_connections()
-
-
-func get_sequence_controller() -> SequenceController:
-	if upgrade_manager:
-		return upgrade_manager.sequence_controller
-	return null
-
-
-func _setup_sequence_connections():
-	print("SETUP SEQUENCE CONTROLLER")
-	sequence_controller = get_sequence_controller()
-	if sequence_controller:
-		# Only connect if not already connected
-		if not sequence_controller.sequence_flash_start.is_connected(_on_sequence_flash_start):
-			sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
-		if not sequence_controller.sequence_flash_end.is_connected(_on_sequence_flash_end):
-			sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
-		if not sequence_controller.sequence_completed.is_connected(_on_sequence_completed):
-			sequence_controller.sequence_completed.connect(_on_sequence_completed)
-
-
-func _process(_delta):
-	# Ensure sequence connections are set up when controller becomes available
-	if not sequence_controller:
-		_setup_sequence_connections()
 
 
 func _update_display():
@@ -62,12 +35,10 @@ func _update_display():
 	text = "50/50 (%d)" % upgrade.purchased_count
 
 	if not upgrade.can_use_joker():
-		disabled = true
-		modulate.a = 0.5
+		disable()
 
 
 func _on_pressed():
-	var sequence_controller = get_sequence_controller()
 	if not sequence_controller:
 		return
 
@@ -125,16 +96,11 @@ func _show_joker_used_effect():
 	await tween.finished
 
 
-func _on_sequence_flash_start():
+func disable():
 	disabled = true
 	modulate.a = 0.5
 
 
-func _on_sequence_completed():
-	disabled = true
-	modulate.a = 0.5
-
-
-func _on_sequence_flash_end():
+func enable():
 	disabled = false
 	modulate.a = 1.0
