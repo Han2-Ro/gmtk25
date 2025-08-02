@@ -8,6 +8,10 @@ var disabled := false
 @onready var player = get_tree().current_scene.find_child("Player", true, false)
 @onready var original_position: Vector3 = self.position
 
+# TODO: find a way to use the name?
+@export var surface_material_index = 1
+@export_enum("emission", "albedo_color")
+var accent_property := "emission"
 @export var disabled_color: Color = Color.DIM_GRAY
 @export var enabled_color: Color = Color.DEEP_PINK
 @export var mistake_color: Color = Color.INDIAN_RED
@@ -28,12 +32,12 @@ func _setup_material():
 	var original_mesh: Mesh = mesh_instance.mesh
 	# otherwise material overrides apply to all
 	mesh_instance.mesh = original_mesh.duplicate()
-	var new_material = mesh_instance.get_surface_override_material(0) as BaseMaterial3D
+	var new_material = mesh_instance.get_surface_override_material(surface_material_index) as BaseMaterial3D
 	if not new_material:
-		new_material = mesh_instance.mesh.surface_get_material(0)
+		new_material = mesh_instance.mesh.surface_get_material(surface_material_index)
 	new_material = new_material.duplicate()
-	mesh_instance.set_surface_override_material(0, new_material)
-	new_material.albedo_color = disabled_color
+	mesh_instance.set_surface_override_material(surface_material_index, new_material)
+	new_material[accent_property] = disabled_color
 
 	return new_material
 
@@ -50,7 +54,7 @@ func _controller_ready(controller: SequenceController):
 func disable() -> void:
 	self.disabled = true
 	var tween = create_tween()
-	tween.tween_property(material, "albedo_color", disabled_color, 0.2)
+	tween.tween_property(material, accent_property, disabled_color, 0.2)
 	await tween.finished
 
 
@@ -69,10 +73,10 @@ func _on_pressed_correct_button(_btn):
 func flash():
 	var tween = create_tween()
 	tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
-	tween.parallel().tween_property(material, "albedo_color", enabled_color, 0.2)
+	tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
 	tween.tween_interval(0.6)
-	tween.parallel().tween_property(material, "albedo_color", disabled_color, 0.2)
 	tween.tween_property(self, "position", original_position, 0.2)
+	tween.parallel().tween_property(material, accent_property, disabled_color, 0.2)
 
 	await tween.finished
 
@@ -80,7 +84,7 @@ func flash():
 func enable():
 	var tween = create_tween()
 	tween.tween_property(self, "position", original_position, 0.3)
-	tween.parallel().tween_property(material, "albedo_color", enabled_color, 0.2)
+	tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
 	await tween.finished
 
 	self.disabled = false
@@ -93,9 +97,9 @@ func _reset():
 
 func this_pressed_correct():
 	var tween = create_tween()
-	tween.tween_property(material, "albedo_color", correct_color, 0.15)
+	tween.tween_property(material, accent_property, correct_color, 0.15)
 	tween.tween_interval(0.05)
-	tween.tween_property(material, "albedo_color", enabled_color, 0.15)
+	tween.tween_property(material, accent_property, enabled_color, 0.15)
 	tween.tween_property(player, "position", self.position, 0.1)
 	await tween.finished
 
@@ -105,9 +109,9 @@ func this_pressed_wrong():
 
 	var tween = create_tween()
 	var parallel_tween = tween.parallel()
-	tween.tween_property(material, "albedo_color", mistake_color, 0.05)
+	tween.tween_property(material, accent_property, mistake_color, 0.05)
 	tween.tween_interval(0.05)
-	tween.tween_property(material, "albedo_color", disabled_color, 0.05)
+	tween.tween_property(material, accent_property, disabled_color, 0.05)
 		
 	# Shake animation - quick left-right movement
 	parallel_tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
