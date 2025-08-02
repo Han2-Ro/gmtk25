@@ -10,6 +10,8 @@ var disabled := false
 
 @export var disabled_color: Color = Color.DIM_GRAY
 @export var enabled_color: Color = Color.DEEP_PINK
+@export var mistake_color: Color = Color.INDIAN_RED
+@export var correct_color: Color = Color.GREEN_YELLOW
 
 var material: BaseMaterial3D
 
@@ -91,6 +93,9 @@ func _reset():
 
 func this_pressed_correct():
 	var tween = create_tween()
+	tween.tween_property(material, "albedo_color", correct_color, 0.15)
+	tween.tween_interval(0.05)
+	tween.tween_property(material, "albedo_color", enabled_color, 0.15)
 	tween.tween_property(player, "position", self.position, 0.1)
 	await tween.finished
 
@@ -98,17 +103,19 @@ func this_pressed_correct():
 func this_pressed_wrong():
 	self.disabled = true
 
-	# Shake animation - quick left-right movement
 	var tween = create_tween()
-	tween.set_loops(3)
-	tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
-	tween.tween_property(self, "position", original_position + Vector3(-0.1, 0, 0), 0.05)
-	tween.tween_property(self, "position", original_position, 0.05)
-	tween.set_loops(1)
-	tween.tween_property(self, "position", original_position + Vector3(0, -0.8, 0), 0.3)
+	var parallel_tween = tween.parallel()
+	tween.tween_property(material, "albedo_color", mistake_color, 0.05)
+	tween.tween_interval(0.05)
+	tween.tween_property(material, "albedo_color", disabled_color, 0.05)
+		
+	# Shake animation - quick left-right movement
+	parallel_tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
+	parallel_tween.tween_property(self, "position", original_position + Vector3(-0.1, 0, 0), 0.05)
+	parallel_tween.tween_property(self, "position", original_position, 0.05)
+	
+	tween.tween_interval(0.2)
 	await tween.finished
-
-	self.hide()
 
 
 func _on_area_3d_input_event(
