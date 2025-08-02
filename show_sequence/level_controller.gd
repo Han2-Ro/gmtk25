@@ -59,7 +59,8 @@ func _ready() -> void:
 
 	if debug_open_shop_on_start:
 		await get_tree().process_frame
-		level_ui.open_shop()
+		show_upgrades()
+		# level_ui.open_shop()
 		print("Debug: Opening shop on start")
 	else:
 		start_game()
@@ -131,6 +132,10 @@ func game_over() -> void:
 
 func game_won() -> void:
 	# Show upgrade selection first
+	show_upgrades()
+
+
+func show_upgrades() -> void:
 	var random_upgrades = upgrade_manager.get_random_upgrades(3)
 	level_ui.show_upgrade_selection(random_upgrades)
 
@@ -159,4 +164,6 @@ func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	print("Selected upgrade: ", upgrade.name)
 
 	# Show the win overlay now
-	level_ui.show_overlay(true)
+	next_level.emit()
+	if debug_open_shop_on_start and not sequence_controller:
+		start_game()
