@@ -122,7 +122,7 @@ func _on_sequence_controller_step_completed(_current_step: int, _total_steps: in
 	cash_manager.award_step_completion()
 
 
-func _on_cash_changed(new_total: int, amount_added: int) -> void:
+func _on_cash_changed(new_total: int, _amount_added: int) -> void:
 	level_ui.update_cash(new_total)
 
 
@@ -160,8 +160,9 @@ func _on_next_level_button_pressed() -> void:
 
 
 func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
-	# Apply the selected upgrade (stub for now)
+	# Purchase the selected upgrade
 	print("Selected upgrade: ", upgrade.name)
+	shop_manager.purchase_upgrade(upgrade.id)
 
 	# Show the win overlay now
 	next_level.emit()

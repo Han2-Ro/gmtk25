@@ -8,23 +8,28 @@ var cash_manager: CashManager
 
 
 func _on_purchase() -> void:
+	print("DOUBLE PURCHASED")
 	super._on_purchase()
 	# Find and connect to the cash manager
-	_find_cash_manager()
+	cash_manager = _find_cash_manager()
 
 
-func _find_cash_manager() -> void:
+func _find_cash_manager() -> CashManager:
 	# Get the cash manager through the upgrade manager's scene tree
 	if has_meta("upgrade_manager"):
 		var upgrade_manager = get_meta("upgrade_manager")
 		if upgrade_manager:
 			var level_controller = upgrade_manager.get_parent()
-			if level_controller and level_controller.has_property("cash_manager"):
-				cash_manager = level_controller.cash_manager
-				cash_manager.cash_changed.connect(_on_cash_changed)
+			if level_controller and "cash_manager" in level_controller:
+				var m = level_controller.cash_manager
+				m.cash_changed.connect(_on_cash_changed)
+				return m
+	push_error("Could not find cash manager")
+	return
 
 
-func _on_cash_changed(new_total: int, amount_added: int) -> void:
+func _on_cash_changed(_new_total: int, amount_added: int) -> void:
+	print("DOUBLE THE DOUBLOUNS")
 	# Add bonus cash based on the amount that was just added
 	if amount_added > 0:
 		var bonus_amount = int((multiplier - 1.0) * amount_added)
@@ -38,7 +43,7 @@ func _on_cash_changed(new_total: int, amount_added: int) -> void:
 func _on_game_start() -> void:
 	super._on_game_start()
 	if not cash_manager:
-		_find_cash_manager()
+		cash_manager = _find_cash_manager()
 
 
 func _on_game_over() -> void:
