@@ -3,7 +3,7 @@
 class_name MemoryHelperUpgrade
 extends BaseUpgrade
 
-var upgrade_manager: UpgradeManager
+var level_controller: LevelController
 
 
 func _on_step_completed(current_step: int, total_steps: int) -> void:
@@ -11,10 +11,10 @@ func _on_step_completed(current_step: int, total_steps: int) -> void:
 	if current_step >= total_steps:
 		return
 
-	if not upgrade_manager:
+	if not level_controller.upgrade_manager:
 		return
 
-	var next_button = upgrade_manager.get_current_correct_button()
+	var next_button = level_controller.upgrade_manager.get_current_correct_button()
 	if not next_button:
 		return
 
@@ -24,8 +24,9 @@ func _on_step_completed(current_step: int, total_steps: int) -> void:
 	# make sure we don't flash the button AFTER the player has already pressed it
 	next_button.pressed.connect(func(): tween.kill())
 
+
 func help(next_button: SequenceButton):
-	if upgrade_manager.cash_manager.pay(5):
+	if level_controller.upgrade_manager.cash_manager.pay(5):
 		print("Paid 5 to get a hint")
 		next_button.flash()
 	else:

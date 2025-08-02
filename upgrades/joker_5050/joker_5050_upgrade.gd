@@ -5,6 +5,8 @@ extends BaseUpgrade
 @export var elimination_percentage: float = 0.5
 @export var min_buttons_to_eliminate: int = 1
 
+var level_controller: LevelController
+
 
 func _init():
 	if ui_scene == null:

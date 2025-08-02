@@ -32,7 +32,6 @@ func _ready() -> void:
 
 	shop_manager.cash_manager = cash_manager
 	shop_manager.upgrade_manager = upgrade_manager
-	upgrade_manager.cash_manager = cash_manager
 
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)

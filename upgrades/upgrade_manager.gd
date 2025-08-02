@@ -25,14 +25,12 @@ var current_sequence: Array[SequenceButton] = []
 var current_step: int = 0
 
 # TODO: better way to provide the data/methods to upgrades that need it?
-var sequence_controller: SequenceController
-var cash_manager: CashManager
+var level_controller: LevelController
 
 
-func _init(level_controller: LevelController) -> void:
+func _init(level_controller_p: LevelController) -> void:
 	# TODO: or should we just provide level controller to all upgrades?
-	sequence_controller = level_controller.sequence_controller
-	cash_manager = level_controller.cash_manager
+	level_controller = level_controller_p
 
 	# Load all upgrades from the preloaded array
 	for upgrade_resource in ALL_UPGRADE_RESOURCES:
@@ -85,17 +83,9 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 	if upgrade not in active_upgrades:
 		active_upgrades.append(upgrade)
 
-	# Set cash manager reference for upgrades that need it
-	if "cash_manager" in upgrade and cash_manager:
-		upgrade.cash_manager = cash_manager
-
 	# Set upgrade manager reference for upgrades that need it
-	if "upgrade_manager" in upgrade:
-		upgrade.upgrade_manager = self
-
-	# Set level controller reference for upgrades that need it
-	if "level_controller" in upgrade and sequence_controller:
-		upgrade.level_controller = sequence_controller.get_parent()
+	if "level_controller" in upgrade:
+		upgrade.level_controller = level_controller
 
 	upgrade._on_purchase()
 	upgrade_purchased.emit(upgrade)
@@ -162,9 +152,7 @@ func register_ui_container(container: Control):
 
 
 func register_sequence_controller(controller: SequenceController):
-	sequence_controller = controller
 	# broadcast bus to all upgrades
-
 	controller.sequence_flash_start.connect(broadcast_sequence_flash_start)
 	controller.flash_button.connect(broadcast_flash_button)
 	controller.sequence_flash_end.connect(broadcast_sequence_flash_end)
