@@ -7,6 +7,7 @@ extends Node
 @export_group("Debug")
 @export var debug_start_money: int = 0
 @export var debug_open_shop_on_start: bool = false
+
 var current_lives: int
 var cash_manager: CashManager
 var shop_manager: ShopManager

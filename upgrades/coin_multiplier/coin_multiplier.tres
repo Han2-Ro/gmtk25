@@ -1,6 +1,6 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://clh6qhrc5fsut"]
 
-[ext_resource type="Script" path="res://upgrades/coin_multiplier/coin_multiplier_upgrade.gd" id="1_coin"]
+[ext_resource type="Script" uid="uid://cq0cr21xsu8q" path="res://upgrades/coin_multiplier/coin_multiplier_upgrade.gd" id="1_coin"]
 
 [resource]
 script = ExtResource("1_coin")
@@ -10,5 +10,6 @@ name = "Coin Multiplier"
 description = "Double coin rewards for this run"
 cost = 75
 is_stackable = false
+max_stack = -1
 purchased_count = 0
 is_active = false
