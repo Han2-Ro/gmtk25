@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://upgrades/base_upgrade.gd" id="1_base"]
+
+[resource]
+script = ExtResource("1_base")
+id = "slow_motion"
+name = "Slow Motion"
+description = "Sequences flash more slowly"
+cost = 60
+is_stackable = true
+max_stack = 2
+purchased_count = 0
+is_active = false

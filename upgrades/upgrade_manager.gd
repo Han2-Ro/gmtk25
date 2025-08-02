@@ -9,6 +9,11 @@ signal upgrade_activated(upgrade: BaseUpgrade)
 # Manually configured list of all available upgrades
 const ALL_UPGRADE_RESOURCES = [
 	preload("res://upgrades/joker_5050/joker_5050.tres"),
+	preload("res://upgrades/extra_life/extra_life.tres"),
+	preload("res://upgrades/coin_multiplier/coin_multiplier.tres"),
+	preload("res://upgrades/slow_motion/slow_motion.tres"),
+	preload("res://upgrades/memory_helper/memory_helper.tres"),
+	preload("res://upgrades/lucky_charm/lucky_charm.tres"),
 ]
 
 var all_upgrades: Dictionary = {}  # id -> BaseUpgrade
@@ -52,6 +57,17 @@ func get_purchasable_upgrades() -> Array[BaseUpgrade]:
 		if upgrade.can_purchase():
 			upgrades.append(upgrade)
 	return upgrades
+
+
+func get_random_upgrades(count: int) -> Array[BaseUpgrade]:
+	var available = get_all_upgrades()
+	available.shuffle()
+
+	var selected: Array[BaseUpgrade] = []
+	for i in range(min(count, available.size())):
+		selected.append(available[i])
+
+	return selected
 
 
 func purchase_upgrade(upgrade_id: String) -> bool:

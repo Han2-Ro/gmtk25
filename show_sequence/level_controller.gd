@@ -47,6 +47,7 @@ func _ready() -> void:
 	level_ui.restart_button_pressed.connect(_on_restart_pressed)
 	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
 	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
+	level_ui.upgrade_selected.connect(_on_upgrade_selected)
 
 	level_ui.shop_closed.connect(_on_shop_closed)
 
@@ -128,7 +129,9 @@ func game_over() -> void:
 
 
 func game_won() -> void:
-	level_ui.show_overlay(true)
+	# Show upgrade selection first
+	var random_upgrades = upgrade_manager.get_random_upgrades(3)
+	level_ui.show_upgrade_selection(random_upgrades)
 
 
 func _on_shop_button_pressed() -> void:
@@ -148,3 +151,11 @@ func _on_restart_pressed() -> void:
 
 func _on_next_level_button_pressed() -> void:
 	next_level.emit()
+
+
+func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
+	# Apply the selected upgrade (stub for now)
+	print("Selected upgrade: ", upgrade.name)
+
+	# Show the win overlay now
+	level_ui.show_overlay(true)

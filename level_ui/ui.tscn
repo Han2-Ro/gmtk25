@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=5 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
 [ext_resource type="Script" uid="uid://casspr8yi0vbn" path="res://show_sequence/life_counter.gd" id="1_lpxan"]
 [ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
+[ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -99,6 +100,136 @@ text = "Go to Shop"
 [node name="RestartButton" type="Button" parent="Overlay/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Restart"
+
+[node name="UpgradeSelection" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("4_upgrade")
+
+[node name="Panel" type="Panel" parent="UpgradeSelection"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeSelection/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="UpgradeSelection/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Choose an Upgrade"
+horizontal_alignment = 1
+
+[node name="UpgradeCards" type="HBoxContainer" parent="UpgradeSelection/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="Card1" type="Panel" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards"]
+custom_minimum_size = Vector2(150, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Extra Life"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Gain an additional life for this run"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="Card2" type="Panel" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards"]
+custom_minimum_size = Vector2(150, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Coin Multiplier"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Double coin rewards for this run"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer"]
+layout_mode = 2
+text = "Select"
+
+[node name="Card3" type="Panel" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards"]
+custom_minimum_size = Vector2(150, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Slow Motion"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Sequences flash more slowly"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer"]
+layout_mode = 2
+text = "Select"
 
 [node name="ShopUI" parent="." instance=ExtResource("3_shop")]
 visible = false

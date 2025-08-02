@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://upgrades/base_upgrade.gd" id="1_base"]
+
+[resource]
+script = ExtResource("1_base")
+id = "memory_helper"
+name = "Memory Helper"
+description = "Shows a brief highlight on the next correct tile"
+cost = 80
+is_stackable = false
+purchased_count = 0
+is_active = false

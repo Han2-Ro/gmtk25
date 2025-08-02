@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://upgrades/base_upgrade.gd" id="1_base"]
+
+[resource]
+script = ExtResource("1_base")
+id = "coin_multiplier"
+name = "Coin Multiplier"
+description = "Double coin rewards for this run"
+cost = 75
+is_stackable = false
+purchased_count = 0
+is_active = false

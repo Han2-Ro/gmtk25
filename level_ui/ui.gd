@@ -5,6 +5,7 @@ signal restart_button_pressed
 signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
+signal upgrade_selected(upgrade: BaseUpgrade)
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
@@ -13,6 +14,7 @@ signal shop_closed
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
+@onready var upgrade_selection: UpgradeSelection = $UpgradeSelection
 
 var is_win_state: bool = false
 
@@ -21,6 +23,12 @@ func _ready():
 	# Ensure overlay is hidden at start
 	overlay.visible = false
 	overlay_label.text = ""
+
+	# Connect upgrade selection signal
+	upgrade_selection.upgrade_selected.connect(_on_upgrade_selected)
+
+	# Hide upgrade selection by default
+	upgrade_selection.hide()
 
 
 func show_overlay(is_win: bool) -> void:
@@ -130,3 +138,15 @@ func _on_shop_closed() -> void:
 
 func _on_play_again_pressed() -> void:
 	next_level_pressed.emit()
+
+
+func show_upgrade_selection(upgrades: Array[BaseUpgrade]) -> void:
+	# Hide overlay and show upgrade selection
+	overlay.visible = false
+	upgrade_selection.show_upgrades(upgrades)
+
+
+func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
+	# Hide upgrade selection and emit signal
+	upgrade_selection.hide()
+	upgrade_selected.emit(upgrade)
