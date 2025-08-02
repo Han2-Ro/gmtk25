@@ -17,6 +17,7 @@ var upgrade_manager: UpgradeManager
 var sequence_controller: SequenceController
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
+@onready var level_counter: Label = $UI/Level
 @onready var overlay: Control = $UI/Overlay
 @onready var player = $Player
 
@@ -36,7 +37,6 @@ func _ready() -> void:
 
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)
-
 	# Connect life loss events to upgrade manager
 	life_about_to_be_lost.connect(upgrade_manager.broadcast_life_about_to_be_lost)
 
@@ -125,6 +125,7 @@ func start_game() -> void:
 		sequence_controller.grid_width = maps[map_index].map_size
 		sequence_controller.grid_height = maps[map_index].map_size
 		sequence_controller.hex_grid_outer_width = maps[map_index].map_size
+		level_counter.update_level(length)
 
 		await sequence_controller.start_game()
 		await next_level
