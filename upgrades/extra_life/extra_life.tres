@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="BaseUpgrade" load_steps=2 format=3 uid="uid://b30xnyd3vam7v"]
 
-[ext_resource type="Script" uid="uid://gpvkjjqwc1p6" path="res://upgrades/base_upgrade.gd" id="1_base"]
+[ext_resource type="Script" path="res://upgrades/extra_life/extra_life_upgrade.gd" id="1_upgrade"]
 
 [resource]
-script = ExtResource("1_base")
+script = ExtResource("1_upgrade")
 id = "extra_life"
 name = "Extra Life"
 description = "Gain an additional life for this run"
