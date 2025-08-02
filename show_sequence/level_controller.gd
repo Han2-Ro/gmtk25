@@ -36,7 +36,7 @@ func _ready() -> void:
 
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)
-	
+
 	# Connect life loss events to upgrade manager
 	life_about_to_be_lost.connect(upgrade_manager.broadcast_life_about_to_be_lost)
 
@@ -146,7 +146,7 @@ func start_game() -> void:
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 	var event_args = LifeLossEventArgs.new(_btn, current_lives)
 	life_about_to_be_lost.emit(event_args)
-	
+
 	if not event_args.is_cancelled:
 		current_lives -= 1
 		life_counter.update_lives(current_lives)
@@ -157,6 +157,8 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 
 func _on_sequence_controller_sequence_completed() -> void:
 	cash_manager.award_sequence_completion(sequence_controller.sequence_length)
+	# Give player time to enjoy their victory before showing upgrade screen
+	await get_tree().create_timer(2.0).timeout
 	game_won()
 
 
