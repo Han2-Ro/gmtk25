@@ -1,7 +1,5 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://lodk0caldpdi"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://lodk0caldpdi"]
 
-[ext_resource type="Texture2D" uid="uid://6v31g5f7aexo" path="res://level_ui/assets/Blue/Default/button_square_header_large_rectangle.png" id="1_button_blue"]
-[ext_resource type="Texture2D" uid="uid://ccxht64kgg7db" path="res://level_ui/assets/Green/Default/button_square_header_large_rectangle.png" id="2_button_green"]
 [ext_resource type="Texture2D" uid="uid://5cj370iafqhv" path="res://show_sequence/button_pressed.svg" id="3_5kxjo"]
 [ext_resource type="Texture2D" uid="uid://r2tb8r3fna0c" path="res://level_ui/assets/Grey/Default/button_square_header_large_rectangle.png" id="3_button_grey"]
 [ext_resource type="Texture2D" uid="uid://081rcovnyhjx" path="res://level_ui/assets/Extra/Default/panel_glass.png" id="4_panel"]
@@ -13,7 +11,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.290, 0.333, 0.396, 1)
+modulate_color = Color(0.29, 0.333, 0.396, 1)
 
 [sub_resource type="StyleBoxTexture" id="button_hover"]
 texture = ExtResource("3_button_grey")
@@ -31,7 +29,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.117, 0.160, 0.223, 1)
+modulate_color = Color(0.117, 0.16, 0.223, 1)
 
 [sub_resource type="StyleBoxTexture" id="button_pressed"]
 texture = ExtResource("3_5kxjo")
@@ -49,7 +47,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.290, 0.333, 0.396, 0.9)
+modulate_color = Color(0.29, 0.333, 0.396, 0.9)
 
 [resource]
 Button/styles/disabled = SubResource("button_disabled")
