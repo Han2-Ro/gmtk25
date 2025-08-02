@@ -1,7 +1,6 @@
 @tool
 extends Node3D
 
-
 @export var shader: Shader
 @export var visible_instance_count: int = -1
 
@@ -57,9 +56,7 @@ static func blackbody_to_rgb(kelvin):
 		# x -> (kelvin/100) - 2}
 		green = temperature - 2
 		green = (
-			-155.25485562709179
-			- 0.44596950469579133 * green
-			+ 104.49216199393888 * log(green)
+			-155.25485562709179 - 0.44596950469579133 * green + 104.49216199393888 * log(green)
 		)
 		if green < 0:
 			green = 0
@@ -94,9 +91,7 @@ static func blackbody_to_rgb(kelvin):
 			# x -> kelvin/100 - 10}
 			blue = temperature - 10
 			blue = (
-				-254.76935184120902
-				+ 0.8274096064007395 * blue
-				+ 115.67994401066147 * log(blue)
+				-254.76935184120902 + 0.8274096064007395 * blue + 115.67994401066147 * log(blue)
 			)
 			if blue < 0:
 				blue = 0
@@ -108,6 +103,7 @@ static func blackbody_to_rgb(kelvin):
 
 var material: ShaderMaterial
 var mesh: MultiMesh
+
 
 # This forwards the shader parameters, which would otherwise be inaccessible because the Material
 # is generated at runtime.

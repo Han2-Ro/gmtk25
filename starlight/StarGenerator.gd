@@ -3,14 +3,17 @@ extends "res://starlight/StarManager.gd"
 ## Procedurally generates main sequence stars and populates StarManager with them.
 
 ## Radius of a sphere in which to place stars.
-@export var size: float = 5000: set = _set_extents
+@export var size: float = 5000:
+	set = _set_extents
 ## Number of stars to generate.
-@export var star_count: int = 10000: set = _set_star_count
+@export var star_count: int = 10000:
+	set = _set_star_count
 ## RNG seed, which can be used to re-roll the random generation.
-@export var rng_seed: int = 1234: set = _set_rng_seed
+@export var rng_seed: int = 1234:
+	set = _set_rng_seed
 ## If set to true, a Sol-like star will be placed at 0,0,0.
-@export var generate_at_origin: bool = false: set = _set_generate_at_origin
-
+@export var generate_at_origin: bool = false:
+	set = _set_generate_at_origin
 
 var _regenerate = true
 
@@ -76,56 +79,90 @@ class StarClass:
 		return Star.new(position, p.luminosity, p.temp)
 
 
-var class_O = StarClass.new({
-	weight = 1,
-	stellar_class = "O",
-	temp_range = RangeF.new(30_000, 60_000),
-	luminosity_range = RangeF.new(30_000, 60_000),
-	mass_range = RangeF.new(16, 32),
-})
-var class_B = StarClass.new({
-	weight = 13,
-	stellar_class = "B",
-	temp_range = RangeF.new(10_000, 30_000),
-	luminosity_range = RangeF.new(25, 30_000),
-	mass_range = RangeF.new(2.1, 16),
-})
-var class_A = StarClass.new({
-	weight = 60,
-	stellar_class = "A",
-	temp_range = RangeF.new(7500, 10_000),
-	luminosity_range = RangeF.new(5, 25),
-	mass_range = RangeF.new(1.4, 2.1),
-})
-var class_F = StarClass.new({
-	weight = 3_00,
-	stellar_class = "F",
-	temp_range = RangeF.new(6000, 7500),
-	luminosity_range = RangeF.new(1.5, 5),
-	mass_range = RangeF.new(1.04, 1.4),
-})
-var class_G = StarClass.new({
-	weight = 7_60,
-	stellar_class = "G",
-	temp_range = RangeF.new(5200, 6000),
-	luminosity_range = RangeF.new(.6, 1.50),
-	mass_range = RangeF.new(0.8, 1.04),
-})
-var class_K = StarClass.new({
-	weight = 12_10,
-	stellar_class = "K",
-	temp_range = RangeF.new(3700, 5200),
-	luminosity_range = RangeF.new(0.08, 0.6),
-	mass_range = RangeF.new(0.45, 0.8),
-})
-var class_M = StarClass.new({
-	weight = 76_45,
-	stellar_class = "M",
-	temp_range = RangeF.new(2400, 3700),
-	luminosity_range = RangeF.new(0.1, 0.08),
-	mass_range = RangeF.new(0.08, 0.45),
-})
-
+var class_O = (
+	StarClass
+	. new(
+		{
+			weight = 1,
+			stellar_class = "O",
+			temp_range = RangeF.new(30_000, 60_000),
+			luminosity_range = RangeF.new(30_000, 60_000),
+			mass_range = RangeF.new(16, 32),
+		}
+	)
+)
+var class_B = (
+	StarClass
+	. new(
+		{
+			weight = 13,
+			stellar_class = "B",
+			temp_range = RangeF.new(10_000, 30_000),
+			luminosity_range = RangeF.new(25, 30_000),
+			mass_range = RangeF.new(2.1, 16),
+		}
+	)
+)
+var class_A = (
+	StarClass
+	. new(
+		{
+			weight = 60,
+			stellar_class = "A",
+			temp_range = RangeF.new(7500, 10_000),
+			luminosity_range = RangeF.new(5, 25),
+			mass_range = RangeF.new(1.4, 2.1),
+		}
+	)
+)
+var class_F = (
+	StarClass
+	. new(
+		{
+			weight = 3_00,
+			stellar_class = "F",
+			temp_range = RangeF.new(6000, 7500),
+			luminosity_range = RangeF.new(1.5, 5),
+			mass_range = RangeF.new(1.04, 1.4),
+		}
+	)
+)
+var class_G = (
+	StarClass
+	. new(
+		{
+			weight = 7_60,
+			stellar_class = "G",
+			temp_range = RangeF.new(5200, 6000),
+			luminosity_range = RangeF.new(.6, 1.50),
+			mass_range = RangeF.new(0.8, 1.04),
+		}
+	)
+)
+var class_K = (
+	StarClass
+	. new(
+		{
+			weight = 12_10,
+			stellar_class = "K",
+			temp_range = RangeF.new(3700, 5200),
+			luminosity_range = RangeF.new(0.08, 0.6),
+			mass_range = RangeF.new(0.45, 0.8),
+		}
+	)
+)
+var class_M = (
+	StarClass
+	. new(
+		{
+			weight = 76_45,
+			stellar_class = "M",
+			temp_range = RangeF.new(2400, 3700),
+			luminosity_range = RangeF.new(0.1, 0.08),
+			mass_range = RangeF.new(0.08, 0.45),
+		}
+	)
+)
 
 var star_table = [
 	class_O,
@@ -141,9 +178,7 @@ var star_table = [
 func sample_sphere(rng: RandomNumberGenerator, radius: float):
 	while true:
 		var pos = Vector3(
-			rng.randf_range(-1.0, 1.0),
-			rng.randf_range(-1.0, 1.0),
-			rng.randf_range(-1.0, 1.0)
+			rng.randf_range(-1.0, 1.0), rng.randf_range(-1.0, 1.0), rng.randf_range(-1.0, 1.0)
 		)
 		if pos.length_squared() <= 1.0:
 			return pos * radius
@@ -152,14 +187,14 @@ func sample_sphere(rng: RandomNumberGenerator, radius: float):
 func random_category(rng: RandomNumberGenerator):
 	var sum = 0
 	for category in star_table:
-		sum += category.weight;
+		sum += category.weight
 
 	var weight = rng.randi_range(1, sum - 1)
 
 	sum = 0
 	for category in star_table:
 		var prev = sum
-		sum += category.weight;
+		sum += category.weight
 		if weight <= sum:
 			return category
 

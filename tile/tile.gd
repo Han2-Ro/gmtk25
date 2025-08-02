@@ -117,7 +117,7 @@ func this_pressed_wrong():
 	parallel_tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
 	parallel_tween.tween_property(self, "position", original_position + Vector3(-0.1, 0, 0), 0.05)
 	parallel_tween.tween_property(self, "position", original_position, 0.05)
-	
+
 	tween.tween_interval(0.2)
 	await tween.finished
 
