@@ -213,6 +213,11 @@ func broadcast_sequence_completed():
 		upgrade._on_sequence_complete()
 
 
+func broadcast_life_about_to_be_lost(event_args: LifeLossEventArgs):
+	for upgrade in active_upgrades:
+		upgrade._on_life_about_to_be_lost(event_args)
+
+
 func refresh_upgrade_ui():
 	if not upgrade_ui_container:
 		return

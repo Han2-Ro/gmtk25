@@ -64,6 +64,10 @@ func _on_game_over() -> void:
 	pass
 
 
+func _on_life_about_to_be_lost(event_args: LifeLossEventArgs) -> void:
+	pass
+
+
 # UI integration
 func get_ui_component() -> Control:
 	if ui_scene:

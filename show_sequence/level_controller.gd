@@ -36,6 +36,9 @@ func _ready() -> void:
 
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)
+	
+	# Connect life loss events to upgrade manager
+	life_about_to_be_lost.connect(upgrade_manager.broadcast_life_about_to_be_lost)
 
 	add_child(shop_manager)
 	add_child(cash_manager)
