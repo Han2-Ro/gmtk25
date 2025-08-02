@@ -12,6 +12,7 @@ var sequence_controller:
 
 
 func _ready() -> void:
+	print("JOKER BUTTON READY")
 	# Start disabled until game/sequence begins
 	disabled = true
 
