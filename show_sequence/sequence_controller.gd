@@ -17,9 +17,16 @@ signal sequence_completed
 @export var grid_height: int = 3
 @export var button_scene: PackedScene
 @export var button_spacing: float = 1.0
+@export var correct_sound: AudioStream
+@export var wrong_sound: AudioStream
 
+var audio_player: AudioStreamPlayer
 var shop_manager: ShopManager
 
+func _ready():
+	# Create audio player
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
 
 func flash_sequence(sequence: Array[SequenceButton]):
 	sequence_flash_start.emit()
@@ -129,6 +136,12 @@ func play_sequence(sequence: Array[SequenceButton]):
 		step.pressed.disconnect(_on_wrong_button_pressed)
 
 		await step.pressed
+
+		# Play correct sound
+		if correct_sound:
+			audio_player.stream = correct_sound
+			audio_player.play()
+
 		pressed_correct.emit(step)
 		step.this_pressed_correct()
 
@@ -142,5 +155,9 @@ func play_sequence(sequence: Array[SequenceButton]):
 
 func _on_wrong_button_pressed(pressed_button: SequenceButton):
 	print("WRONG!")
+	# Play wrong sound
+	if wrong_sound:
+		audio_player.stream = wrong_sound
+		audio_player.play()
 	pressed_wrong.emit(pressed_button)
 	await pressed_button.this_pressed_wrong()
