@@ -103,6 +103,10 @@ func disable():
 
 
 func enable():
+	# Only enable if the joker can still be used
+	if not upgrade or not upgrade.can_use_joker():
+		return
+
 	disabled = false
 
 	var tween = create_tween()
