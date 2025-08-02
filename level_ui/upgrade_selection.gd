@@ -7,16 +7,19 @@ signal upgrade_selected(upgrade: BaseUpgrade)
 
 @onready var card1_title: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Title
 @onready var card1_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Description
+@onready var card1_price: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Price
 @onready
 var card1_button: Button = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/SelectButton
 
 @onready var card2_title: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Title
 @onready var card2_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Description
+@onready var card2_price: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Price
 @onready
 var card2_button: Button = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/SelectButton
 
 @onready var card3_title: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Title
 @onready var card3_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Description
+@onready var card3_price: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Price
 @onready
 var card3_button: Button = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
 
@@ -36,14 +39,17 @@ func show_upgrades(upgrades: Array[BaseUpgrade]) -> void:
 	if upgrades.size() >= 1:
 		card1_title.text = upgrades[0].name
 		card1_desc.text = upgrades[0].description
+		card1_price.text = "%d coins" % upgrades[0].cost
 
 	if upgrades.size() >= 2:
 		card2_title.text = upgrades[1].name
 		card2_desc.text = upgrades[1].description
+		card2_price.text = "%d coins" % upgrades[1].cost
 
 	if upgrades.size() >= 3:
 		card3_title.text = upgrades[2].name
 		card3_desc.text = upgrades[2].description
+		card3_price.text = "%d coins" % upgrades[2].cost
 
 	show()
 
