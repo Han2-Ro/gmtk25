@@ -8,6 +8,15 @@ extends Node
 @export_group("Debug")
 @export var debug_start_money: int = 0
 @export var debug_open_shop_on_start: bool = false
+@export_enum(
+	"coin_multiplier",
+	"extra_life",
+	"joker_5050",
+	"lucky_charm",
+	"memory_helper",
+	"slow_motion",
+)
+var debug_forced_upgrade: String
 
 var current_lives: int
 var cash_manager: CashManager
@@ -187,6 +196,9 @@ func game_won() -> void:
 
 func show_upgrades() -> void:
 	var random_upgrades = upgrade_manager.get_random_upgrades(3)
+	if debug_forced_upgrade:
+		random_upgrades.pop_back()
+		random_upgrades.push_front(upgrade_manager.get_upgrade(debug_forced_upgrade))
 	level_ui.show_upgrade_selection(random_upgrades)
 
 
