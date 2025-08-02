@@ -1,9 +1,10 @@
 [gd_resource type="Resource" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://upgrades/base_upgrade.gd" id="1_base"]
+[ext_resource type="Script" path="res://upgrades/coin_multiplier/coin_multiplier_upgrade.gd" id="1_coin"]
 
 [resource]
-script = ExtResource("1_base")
+script = ExtResource("1_coin")
+multiplier = 2.0
 id = "coin_multiplier"
 name = "Coin Multiplier"
 description = "Double coin rewards for this run"
