@@ -135,6 +135,10 @@ func setup_shop(shop_manager: ShopManager) -> void:
 	shop_ui.play_again_pressed.connect(_on_play_again_pressed)
 
 
+func setup_upgrade_selection(shop_manager: ShopManager) -> void:
+	upgrade_selection.setup(shop_manager)
+
+
 func open_shop() -> void:
 	overlay.visible = false
 	shop_ui.open_shop()

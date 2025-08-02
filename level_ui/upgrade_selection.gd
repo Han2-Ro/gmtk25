@@ -6,6 +6,7 @@ extends CenterContainer
 signal upgrade_selected(upgrade: BaseUpgrade)
 
 var current_upgrades: Array[BaseUpgrade] = []
+var shop_manager: ShopManager
 
 @onready var card1_title: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Title
 @onready var card1_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Description
@@ -32,6 +33,10 @@ func _ready() -> void:
 	card3_button.pressed.connect(_on_card3_selected)
 
 
+func setup(manager: ShopManager) -> void:
+	shop_manager = manager
+
+
 func show_upgrades(upgrades: Array[BaseUpgrade]) -> void:
 	current_upgrades = upgrades
 
@@ -40,22 +45,37 @@ func show_upgrades(upgrades: Array[BaseUpgrade]) -> void:
 		card1_title.text = upgrades[0].name
 		card1_desc.text = upgrades[0].description
 		card1_price.text = "%d coins" % upgrades[0].cost
+		_update_button_state(card1_button, upgrades[0])
 
 	if upgrades.size() >= 2:
 		card2_title.text = upgrades[1].name
 		card2_desc.text = upgrades[1].description
 		card2_price.text = "%d coins" % upgrades[1].cost
+		_update_button_state(card2_button, upgrades[1])
 
 	if upgrades.size() >= 3:
 		card3_title.text = upgrades[2].name
 		card3_desc.text = upgrades[2].description
 		card3_price.text = "%d coins" % upgrades[2].cost
+		_update_button_state(card3_button, upgrades[2])
 
 	show()
 
 
 func hide_selection() -> void:
 	hide()
+
+
+func _update_button_state(button: Button, upgrade: BaseUpgrade) -> void:
+	if not shop_manager:
+		return
+
+	if shop_manager.can_afford(upgrade):
+		button.disabled = false
+		button.text = "Select"
+	else:
+		button.disabled = true
+		button.text = "Can't afford"
 
 
 func _on_card1_selected() -> void:

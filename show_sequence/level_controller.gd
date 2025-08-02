@@ -59,6 +59,7 @@ func _ready() -> void:
 
 	# Setup shop UI through level UI
 	level_ui.setup_shop(shop_manager)
+	level_ui.setup_upgrade_selection(shop_manager)
 	level_ui.setup_upgrades(upgrade_manager)
 
 	level_ui.restart_button_pressed.connect(_on_restart_pressed)
