@@ -163,6 +163,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="Price" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "50 coins"
+horizontal_alignment = 1
+
 [node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer"]
 layout_mode = 2
 text = "Select"
@@ -195,6 +201,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="Price" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "30 coins"
+horizontal_alignment = 1
+
 [node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer"]
 layout_mode = 2
 text = "Select"
@@ -226,6 +238,12 @@ text = "Sequences flash more slowly"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="Price" type="Label" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "40 coins"
+horizontal_alignment = 1
 
 [node name="SelectButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer"]
 layout_mode = 2
