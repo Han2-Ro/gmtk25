@@ -21,6 +21,7 @@ var sequence_controller: SequenceController
 @onready var player = $Player
 
 signal next_level
+signal life_changed(new_count: int, amount_changed: int)
 
 
 func _ready() -> void:
@@ -42,6 +43,7 @@ func _ready() -> void:
 	# Apply upgrades to starting lives
 	current_lives = start_lives
 	life_counter.update_lives(current_lives)
+	life_changed.emit(current_lives, current_lives)
 
 	# Setup shop UI through level UI
 	level_ui.setup_shop(shop_manager)
@@ -106,6 +108,7 @@ func start_game() -> void:
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 	current_lives -= 1
 	life_counter.update_lives(current_lives)
+	life_changed.emit(current_lives, -1)
 	if current_lives <= 0:
 		game_over()
 
@@ -159,6 +162,12 @@ func _on_restart_pressed() -> void:
 
 func _on_next_level_button_pressed() -> void:
 	next_level.emit()
+
+
+func add_lives(count: int) -> void:
+	current_lives += count
+	life_counter.update_lives(current_lives)
+	life_changed.emit(current_lives, count)
 
 
 func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
