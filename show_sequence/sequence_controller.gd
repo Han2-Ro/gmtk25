@@ -5,6 +5,7 @@ signal sequence_flash_start
 signal flash_button(button: SequenceButton)
 signal sequence_flash_end
 
+signal sequence_button_pressed(button: SequenceButton)
 signal pressed_correct(button: SequenceButton)
 signal pressed_wrong(button: SequenceButton)
 
@@ -26,8 +27,6 @@ enum TileShape { SQUARE, HEXAGON }
 @export var tile_shape: TileShape
 
 var shop_manager: ShopManager
-
-var current_sub_sequence: Array[SequenceButton]
 
 
 func flash_sequence(sequence: Array[SequenceButton]):
@@ -135,7 +134,7 @@ func start_game() -> void:
 	await get_tree().process_frame
 
 	for button in grid.array:
-		button.pressed.connect(_on_wrong_button_pressed.bind(button))
+		button.pressed.connect(_on_sequence_button_pressed.bind(button))
 		button._controller_ready(self)
 
 	var sequence := generate_sequence(grid.array, sequence_length)
@@ -148,13 +147,12 @@ func start_game() -> void:
 		# wait a moment between each new subsequence
 		await get_tree().create_timer(2).timeout
 
-		current_sub_sequence = sequence.slice(0, current_step)
+		var current_sub_sequence = sequence.slice(0, current_step)
 		subsequence_start.emit(current_step, len(sequence))
 		await play_sequence(current_sub_sequence)
 		subsequence_completed.emit(current_step, len(sequence))
 		current_step += steps_to_reveal
 
-	current_sub_sequence = sequence
 	# Always play the full sequence at the end
 	for button in grid.array:
 		button.disabled = true
@@ -168,26 +166,26 @@ func start_game() -> void:
 
 
 func play_sequence(sequence: Array[SequenceButton]):
-	flash_sequence(sequence)
+	await flash_sequence(sequence)
 
 	var step = 0
 	while step < len(sequence):
-		var step_button = sequence[step]
-		step_button.pressed.disconnect(_on_wrong_button_pressed)
+		var correct_button = sequence[step]
 
-		await step_button.pressed
-		pressed_correct.emit(step_button)
-		step_button.this_pressed_correct()
+		var pressed_button: SequenceButton = await sequence_button_pressed
+		if pressed_button == correct_button:
+			print("Correct")
+			pressed_correct.emit(pressed_button)
+			pressed_button.this_pressed_correct()
+			step_completed.emit(step + 1, len(sequence))
+			step += 1
+		else:
+			print("WRONG!")
+			pressed_wrong.emit(pressed_button)
+			await pressed_button.this_pressed_wrong()
+			await flash_sequence(sequence)
+			step = 0
 
-		step_button.pressed.connect(_on_wrong_button_pressed.bind(step_button))
 
-		step_completed.emit(step + 1, len(sequence))
-		print("Correct")
-		step += 1
-
-
-func _on_wrong_button_pressed(pressed_button: SequenceButton):
-	print("WRONG!")
-	pressed_wrong.emit(pressed_button)
-	await pressed_button.this_pressed_wrong()
-	await flash_sequence(current_sub_sequence)
+func _on_sequence_button_pressed(pressed_button: SequenceButton):
+	sequence_button_pressed.emit(pressed_button)
