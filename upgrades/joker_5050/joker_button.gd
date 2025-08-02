@@ -98,11 +98,13 @@ func disable():
 	disabled = true
 
 	var tween = create_tween()
-	await tween.tween_property(self, "modulate:a", 0.5, 0.1)
+	tween.tween_property(self, "modulate:a", 0.5, 0.1)
+	await tween.finished
 
 
 func enable():
 	disabled = false
 
 	var tween = create_tween()
-	await tween.tween_property(self, "modulate:a", 1.0, 0.1)
+	tween.tween_property(self, "modulate:a", 1.0, 0.1)
+	await tween.finished
