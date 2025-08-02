@@ -88,24 +88,59 @@ func setup_sequence_controller() -> SequenceController:
 	return sequence_controller
 
 
+class Map:
+	var map_size: int
+	var tile_shape: SequenceController.TileShape
+
+	func _init(size: int, shape: SequenceController.TileShape):
+		map_size = size
+		tile_shape = shape
+
+
 func start_game() -> void:
 	# TODO: turn into signal?
 	upgrade_manager.broadcast_game_start()
 
-	for length in range(3, 13, 2):
+	var maps: Array[Map] = [
+		Map.new(2, SequenceController.TileShape.SQUARE),
+		Map.new(2, SequenceController.TileShape.HEXAGON),
+		Map.new(3, SequenceController.TileShape.SQUARE),
+		Map.new(4, SequenceController.TileShape.SQUARE),
+		Map.new(3, SequenceController.TileShape.HEXAGON),
+	]
+	# initialize the difficulty dimensions
+	var map_index = 0
+	var length = 3
+	var steps_to_reveal = 1
+
+	for difficulty in range(100):
 		sequence_controller = setup_sequence_controller()
 		player.setup(sequence_controller)
 
 		upgrade_manager.register_sequence_controller(sequence_controller)
 
 		sequence_controller.sequence_length = length
+		sequence_controller.steps_to_reveal = steps_to_reveal
+		sequence_controller.tile_shape = maps[map_index].tile_shape
+		sequence_controller.grid_width = maps[map_index].map_size
+		sequence_controller.grid_height = maps[map_index].map_size
+		sequence_controller.hex_grid_outer_width = maps[map_index].map_size
 
 		await sequence_controller.start_game()
 		await next_level
-		print("Finished Difficulty: ", length)
+		print("Finished Difficulty: ", difficulty)
 		level_ui.close()
 
 		sequence_controller.queue_free()
+
+		#randomly increase a diffculty dimension
+		var rng = randf()
+		if rng < .2 and steps_to_reveal < 3:  # 3 is maximum
+			steps_to_reveal += 1
+		elif .2 <= rng and rng < .5 and map_index < (maps.size() - 1):
+			map_index += 1
+		else:
+			length += 2
 
 
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:

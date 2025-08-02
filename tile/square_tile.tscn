@@ -9,10 +9,12 @@ size = Vector3(1, 0.106445, 1)
 [node name="SquareTile" type="Node3D"]
 script = ExtResource("2_l2ggg")
 
-[node name="square_tile" parent="." instance=ExtResource("1_3of3s")]
+[node name="Mesh" parent="." instance=ExtResource("1_3of3s")]
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0491956, 0)
 shape = SubResource("BoxShape3D_8uh7m")
+
+[editable path="Mesh"]

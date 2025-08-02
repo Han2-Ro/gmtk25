@@ -23,7 +23,8 @@ enum TileShape { SQUARE, HEXAGON }
 @export var grid_height: int = 3
 @export var hex_grid_outer_width: int = 3
 @export_category("Tiles")
-@export var tile_scene: PackedScene
+@export var square_tile_scene: PackedScene
+@export var hexagon_tile_scene: PackedScene
 @export var tile_spaceing: float = 1.0
 @export var tile_shape: TileShape
 
@@ -75,7 +76,7 @@ func generate_grid() -> Grid:
 
 	for y in range(grid_height):
 		for x in range(grid_width):
-			var button_instance = tile_scene.instantiate()
+			var button_instance = square_tile_scene.instantiate()
 			add_child(button_instance)
 
 			# Position button in grid
@@ -94,15 +95,16 @@ func generate_hexagon_grid() -> Grid:
 
 	# Calculate grid center offset
 	var grid_center_x = (hex_grid_outer_width - 1) * tile_spaceing * 0.5
-	var grid_center_y = (max_width - 1) * sqrt(3) / 2 * tile_spaceing * 0.5 #(max_width - 1) * tile_spaceing * 0.5
+	var grid_center_y = (max_width - 1) * sqrt(3) / 2 * tile_spaceing * 0.5  #(max_width - 1) * tile_spaceing * 0.5
 	var button_grid = Grid.new(max_width, max_width)
 
 	# store it in acial coords https://www.redblobgames.com/grids/hexagons/#map-storage
 	for y in range(max_width):
 		for x in range(
-			clamp(-hex_grid_outer_width + y + 1, 0, max_width), clamp(hex_grid_outer_width + y, 0, max_width)
+			clamp(-hex_grid_outer_width + y + 1, 0, max_width),
+			clamp(hex_grid_outer_width + y, 0, max_width)
 		):
-			var button_instance = tile_scene.instantiate()
+			var button_instance = hexagon_tile_scene.instantiate()
 			add_child(button_instance)
 
 			# used these formulas: https://www.redblobgames.com/grids/hexagons/#hex-to-pixel
