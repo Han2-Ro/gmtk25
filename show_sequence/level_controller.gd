@@ -77,7 +77,7 @@ func setup_sequence_controller() -> SequenceController:
 
 	# Connect player to sequence controller signals
 	if player:
-		sequence_controller.sequence_flash_start.connect(player.on_sequence_flash_start)
+		sequence_controller.subsequence_start.connect(player.on_sequence_flash_start)
 
 	return sequence_controller
 

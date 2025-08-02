@@ -27,6 +27,8 @@ enum TileShape { SQUARE, HEXAGON }
 
 var shop_manager: ShopManager
 
+var current_sub_sequence: Array[SequenceButton]
+
 
 func flash_sequence(sequence: Array[SequenceButton]):
 	sequence_flash_start.emit()
@@ -146,13 +148,13 @@ func start_game() -> void:
 		# wait a moment between each new subsequence
 		await get_tree().create_timer(2).timeout
 
-		var sub_sequence = sequence.slice(0, current_step)
+		current_sub_sequence = sequence.slice(0, current_step)
 		subsequence_start.emit(current_step, len(sequence))
-		await play_sequence(sub_sequence)
+		await play_sequence(current_sub_sequence)
 		subsequence_completed.emit(current_step, len(sequence))
-
 		current_step += steps_to_reveal
 
+	current_sub_sequence = sequence
 	# Always play the full sequence at the end
 	for button in grid.array:
 		button.disabled = true
@@ -186,3 +188,4 @@ func _on_wrong_button_pressed(pressed_button: SequenceButton):
 	print("WRONG!")
 	pressed_wrong.emit(pressed_button)
 	await pressed_button.this_pressed_wrong()
+	await flash_sequence(current_sub_sequence)

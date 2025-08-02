@@ -38,18 +38,26 @@ func _setup_material():
 
 func _controller_ready(controller: SequenceController):
 	material = _setup_material()
-	on_sequence_flash_start()
-	controller.sequence_flash_start.connect(on_sequence_flash_start)
-	controller.sequence_flash_end.connect(_reset)
+	_on_sequence_flash_start()
+	controller.sequence_flash_start.connect(_on_sequence_flash_start)
+	controller.sequence_flash_end.connect(_on_sequence_flash_end)
 	controller.pressed_correct.connect(_on_pressed_correct_button)
 	original_position = self.position
 
 
-func on_sequence_flash_start():
+func disable() -> void:
 	self.disabled = true
 	var tween = create_tween()
 	tween.tween_property(material, "albedo_color", disabled_color, 0.2)
 	await tween.finished
+
+
+func _on_sequence_flash_start():
+	self.disable()
+
+
+func _on_sequence_flash_end():
+	self.enable()
 
 
 func _on_pressed_correct_button(_btn):
@@ -67,15 +75,18 @@ func flash():
 	await tween.finished
 
 
-func _reset():
-	self.show()
-
+func enable():
 	var tween = create_tween()
 	tween.tween_property(self, "position", original_position, 0.3)
 	tween.parallel().tween_property(material, "albedo_color", enabled_color, 0.2)
 	await tween.finished
 
 	self.disabled = false
+
+
+func _reset():
+	await self.enable()
+	self.show()
 
 
 func this_pressed_correct():
