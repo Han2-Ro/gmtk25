@@ -5,6 +5,8 @@ extends CenterContainer
 
 signal upgrade_selected(upgrade: BaseUpgrade)
 
+var current_upgrades: Array[BaseUpgrade] = []
+
 @onready var card1_title: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Title
 @onready var card1_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Description
 @onready var card1_price: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Price
@@ -22,8 +24,6 @@ var card2_button: Button = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer
 @onready var card3_price: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Price
 @onready
 var card3_button: Button = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
-
-var current_upgrades: Array[BaseUpgrade] = []
 
 
 func _ready() -> void:
