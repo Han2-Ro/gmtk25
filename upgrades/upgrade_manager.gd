@@ -93,6 +93,10 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 	if "upgrade_manager" in upgrade:
 		upgrade.upgrade_manager = self
 
+	# Set level controller reference for upgrades that need it
+	if "level_controller" in upgrade and sequence_controller:
+		upgrade.level_controller = sequence_controller.get_parent()
+
 	upgrade._on_purchase()
 	upgrade_purchased.emit(upgrade)
 
