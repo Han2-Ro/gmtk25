@@ -170,18 +170,20 @@ func start_game() -> void:
 func play_sequence(sequence: Array[SequenceButton]):
 	flash_sequence(sequence)
 
-	for i in range(len(sequence)):
-		var step = sequence[i]
-		step.pressed.disconnect(_on_wrong_button_pressed)
+	var step = 0
+	while step < len(sequence):
+		var step_button = sequence[step]
+		step_button.pressed.disconnect(_on_wrong_button_pressed)
 
-		await step.pressed
-		pressed_correct.emit(step)
-		step.this_pressed_correct()
+		await step_button.pressed
+		pressed_correct.emit(step_button)
+		step_button.this_pressed_correct()
 
-		step.pressed.connect(_on_wrong_button_pressed.bind(step))
+		step_button.pressed.connect(_on_wrong_button_pressed.bind(step_button))
 
-		step_completed.emit(i + 1, len(sequence))
+		step_completed.emit(step + 1, len(sequence))
 		print("Correct")
+		step += 1
 
 
 func _on_wrong_button_pressed(pressed_button: SequenceButton):
