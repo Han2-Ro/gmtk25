@@ -189,6 +189,8 @@ func enable_upgrade_buttons():
 
 func broadcast_sequence_flash_start():
 	disable_upgrade_buttons()
+	for upgrade in active_upgrades:
+		upgrade._on_sequence_flash_start()
 
 
 func broadcast_flash_button(_button: SequenceButton):
@@ -197,6 +199,8 @@ func broadcast_flash_button(_button: SequenceButton):
 
 func broadcast_sequence_flash_end():
 	enable_upgrade_buttons()
+	for upgrade in active_upgrades:
+		upgrade._on_sequence_flash_end()
 
 
 func broadcast_pressed_correct(button: SequenceButton):

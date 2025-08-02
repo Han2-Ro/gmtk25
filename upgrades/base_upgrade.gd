@@ -52,6 +52,14 @@ func _on_sequence_complete() -> void:
 	pass
 
 
+func _on_sequence_flash_start() -> void:
+	pass
+
+
+func _on_sequence_flash_end() -> void:
+	pass
+
+
 func _on_game_over() -> void:
 	pass
 
