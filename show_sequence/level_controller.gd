@@ -22,6 +22,7 @@ var sequence_controller: SequenceController
 
 signal next_level
 signal life_changed(new_count: int, amount_changed: int)
+signal life_about_to_be_lost(event_args: LifeLossEventArgs)
 
 
 func _ready() -> void:
@@ -105,11 +106,15 @@ func start_game() -> void:
 
 
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
-	current_lives -= 1
-	life_counter.update_lives(current_lives)
-	life_changed.emit(current_lives, -1)
-	if current_lives <= 0:
-		game_over()
+	var event_args = LifeLossEventArgs.new(_btn, current_lives)
+	life_about_to_be_lost.emit(event_args)
+	
+	if not event_args.is_cancelled:
+		current_lives -= 1
+		life_counter.update_lives(current_lives)
+		life_changed.emit(current_lives, -1)
+		if current_lives <= 0:
+			game_over()
 
 
 func _on_sequence_controller_sequence_completed() -> void:
