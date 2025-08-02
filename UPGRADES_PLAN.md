@@ -47,19 +47,21 @@ Implementation plan for roguelike upgrade selection system with 5 placeholder up
 - `upgrades/slow_motion/slow_motion_upgrade.gd` (new)
 - `upgrades/slow_motion/slow_motion.tres` (updated script reference)
 
-### 3. Memory Helper
-**Status**: ⏳ Pending
+### ✅ 3. Memory Helper (COMPLETED)
+**Status**: ✅ Implemented and tested
 **Approach**: Use existing `flash()` function on correct button via UpgradeManager tracking
-**Implementation Plan**:
-- [ ] Create `memory_helper_upgrade.gd` extending BaseUpgrade
-- [ ] Override `_on_step_completed()` to get current correct button
-- [ ] Use UpgradeManager's `get_current_correct_button()` method
-- [ ] Call `button.flash()` briefly as a hint
-- [ ] Add delay/timing to avoid interfering with normal gameplay
+**Implementation**:
+- [x] Create `memory_helper_upgrade.gd` extending BaseUpgrade
+- [x] Override `_on_step_completed()` to get current correct button
+- [x] Use UpgradeManager's `get_current_correct_button()` method
+- [x] Call `button.flash()` briefly as a hint using call_deferred
+- [x] Add upgrade_manager reference assignment in UpgradeManager
+- [x] Update resource file to use custom script
 
-**Files to Create/Modify**:
+**Files Changed**:
 - `upgrades/memory_helper/memory_helper_upgrade.gd` (new)
-- `upgrades/memory_helper/memory_helper.tres` (update script reference)
+- `upgrades/memory_helper/memory_helper.tres` (updated script reference)
+- `upgrades/upgrade_manager.gd` (added upgrade_manager reference assignment)
 
 ### 4. Extra Life
 **Status**: ⏳ Pending (requires controller changes)

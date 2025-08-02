@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="BaseUpgrade" load_steps=2 format=3 uid="uid://b6cpft8qfeka1"]
+[gd_resource type="Resource" script_class="MemoryHelperUpgrade" load_steps=2 format=3 uid="uid://b6cpft8qfeka1"]
 
-[ext_resource type="Script" uid="uid://gpvkjjqwc1p6" path="res://upgrades/base_upgrade.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://bwcacgtfqs6a8" path="res://upgrades/memory_helper/memory_helper_upgrade.gd" id="1_memory_helper"]
 
 [resource]
-script = ExtResource("1_base")
+script = ExtResource("1_memory_helper")
 id = "memory_helper"
 name = "Memory Helper"
 description = "Shows a brief highlight on the next correct tile"

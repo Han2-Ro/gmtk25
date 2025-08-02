@@ -89,6 +89,10 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 	if "cash_manager" in upgrade and cash_manager:
 		upgrade.cash_manager = cash_manager
 
+	# Set upgrade manager reference for upgrades that need it
+	if "upgrade_manager" in upgrade:
+		upgrade.upgrade_manager = self
+
 	upgrade._on_purchase()
 	upgrade_purchased.emit(upgrade)
 
