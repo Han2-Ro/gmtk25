@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://rva1gifcma7"]
+[gd_scene load_steps=9 format=3 uid="uid://rva1gifcma7"]
 
 [ext_resource type="Script" uid="uid://cse3ak6acvpr3" path="res://show_sequence/level_controller.gd" id="1_tkm1j"]
 [ext_resource type="PackedScene" uid="uid://djw8wsyabf6xn" path="res://show_sequence/sequence_controller.tscn" id="2_fyuqc"]
@@ -11,6 +11,9 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xm1u"]
 albedo_color = Color(0, 0.35, 0.0291666, 1)
 
+[sub_resource type="Environment" id="Environment_fyuqc"]
+background_mode = 1
+
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
 sequence_controller_scene = ExtResource("2_fyuqc")
@@ -19,12 +22,14 @@ debug_open_shop_on_start = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(7.29516, 0, 0, 0, 7.29516, 0, 0, 0, 7.29516, 0, 0, 0)
+visible = false
 mesh = SubResource("PlaneMesh_xqh8s")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_4xm1u")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.423883, 0.905717, 0, -0.905717, 0.423883, 0.299558, 3.57081, 1.93301)
+environment = SubResource("Environment_fyuqc")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.690744, -0.149859, -0.707401, 0.7231, 0.143154, 0.675747, -5.31338e-09, -0.978289, 0.207246, 0, 3.60875, 0)
