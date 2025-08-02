@@ -164,6 +164,7 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 
 func _on_sequence_controller_sequence_completed() -> void:
 	cash_manager.award_sequence_completion(sequence_controller.sequence_length)
+	level_ui.show_victory_message()
 	# Give player time to enjoy their victory before showing upgrade screen
 	await get_tree().create_timer(2.0).timeout
 	game_won()
