@@ -30,6 +30,27 @@ enum TileShape { SQUARE, HEXAGON }
 var shop_manager: ShopManager
 
 
+# Audio
+@export var correct_sound: AudioStream
+@export var wrong_sound: AudioStream
+
+var audio_player: AudioStreamPlayer
+
+func _ready():
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
+
+func play_correct_sound():
+	if correct_sound:
+		audio_player.stream = correct_sound
+		audio_player.play()
+
+func play_wrong_sound():
+	if wrong_sound:
+		audio_player.stream = wrong_sound
+		audio_player.play()
+
+
 func flash_sequence(sequence: Array[SequenceButton]):
 	sequence_flash_start.emit()
 	for step in sequence:
@@ -174,12 +195,14 @@ func play_sequence(sequence: Array[SequenceButton]):
 		var pressed_button: SequenceButton = await sequence_button_pressed
 		if pressed_button == correct_button:
 			print("Correct")
+			play_correct_sound()
 			pressed_correct.emit(pressed_button)
 			pressed_button.this_pressed_correct()
 			step_completed.emit(step + 1, len(sequence))
 			step += 1
 		else:
 			print("WRONG!")
+			play_wrong_sound()
 			pressed_wrong.emit(pressed_button)
 			await pressed_button.this_pressed_wrong()
 			await flash_sequence(sequence)

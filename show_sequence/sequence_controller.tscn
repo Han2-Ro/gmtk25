@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://djw8wsyabf6xn"]
+[gd_scene load_steps=5 format=3 uid="uid://djw8wsyabf6xn"]
 
 [ext_resource type="Script" uid="uid://b0bdi63p8dvke" path="res://show_sequence/sequence_controller.gd" id="1_ebq2e"]
 [ext_resource type="PackedScene" uid="uid://cnslnn81itky4" path="res://tile/hexagon_tile.tscn" id="2_q8o3l"]
+[ext_resource type="AudioStream" uid="uid://betwg6mrpbluh" path="res://audio/glass_correct.ogg" id="3_jgg5a"]
+[ext_resource type="AudioStream" uid="uid://2xj44j0sxc0p" path="res://audio/fail.wav" id="4_a8gj2"]
 
 [node name="SequenceController" type="Node3D"]
 script = ExtResource("1_ebq2e")
@@ -9,3 +11,5 @@ sequence_length = 3
 steps_to_reveal = 2
 tile_scene = ExtResource("2_q8o3l")
 tile_shape = 1
+correct_sound = ExtResource("3_jgg5a")
+wrong_sound = ExtResource("4_a8gj2")

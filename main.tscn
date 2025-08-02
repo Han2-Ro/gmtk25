@@ -6,5 +6,3 @@
 
 [node name="GridContainer" parent="." instance=ExtResource("1_ig7tw")]
 sequence_length = 5
-grid_width = 3
-grid_height = 3
