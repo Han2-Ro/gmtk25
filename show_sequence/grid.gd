@@ -7,10 +7,11 @@ var width: int:
 var height: int:
 	get:
 		return height
-var _data: Array[SequenceButton]
 var array: Array[SequenceButton]:
 	get:
-		return _data
+		return _data.filter(func(e): return e != null)
+
+var _data: Array[SequenceButton]
 
 
 func _init(width_p: int, height_p: int):

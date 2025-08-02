@@ -2,13 +2,17 @@
 # ABOUTME: Handles lives, game over conditions, restart functionality, and UI coordination
 extends Node
 
+@export var sequence_controller_scene: PackedScene
 @export_range(1, 10, 1, "or_greater") var start_lives = 3
+@export_group("Debug")
+@export var debug_start_money: int = 0
+@export var debug_open_shop_on_start: bool = false
 var current_lives: int
 var cash_manager: CashManager
 var shop_manager: ShopManager
+var upgrade_manager: UpgradeManager
 
 var sequence_controller: SequenceController
-@export var sequence_controller_scene: PackedScene
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Label = $UI/Lives
 @onready var overlay: Control = $UI/Overlay
@@ -21,8 +25,11 @@ func _ready() -> void:
 	# Initialize shop manager first
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
+	upgrade_manager = UpgradeManager.new()
 
 	shop_manager.cash_manager = cash_manager
+	shop_manager.upgrade_manager = upgrade_manager
+
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)
 
@@ -35,14 +42,25 @@ func _ready() -> void:
 
 	# Setup shop UI through level UI
 	level_ui.setup_shop(shop_manager)
+	level_ui.setup_upgrades(upgrade_manager)
 
 	level_ui.restart_button_pressed.connect(_on_restart_pressed)
-	level_ui.next_level_pressed.connect(_on_play_again_pressed)
+	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
 	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
-	level_ui.shop_closed.connect(_on_shop_closed)
-	level_ui.play_again_pressed.connect(_on_play_again_pressed)
 
-	start_game()
+	level_ui.shop_closed.connect(_on_shop_closed)
+
+	# Apply debug settings
+	if debug_start_money > 0:
+		cash_manager.add_cash(debug_start_money)
+		print("Debug: Added %d starting money" % debug_start_money)
+
+	if debug_open_shop_on_start:
+		await get_tree().process_frame
+		level_ui.open_shop()
+		print("Debug: Opening shop on start")
+	else:
+		start_game()
 
 
 func setup_sequence_controller() -> SequenceController:
@@ -65,8 +83,13 @@ func setup_sequence_controller() -> SequenceController:
 
 
 func start_game() -> void:
+	# TODO: turn into signal?
+	upgrade_manager.broadcast_game_start()
+
 	for length in range(3, 13, 2):
 		sequence_controller = setup_sequence_controller()
+
+		upgrade_manager.register_sequence_controller(sequence_controller)
 
 		sequence_controller.sequence_length = length
 
@@ -116,12 +139,15 @@ func _on_shop_button_pressed() -> void:
 
 
 func _on_shop_closed() -> void:
-	pass
+	# If shop was opened on start and no game has started yet, start it now
+	if debug_open_shop_on_start and not sequence_controller:
+		start_game()
 
 
 func _on_restart_pressed() -> void:
+	print("RESTART")
 	get_tree().reload_current_scene()
 
 
-func _on_play_again_pressed() -> void:
+func _on_next_level_button_pressed() -> void:
 	next_level.emit()

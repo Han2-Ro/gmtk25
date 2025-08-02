@@ -5,7 +5,6 @@ signal restart_button_pressed
 signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
-signal play_again_pressed
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
@@ -16,6 +15,12 @@ signal play_again_pressed
 @onready var shop_ui: ShopUI = $ShopUI
 
 var is_win_state: bool = false
+
+
+func _ready():
+	# Ensure overlay is hidden at start
+	overlay.visible = false
+	overlay_label.text = ""
 
 
 func show_overlay(is_win: bool) -> void:
@@ -85,6 +90,11 @@ func _on_shop_button_pressed() -> void:
 	shop_button_pressed.emit()
 
 
+func setup_upgrades(upgrade_manager: UpgradeManager) -> void:
+	var upgrades_container: HBoxContainer = $UpgradesContainer
+	upgrade_manager.register_ui_container(upgrades_container)
+
+
 func setup_shop(shop_manager: ShopManager) -> void:
 	shop_ui.setup(shop_manager)
 	shop_ui.shop_closed.connect(_on_shop_closed)
@@ -111,9 +121,12 @@ func close() -> void:
 
 
 func _on_shop_closed() -> void:
-	close_shop()
+	shop_ui.hide()
+	# Only show overlay if game has started (overlay was previously shown)
+	if overlay_label.text != "":
+		overlay.visible = true
 	shop_closed.emit()
 
 
 func _on_play_again_pressed() -> void:
-	play_again_pressed.emit()
+	next_level_pressed.emit()

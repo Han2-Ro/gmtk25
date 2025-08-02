@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cax8iqmfslx2y" path="res://tile/square_tile.tscn" id="2_q8o3l"]
 [ext_resource type="AudioStream" uid="uid://dxgbs6k17q1nk" path="res://show_sequence/good.wav" id="3_jgg5a"]
 [ext_resource type="AudioStream" uid="uid://c873rsrxke1vl" path="res://show_sequence/bad.wav" id="4_a8gj2"]
+[ext_resource type="PackedScene" uid="uid://cnslnn81itky4" path="res://tile/hexagon_tile.tscn" id="2_q8o3l"]
 
 [node name="SequenceController" type="Node3D"]
 script = ExtResource("1_ebq2e")
@@ -14,3 +15,5 @@ grid_height = 5
 button_scene = ExtResource("2_q8o3l")
 correct_sound = ExtResource("3_jgg5a")
 wrong_sound = ExtResource("4_a8gj2")
+tile_scene = ExtResource("2_q8o3l")
+tile_shape = 1

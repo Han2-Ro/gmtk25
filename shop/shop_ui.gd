@@ -27,16 +27,18 @@ func setup(manager: ShopManager) -> void:
 
 func create_shop_items() -> void:
 	# Clear existing items
+	for child in items_container.get_children():
+		child.queue_free()
 	item_instances.clear()
 
-	# Create item UI for each shop item
-	var items = shop_manager.shop_items
-	for item in items:
+	# Create item UI for each purchasable upgrade
+	var upgrades = shop_manager.get_purchasable_upgrades()
+	for upgrade in upgrades:
 		var item_instance: ShopItem = shop_item_scene.instantiate()
 		items_container.add_child(item_instance)
-		item_instance.setup(item.id, item, shop_manager)
+		item_instance.setup(upgrade, shop_manager)
 		item_instance.purchase_requested.connect(_on_item_purchase_requested)
-		item_instances[item.id] = item_instance
+		item_instances[upgrade.id] = item_instance
 
 
 func update_cash_display() -> void:
@@ -47,27 +49,27 @@ func update_cash_display() -> void:
 
 
 func update_all_items() -> void:
-	var items = shop_manager.shop_items
-	for item in items:
-		if item_instances.has(item.id):
-			item_instances[item.id].item_data = item
-			item_instances[item.id].update_button_state()
+	for upgrade_id in item_instances:
+		var instance = item_instances[upgrade_id]
+		if instance and is_instance_valid(instance):
+			instance.update_button_state()
 
 
-func _on_item_purchase_requested(item: ShopManager.ShopItemData) -> void:
-	if shop_manager.purchase_item(item):
+func _on_item_purchase_requested(upgrade_id: String) -> void:
+	if shop_manager.purchase_upgrade(upgrade_id):
 		update_cash_display()
-		update_all_items()
+		# Recreate shop items in case an upgrade is no longer purchasable
+		create_shop_items()
 
 
-func _on_purchase_completed(item_id: String) -> void:
+func _on_purchase_completed(upgrade: BaseUpgrade) -> void:
 	# Could add purchase animation or sound here
-	print("Purchased: ", item_id)
+	print("Purchased: ", upgrade.name)
 
 
-func _on_purchase_failed(item_id: String, reason: String) -> void:
+func _on_purchase_failed(upgrade_id: String, reason: String) -> void:
 	# Could show error message
-	print("Purchase of ", item_id, " failed: ", reason)
+	print("Purchase of ", upgrade_id, " failed: ", reason)
 
 
 func _on_close_button_pressed() -> void:
