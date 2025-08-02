@@ -75,10 +75,6 @@ func setup_sequence_controller() -> SequenceController:
 	# Connect shop manager to sequence controller
 	sequence_controller.shop_manager = shop_manager
 
-	# Connect player to sequence controller signals
-	if player:
-		sequence_controller.subsequence_start.connect(player.on_sequence_flash_start)
-
 	return sequence_controller
 
 
@@ -88,6 +84,7 @@ func start_game() -> void:
 
 	for length in range(3, 13, 2):
 		sequence_controller = setup_sequence_controller()
+		player.setup(sequence_controller)
 
 		upgrade_manager.register_sequence_controller(sequence_controller)
 
