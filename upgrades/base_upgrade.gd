@@ -64,7 +64,7 @@ func _on_game_over() -> void:
 	pass
 
 
-func _on_life_about_to_be_lost(event_args: LifeLossEventArgs) -> void:
+func _on_life_about_to_be_lost(_event_args: LifeLossEventArgs) -> void:
 	pass
 
 

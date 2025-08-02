@@ -28,12 +28,21 @@ enum TileShape { SQUARE, HEXAGON }
 @export var tile_spaceing: float = 1.0
 @export var tile_shape: TileShape
 
-var shop_manager: ShopManager
-
-
 # Audio
+@export var correct_sound: AudioStream
+@export var wrong_sound: AudioStream
+
+var audio_player: AudioStreamPlayer
+
+
+func _ready():
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
+
+
 func play_correct_sound():
 	AudioManager.play_correct_sound()
+
 
 func play_wrong_sound():
 	AudioManager.play_wrong_sound()

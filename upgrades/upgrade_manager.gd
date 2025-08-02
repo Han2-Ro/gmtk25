@@ -238,7 +238,7 @@ func add_upgrade_ui(upgrade: BaseUpgrade):
 		upgrade_ui_container.add_child(ui_component)
 		# Call setup if it exists
 		if ui_component.has_method("setup"):
-			ui_component.setup(upgrade, self)
+			ui_component.setup(upgrade, level_controller)
 
 
 func get_current_correct_button() -> SequenceButton:

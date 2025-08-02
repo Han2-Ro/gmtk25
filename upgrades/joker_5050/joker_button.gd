@@ -3,12 +3,7 @@
 extends Button
 
 var upgrade: BaseUpgrade
-var upgrade_manager: UpgradeManager
-var sequence_controller:
-	get:
-		if upgrade_manager:
-			return upgrade_manager.sequence_controller as SequenceController
-		return null
+var level_controller: LevelController
 
 
 func _ready() -> void:
@@ -17,9 +12,9 @@ func _ready() -> void:
 	disabled = true
 
 
-func setup(upgrade_ref: BaseUpgrade, manager: UpgradeManager):
+func setup(upgrade_ref: BaseUpgrade, level_controller_p: LevelController):
 	upgrade = upgrade_ref
-	upgrade_manager = manager
+	level_controller = level_controller_p
 
 	# Connect button press
 	pressed.connect(_on_pressed)
@@ -40,7 +35,7 @@ func _update_display():
 
 
 func _on_pressed():
-	if not sequence_controller:
+	if not level_controller.sequence_controller:
 		return
 
 	# Check if this is a joker upgrade and can be used
@@ -48,16 +43,16 @@ func _on_pressed():
 		return
 
 	# Get current state from upgrade manager
-	var correct_button = upgrade_manager.get_current_correct_button()
+	var correct_button = level_controller.upgrade_manager.get_current_correct_button()
 	if not correct_button:
 		return
 
 	# Get all buttons from the grid
-	var grid = sequence_controller.get_node_or_null(".")
+	var grid = level_controller.sequence_controller.get_node_or_null(".")
 	if not grid:
 		return
 
-	upgrade_manager.upgrade_activated.emit(upgrade)
+	level_controller.upgrade_manager.upgrade_activated.emit(upgrade)
 
 	var all_buttons: Array[SequenceButton] = []
 	for child in grid.get_children():
@@ -76,7 +71,7 @@ func _on_pressed():
 
 	# Apply elimination effects
 	for button in eliminated:
-		await _highlight_button(button)
+		await button.flash()
 
 	# the other tween is already finished
 	var outro_tween = create_tween()
@@ -85,14 +80,6 @@ func _on_pressed():
 	await outro_tween.finished
 
 	await _update_display()
-
-
-func _highlight_button(button: SequenceButton):
-	# Safety check - only eliminate if button exists and is visible
-	if not button or not button.visible:
-		return
-
-	await button.flash()
 
 
 func disable():

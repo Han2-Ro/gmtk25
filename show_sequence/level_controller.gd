@@ -91,9 +91,6 @@ func setup_sequence_controller() -> SequenceController:
 	sequence_controller.subsequence_completed.connect(_on_sequence_controller_subsequence_completed)
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
 
-	# Connect shop manager to sequence controller
-	sequence_controller.shop_manager = shop_manager
-
 	return sequence_controller
 
 
