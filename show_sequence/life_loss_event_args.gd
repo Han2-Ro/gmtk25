@@ -7,9 +7,11 @@ var is_cancelled: bool = false
 var button_pressed: SequenceButton
 var current_lives: int
 
+
 func _init(button: SequenceButton, lives: int) -> void:
 	button_pressed = button
 	current_lives = lives
+
 
 func cancel() -> void:
 	is_cancelled = true
