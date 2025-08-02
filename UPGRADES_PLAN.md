@@ -28,19 +28,24 @@ Implementation plan for roguelike upgrade selection system with 5 placeholder up
 - `show_sequence/cash_manager.gd` (enhanced signal)
 - `show_sequence/level_controller.gd` (updated signal handler)
 
-### 🔄 2. Slow Motion (IN PROGRESS)
-**Status**: 🔄 Next to implement
-**Approach**: Use Godot's `Engine.time_scale` global setting
-**Implementation Plan**:
-- [ ] Create `slow_motion_upgrade.gd` extending BaseUpgrade
-- [ ] Override `_on_sequence_start()` to set `Engine.time_scale = 0.5`
-- [ ] Override `_on_sequence_complete()` to restore `Engine.time_scale = 1.0`
-- [ ] Handle stacking if upgrade is stackable
-- [ ] Update resource file to use custom script
+### ✅ 2. Slow Motion (COMPLETED)
+**Status**: ✅ Implemented and tested
+**Approach**: Use Godot's `Engine.time_scale` global setting during sequence flashing only
+**Implementation**:
+- [x] Create `slow_motion_upgrade.gd` extending BaseUpgrade
+- [x] Add flash lifecycle hooks to BaseUpgrade (`_on_sequence_flash_start/end()`)
+- [x] Update UpgradeManager to broadcast flash events to all upgrades
+- [x] Override `_on_sequence_flash_start()` to set `Engine.time_scale = 0.5^stack_count`
+- [x] Override `_on_sequence_flash_end()` to restore `Engine.time_scale = 1.0`
+- [x] Handle stacking with exponential slow-down (0.5x, 0.25x)
+- [x] Prevent time scale corruption with is_active flag
+- [x] Update resource file to use custom script
 
-**Files to Create/Modify**:
+**Files Changed**:
+- `upgrades/base_upgrade.gd` (added flash lifecycle hooks)
+- `upgrades/upgrade_manager.gd` (broadcast flash events)
 - `upgrades/slow_motion/slow_motion_upgrade.gd` (new)
-- `upgrades/slow_motion/slow_motion.tres` (update script reference)
+- `upgrades/slow_motion/slow_motion.tres` (updated script reference)
 
 ### 3. Memory Helper
 **Status**: ⏳ Pending
@@ -113,13 +118,13 @@ Implementation plan for roguelike upgrade selection system with 5 placeholder up
 
 ## Current Status
 - ✅ **Coin Multiplier**: Complete and functional
-- 🔄 **Slow Motion**: Ready to implement (no controller changes needed)
-- ⏳ **Memory Helper**: Ready to implement (no controller changes needed)
+- ✅ **Slow Motion**: Complete and functional
+- 🔄 **Memory Helper**: Ready to implement (no controller changes needed)
 - ⏳ **Extra Life**: Waiting for controller life management design
 - ⏳ **Lucky Charm**: Waiting for controller mistake handling design
 
 ## Next Steps
-1. Implement Slow Motion upgrade using `Engine.time_scale`
+1. ✅ ~~Implement Slow Motion upgrade using `Engine.time_scale`~~ (COMPLETED)
 2. Implement Memory Helper upgrade using button `flash()` method
 3. Design minimal LevelController changes for life management
 4. Implement Extra Life and Lucky Charm upgrades
