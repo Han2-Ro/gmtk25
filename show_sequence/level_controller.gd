@@ -120,8 +120,8 @@ func _on_sequence_controller_step_completed(_current_step: int, _total_steps: in
 	cash_manager.award_step_completion()
 
 
-func _on_cash_changed(new_amount: int) -> void:
-	level_ui.update_cash(new_amount)
+func _on_cash_changed(new_total: int, amount_added: int) -> void:
+	level_ui.update_cash(new_total)
 
 
 func game_over() -> void:

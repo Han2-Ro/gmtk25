@@ -3,15 +3,16 @@
 class_name CashManager
 extends Node
 
-signal cash_changed(new_amount: int)
+signal cash_changed(new_total: int, amount_added: int)
 
 var _current_cash: int = 0
 var current_cash:
 	get:
 		return _current_cash
 	set(value):
+		var amount_changed = value - _current_cash
 		_current_cash = value
-		cash_changed.emit(_current_cash)
+		cash_changed.emit(_current_cash, amount_changed)
 
 @export_range(1, 20, 1, "or_greater") var cash_per_step: int = 1
 @export_range(1, 20, 1, "or_greater") var subsequence_bonus: int = 1
@@ -28,7 +29,6 @@ func pay(amount: int) -> bool:
 	assert(amount > 0)
 	if current_cash >= amount:
 		current_cash -= amount
-		cash_changed.emit(current_cash)
 		return true
 	return false
 
