@@ -1,5 +1,6 @@
 # ABOUTME: Level controller that manages game state, flow, and coordination between components
 # ABOUTME: Handles lives, game over conditions, restart functionality, and UI coordination
+class_name LevelController
 extends Node
 
 @export var sequence_controller_scene: PackedScene
@@ -26,10 +27,11 @@ func _ready() -> void:
 	# Initialize shop manager first
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
-	upgrade_manager = UpgradeManager.new()
+	upgrade_manager = UpgradeManager.new(self)
 
 	shop_manager.cash_manager = cash_manager
 	shop_manager.upgrade_manager = upgrade_manager
+	upgrade_manager.cash_manager = cash_manager
 
 	cash_manager.shop_manager = shop_manager
 	cash_manager.cash_changed.connect(_on_cash_changed)

@@ -24,12 +24,16 @@ var upgrade_ui_container: Control
 var current_sequence: Array[SequenceButton] = []
 var current_step: int = 0
 
-# TODO: remove this global reference?
-# The joker upgrade uses it to access all the available buttons
+# TODO: better way to provide the data/methods to upgrades that need it?
 var sequence_controller: SequenceController
+var cash_manager: CashManager
 
 
-func _init() -> void:
+func _init(level_controller: LevelController) -> void:
+	# TODO: or should we just provide level controller to all upgrades?
+	sequence_controller = level_controller.sequence_controller
+	cash_manager = level_controller.cash_manager
+
 	# Load all upgrades from the preloaded array
 	for upgrade_resource in ALL_UPGRADE_RESOURCES:
 		# Duplicate, otherwise it keeps state across scene reloads
@@ -80,6 +84,10 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 
 	if upgrade not in active_upgrades:
 		active_upgrades.append(upgrade)
+
+	# Set cash manager reference for upgrades that need it
+	if "cash_manager" in upgrade and cash_manager:
+		upgrade.cash_manager = cash_manager
 
 	upgrade._on_purchase()
 	upgrade_purchased.emit(upgrade)
