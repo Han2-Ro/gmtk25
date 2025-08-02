@@ -1,0 +1,65 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://lodk0caldpdi"]
+
+[ext_resource type="Texture2D" uid="uid://5cj370iafqhv" path="res://show_sequence/button_pressed.svg" id="3_5kxjo"]
+[ext_resource type="Texture2D" uid="uid://r2tb8r3fna0c" path="res://level_ui/assets/Grey/Default/button_square_header_large_rectangle.png" id="3_button_grey"]
+[ext_resource type="Texture2D" uid="uid://081rcovnyhjx" path="res://level_ui/assets/Extra/Default/panel_glass.png" id="4_panel"]
+
+[sub_resource type="StyleBoxTexture" id="button_disabled"]
+texture = ExtResource("3_button_grey")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.29, 0.333, 0.396, 1)
+
+[sub_resource type="StyleBoxTexture" id="button_hover"]
+texture = ExtResource("3_button_grey")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.062, 0.094, 0.156, 1)
+
+[sub_resource type="StyleBoxTexture" id="button_normal"]
+texture = ExtResource("3_button_grey")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.117, 0.16, 0.223, 1)
+
+[sub_resource type="StyleBoxTexture" id="button_pressed"]
+texture = ExtResource("3_5kxjo")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.211, 0.254, 0.325, 1)
+
+[sub_resource type="StyleBoxTexture" id="panel_main"]
+texture = ExtResource("4_panel")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+modulate_color = Color(0.29, 0.333, 0.396, 0.9)
+
+[resource]
+Button/styles/disabled = SubResource("button_disabled")
+Button/styles/hover = SubResource("button_hover")
+Button/styles/normal = SubResource("button_normal")
+Button/styles/pressed = SubResource("button_pressed")
+Panel/styles/panel = SubResource("panel_main")

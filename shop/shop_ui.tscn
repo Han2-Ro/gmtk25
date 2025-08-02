@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpfpjghkspelg"]
+[gd_scene load_steps=3 format=3 uid="uid://dpfpjghkspelg"]
 
 [ext_resource type="Script" uid="uid://bb3y1y8lfo4l4" path="res://shop/shop_ui.gd" id="1_0"]
+[ext_resource type="Theme" path="res://ui_theme.tres" id="2_theme"]
 
 [node name="ShopUI" type="CenterContainer"]
 anchors_preset = 15
@@ -9,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
+theme = ExtResource("2_theme")
 script = ExtResource("1_0")
 
 [node name="Panel" type="Panel" parent="."]
