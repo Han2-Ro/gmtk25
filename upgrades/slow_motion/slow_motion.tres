@@ -1,9 +1,9 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://flybj5fb7gb4"]
 
-[ext_resource type="Script" path="res://upgrades/base_upgrade.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://o824j2xtbpso" path="res://upgrades/slow_motion/slow_motion_upgrade.gd" id="1_slow_motion"]
 
 [resource]
-script = ExtResource("1_base")
+script = ExtResource("1_slow_motion")
 id = "slow_motion"
 name = "Slow Motion"
 description = "Sequences flash more slowly"
