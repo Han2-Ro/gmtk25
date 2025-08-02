@@ -66,6 +66,7 @@ func _ready() -> void:
 	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
 	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
 	level_ui.upgrade_selected.connect(_on_upgrade_selected)
+	level_ui.fast_forward_pressed.connect(_on_fast_forward_pressed)
 
 	level_ui.shop_closed.connect(_on_shop_closed)
 
@@ -91,6 +92,8 @@ func setup_sequence_controller() -> SequenceController:
 	sequence_controller.sequence_completed.connect(_on_sequence_controller_sequence_completed)
 	sequence_controller.subsequence_completed.connect(_on_sequence_controller_subsequence_completed)
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
+	sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
+	sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
 
 	return sequence_controller
 
@@ -235,3 +238,16 @@ func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	next_level.emit()
 	if debug_open_shop_on_start and not sequence_controller:
 		start_game()
+
+
+func _on_fast_forward_pressed() -> void:
+	if sequence_controller:
+		sequence_controller.activate_fast_forward()
+
+
+func _on_sequence_flash_start() -> void:
+	level_ui.show_fast_forward_button()
+
+
+func _on_sequence_flash_end() -> void:
+	level_ui.hide_fast_forward_button()

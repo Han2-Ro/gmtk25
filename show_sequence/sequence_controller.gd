@@ -34,6 +34,10 @@ enum TileShape { SQUARE, HEXAGON }
 
 var audio_player: AudioStreamPlayer
 
+# Fast forward state
+var stored_time_scale: float = 1.0
+var is_fast_forward_active: bool = false
+
 
 func _ready():
 	audio_player = AudioStreamPlayer.new()
@@ -49,10 +53,16 @@ func play_wrong_sound():
 
 
 func flash_sequence(sequence: Array[SequenceButton]):
+	# Reset fast forward state at start of sequence
+	is_fast_forward_active = false
 	sequence_flash_start.emit()
 	for step in sequence:
 		flash_button.emit(step)
 		await step.flash()
+	# Reset time scale and disable fast forward at end
+	if is_fast_forward_active:
+		Engine.time_scale = stored_time_scale
+		is_fast_forward_active = false
 	sequence_flash_end.emit()
 
 
@@ -139,7 +149,6 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 
 func start_game() -> void:
 	# Reset player position at the start of each new level
-	sequence_flash_start.emit()
 
 	var grid: Grid
 	match tile_shape:
@@ -209,3 +218,15 @@ func play_sequence(sequence: Array[SequenceButton]):
 
 func _on_sequence_button_pressed(pressed_button: SequenceButton):
 	sequence_button_pressed.emit(pressed_button)
+
+
+func activate_fast_forward() -> void:
+	if not is_fast_forward_active:
+		print("ACTIVATE FAST FORWARD")
+		# Only store the original time scale if we haven't already stored it
+		if stored_time_scale == 1.0 or Engine.time_scale == 1.0:
+			stored_time_scale = 1.0
+		print("Storing time scale: ", stored_time_scale, " (current: ", Engine.time_scale, ")")
+		Engine.time_scale = 2.0
+		is_fast_forward_active = true
+		print("Fast forward activated: time_scale = ", Engine.time_scale)

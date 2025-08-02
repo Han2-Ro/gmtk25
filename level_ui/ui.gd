@@ -6,11 +6,13 @@ signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
 signal upgrade_selected(upgrade: BaseUpgrade)
+signal fast_forward_pressed
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Label = $Cash
+@onready var fast_forward_button: Button = $FastForwardButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
@@ -26,6 +28,9 @@ func _ready():
 
 	# Connect upgrade selection signal
 	upgrade_selection.upgrade_selected.connect(_on_upgrade_selected)
+
+	# Connect fast forward button
+	fast_forward_button.pressed.connect(_on_fast_forward_pressed)
 
 	# Hide upgrade selection by default
 	upgrade_selection.hide()
@@ -180,3 +185,15 @@ func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	# Hide upgrade selection and emit signal
 	upgrade_selection.hide()
 	upgrade_selected.emit(upgrade)
+
+
+func show_fast_forward_button() -> void:
+	fast_forward_button.visible = true
+
+
+func hide_fast_forward_button() -> void:
+	fast_forward_button.visible = false
+
+
+func _on_fast_forward_pressed() -> void:
+	fast_forward_pressed.emit()
