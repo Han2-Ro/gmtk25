@@ -13,7 +13,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.4, 0.4, 0.4, 1)
+modulate_color = Color(0.290, 0.333, 0.396, 1)
 
 [sub_resource type="StyleBoxTexture" id="button_hover"]
 texture = ExtResource("3_button_grey")
@@ -22,7 +22,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.7, 0.7, 0.7, 1)
+modulate_color = Color(0.062, 0.094, 0.156, 1)
 
 [sub_resource type="StyleBoxTexture" id="button_normal"]
 texture = ExtResource("3_button_grey")
@@ -31,7 +31,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.5, 0.5, 0.5, 1)
+modulate_color = Color(0.117, 0.160, 0.223, 1)
 
 [sub_resource type="StyleBoxTexture" id="button_pressed"]
 texture = ExtResource("3_5kxjo")
@@ -41,7 +41,7 @@ texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
 content_margin_top = 2.0
-modulate_color = Color(0.3, 0.3, 0.3, 1)
+modulate_color = Color(0.211, 0.254, 0.325, 1)
 
 [sub_resource type="StyleBoxTexture" id="panel_main"]
 texture = ExtResource("4_panel")
@@ -50,7 +50,7 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
-modulate_color = Color(0.2, 0.2, 0.2, 0.9)
+modulate_color = Color(0.290, 0.333, 0.396, 0.9)
 
 [resource]
 Button/styles/disabled = SubResource("button_disabled")
