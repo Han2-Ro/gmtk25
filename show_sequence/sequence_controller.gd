@@ -32,24 +32,11 @@ var shop_manager: ShopManager
 
 
 # Audio
-@export var correct_sound: AudioStream
-@export var wrong_sound: AudioStream
-
-var audio_player: AudioStreamPlayer
-
-func _ready():
-	audio_player = AudioStreamPlayer.new()
-	add_child(audio_player)
-
 func play_correct_sound():
-	if correct_sound:
-		audio_player.stream = correct_sound
-		audio_player.play()
+	AudioManager.play_correct_sound()
 
 func play_wrong_sound():
-	if wrong_sound:
-		audio_player.stream = wrong_sound
-		audio_player.play()
+	AudioManager.play_wrong_sound()
 
 
 func flash_sequence(sequence: Array[SequenceButton]):

@@ -14,3 +14,7 @@ config/name="GMTK 25"
 run/main_scene="uid://rva1gifcma7"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+AudioManager="*res://audio/AudioManager.tscn"

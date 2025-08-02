@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://blp5tx3l3enlg"]
+
+[ext_resource type="Script" uid="uid://3ygra35qou7a" path="res://audio/audio_manager.gd" id="1_ecn5r"]
+[ext_resource type="AudioStream" uid="uid://betwg6mrpbluh" path="res://audio/glass_correct.ogg" id="2_hdtnj"]
+[ext_resource type="AudioStream" uid="uid://2xj44j0sxc0p" path="res://audio/fail.wav" id="3_cf61m"]
+[ext_resource type="AudioStream" uid="uid://23r74fwuonp1" path="res://audio/techno_chiptale_v0.6.ogg" id="4_dgn74"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_ecn5r")
+correct_sound = ExtResource("2_hdtnj")
+wrong_sound = ExtResource("3_cf61m")
+background_music = ExtResource("4_dgn74")
