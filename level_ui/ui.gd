@@ -13,6 +13,7 @@ signal try_again_pressed
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
 @onready var overlay_level_label: Label = $Overlay/Panel/VBoxContainer/LevelLabel
+@onready var overlay_high_score_label: Label = $Overlay/Panel/VBoxContainer/HighScoreLabel
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Control = $Cash
 @onready var progress_label: Label = $PanelContainer/MarginContainer/VBoxContainer/Progress
@@ -54,11 +55,17 @@ func _ready():
 	hide_ui_elements()
 
 
-func show_overlay(is_win: bool, last_completed_level: int = 0) -> void:
+func show_overlay(
+	is_win: bool,
+	last_completed_level: int = 0,
+	is_new_high_score: bool = false,
+	high_score: int = 0
+) -> void:
 	is_win_state = is_win
 	if is_win:
 		overlay_label.text = "YOU WON!"
 		overlay_level_label.text = ""
+		overlay_high_score_label.text = ""
 		shop_button.visible = true
 		restart_button.text = "Next level"
 	else:
@@ -67,6 +74,15 @@ func show_overlay(is_win: bool, last_completed_level: int = 0) -> void:
 			overlay_level_label.text = "You completed level %d" % last_completed_level
 		else:
 			overlay_level_label.text = ""
+
+		# Set high score message
+		if is_new_high_score:
+			overlay_high_score_label.text = "New Highscore!"
+		elif high_score > 0:
+			overlay_high_score_label.text = "Your highest score yet: %d" % high_score
+		else:
+			overlay_high_score_label.text = ""
+
 		shop_button.visible = false
 		restart_button.text = "Start again"
 		# Hide try again button on game over
