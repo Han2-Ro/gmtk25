@@ -23,7 +23,7 @@ script = ExtResource("1_j06nf")
 layout_mode = 0
 
 [node name="Cash" parent="." instance=ExtResource("4_u6orx")]
-layout_mode = 0
+layout_mode = 1
 
 [node name="FastForwardButton" type="Button" parent="."]
 visible = false

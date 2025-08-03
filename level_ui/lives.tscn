@@ -14,7 +14,7 @@ texture_margin_bottom = 24.0
 [node name="Lives" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 241.0
+offset_right = 240.0
 offset_bottom = 65.0
 script = ExtResource("1_fw0nq")
 
