@@ -1,6 +1,8 @@
 class_name GameCamera
 extends Camera3D
 
+signal transition_completed
+
 @export var map_look_target: Node3D
 @export var start_menu_target: Node3D
 @export var transition_duration: float = 1.5
@@ -20,6 +22,7 @@ func transition_to_map() -> void:
 	var tween = create_tween()
 	tween.tween_method(_interpolate_rotation, 0.0, 1.0, transition_duration)
 	await tween.finished
+	transition_completed.emit()
 
 
 func transition_to_start_menu() -> void:

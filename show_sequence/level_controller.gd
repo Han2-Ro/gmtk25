@@ -80,7 +80,17 @@ func _ready() -> void:
 		print("Debug: Added %d starting money" % debug_start_money)
 
 	var start_menu: StartMenu = $StartMenu
+	var camera: GameCamera = $Camera3D
+
+	# Wait for start button to be clicked
 	await start_menu.start_game
+
+	# Wait for camera animation to complete
+	await camera.transition_completed
+
+	# Now show UI elements
+	level_ui.show_ui_elements()
+
 	if debug_open_shop_on_start:
 		await get_tree().process_frame
 		show_upgrades()

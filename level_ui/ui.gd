@@ -48,6 +48,9 @@ func _ready():
 	# Hide upgrade selection by default
 	upgrade_selection.hide()
 
+	# Hide all UI elements initially
+	hide_ui_elements()
+
 
 func show_overlay(is_win: bool) -> void:
 	is_win_state = is_win
@@ -287,3 +290,13 @@ func show_mistake_notification() -> void:
 	# Fade in
 	tween.tween_property(mini_win_label, "modulate:a", 1.0, 0.2)
 	# Stay visible until try again button is pressed (no auto-hide)
+
+
+func hide_ui_elements() -> void:
+	# Hide all game UI elements
+	self.visible = false
+
+
+func show_ui_elements() -> void:
+	# Show all game UI elements
+	self.visible = true
