@@ -235,3 +235,37 @@ func clear_progress() -> void:
 
 func show_level() -> void:
 	level_label.visible = true
+
+
+func show_mistake_notification() -> void:
+	var messages: Array[String] = [
+		"Whoops!", "Oops!", "Try again!", "Almost!", "So close!", "Nice try!"
+	]
+	var message = messages.pick_random()
+	mini_win_label.text = message
+
+	# Cancel any existing tween
+	if mini_win_label.has_meta("tween"):
+		var old_tween: Tween = mini_win_label.get_meta("tween")
+		old_tween.kill()
+
+	# Create fade in/out animation with reddish tint for mistakes
+	mini_win_label.visible = true
+	# Set color using add_theme_color_override to ensure it applies
+	mini_win_label.add_theme_color_override("font_color", Color.ORANGE_RED)
+	mini_win_label.modulate = Color(1, 1, 1, 0)  # Start transparent but keep white modulation
+	var tween = create_tween()
+	mini_win_label.set_meta("tween", tween)
+
+	# Fade in
+	tween.tween_property(mini_win_label, "modulate:a", 1.0, 0.2)
+	# Hold
+	tween.tween_interval(1.0)
+	# Fade out
+	tween.tween_property(mini_win_label, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(
+		func():
+			mini_win_label.visible = false
+			mini_win_label.modulate = Color.WHITE  # Reset color for future use
+			mini_win_label.remove_theme_color_override("font_color")  # Reset theme color
+	)

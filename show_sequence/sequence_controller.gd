@@ -217,6 +217,8 @@ func play_sequence(sequence: Array[SequenceButton]):
 			play_wrong_sound()
 			pressed_wrong.emit(pressed_button)
 			await pressed_button.this_pressed_wrong()
+			# Wait for mistake notification to display before replaying sequence
+			await get_tree().create_timer(1.5).timeout
 			await flash_sequence(sequence)
 			step = 0
 

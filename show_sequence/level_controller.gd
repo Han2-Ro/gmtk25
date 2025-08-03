@@ -168,6 +168,9 @@ func start_game() -> void:
 
 
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
+	# Show mistake notification immediately
+	level_ui.show_mistake_notification()
+
 	var event_args = LifeLossEventArgs.new(_btn, current_lives)
 	life_about_to_be_lost.emit(event_args)
 
