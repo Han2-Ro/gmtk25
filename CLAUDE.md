@@ -15,9 +15,12 @@ More details in:
 
 Since this is a Godot project, development is primarily done through the Godot editor:
 
-- Check your code with `godot {scene} --check-only --quit`
+- Check for syntax errors with `godot {scene} --check-only --quit` or `godot --check-only --quit --script {script}`
 - Format all `.gd` files with `uvx --from gdtoolkit gdformat {file}`
 - Lint all `.gd` files with `uvx --from gdtoolkit gdlint {file}`
+- ALWAYS have me test our fixes by running `godot` without additional flags.
+  - Optionally you can provide a specific scene: `godot {scene}`
+  - NEVER skip this step
 
 ## Architecture Overview
 
