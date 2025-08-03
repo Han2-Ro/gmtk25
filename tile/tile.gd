@@ -28,7 +28,7 @@ var _is_showing_correct := false
 
 
 func _ready() -> void:
-	self.scale = Vector3.ZERO
+	self.scale = Vector3(0.001, 0.001, 0.001)
 	var area: Area3D = $Area3D
 	# Connect to Area3D input_event signal for proper 3D click detection
 	area.input_event.connect(_on_area_3d_input_event)
@@ -106,7 +106,7 @@ func _on_pressed_correct_button(_btn):
 
 func animate_in(delay: float = 0.0) -> void:
 	# Start with tile scaled down and below its final position
-	self.scale = Vector3.ZERO
+	self.scale = Vector3(0.001, 0.001, 0.001)
 	self.position = original_position + Vector3(0, -0.5, 0)
 	material[accent_property] = Color(disabled_color.r, disabled_color.g, disabled_color.b, 0)
 
