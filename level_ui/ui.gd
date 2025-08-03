@@ -69,6 +69,8 @@ func show_overlay(is_win: bool, last_completed_level: int = 0) -> void:
 			overlay_level_label.text = ""
 		shop_button.visible = false
 		restart_button.text = "Start again"
+		# Hide try again button on game over
+		try_again_button.visible = false
 	overlay.visible = true
 
 
