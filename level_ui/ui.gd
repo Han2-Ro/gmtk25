@@ -20,7 +20,8 @@ signal try_again_pressed
 @onready var fast_forward_button: Button = $FastForwardButton
 @onready var try_again_button: Button = $TryAgainButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
-@onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
+@onready
+var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButtonContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
 @onready var upgrade_selection: UpgradeSelection = $UpgradeSelection
 

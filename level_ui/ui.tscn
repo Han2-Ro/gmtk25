@@ -166,8 +166,12 @@ vertical_alignment = 1
 layout_mode = 2
 text = "Go to Shop"
 
-[node name="RestartButton" type="Button" parent="Overlay/Panel/VBoxContainer"]
+[node name="RestartButtonContainer" type="CenterContainer" parent="Overlay/Panel/VBoxContainer"]
 layout_mode = 2
+
+[node name="RestartButton" type="Button" parent="Overlay/Panel/VBoxContainer/RestartButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
 text = "Restart"
 
 [node name="UpgradeSelection" type="CenterContainer" parent="."]
@@ -335,4 +339,4 @@ custom_minimum_size = Vector2(400, 300)
 layout_mode = 1
 
 [connection signal="pressed" from="Overlay/Panel/VBoxContainer/ShopButton" to="." method="_on_shop_button_pressed"]
-[connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]
