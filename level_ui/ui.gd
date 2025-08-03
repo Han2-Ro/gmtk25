@@ -8,6 +8,7 @@ signal shop_closed
 signal upgrade_selected(upgrade: BaseUpgrade)
 signal upgrade_skipped
 signal fast_forward_pressed
+signal try_again_pressed
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
@@ -16,6 +17,7 @@ signal fast_forward_pressed
 @onready var progress_label: Label = $Progress
 @onready var level_label: Label = $Level
 @onready var fast_forward_button: Button = $FastForwardButton
+@onready var try_again_button: Button = $TryAgainButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
@@ -38,6 +40,10 @@ func _ready():
 
 	# Connect fast forward button
 	fast_forward_button.pressed.connect(_on_fast_forward_pressed)
+
+	# Connect try again button
+	try_again_button.pressed.connect(_on_try_again_pressed)
+	try_again_button.visible = false
 
 	# Hide upgrade selection by default
 	upgrade_selection.hide()
@@ -221,6 +227,27 @@ func _on_fast_forward_pressed() -> void:
 	fast_forward_pressed.emit()
 
 
+func show_try_again_button() -> void:
+	try_again_button.visible = true
+
+
+func hide_try_again_button() -> void:
+	try_again_button.visible = false
+
+
+func _on_try_again_pressed() -> void:
+	# Hide the mistake notification
+	var tween = create_tween()
+	tween.tween_property(mini_win_label, "modulate:a", 0, 0.3)
+	tween.tween_callback(
+		func():
+			mini_win_label.visible = false
+			mini_win_label.remove_theme_color_override("font_color")  # Reset theme color
+	)
+
+	try_again_pressed.emit()
+
+
 func update_step_progress(current_step: int, total_steps: int) -> void:
 	progress_label.text = "Step %d/%d" % [current_step, total_steps]
 
@@ -259,13 +286,4 @@ func show_mistake_notification() -> void:
 
 	# Fade in
 	tween.tween_property(mini_win_label, "modulate:a", 1.0, 0.2)
-	# Hold
-	tween.tween_interval(1.0)
-	# Fade out
-	tween.tween_property(mini_win_label, "modulate:a", 0.0, 0.3)
-	tween.tween_callback(
-		func():
-			mini_win_label.visible = false
-			mini_win_label.modulate = Color.WHITE  # Reset color for future use
-			mini_win_label.remove_theme_color_override("font_color")  # Reset theme color
-	)
+	# Stay visible until try again button is pressed (no auto-hide)

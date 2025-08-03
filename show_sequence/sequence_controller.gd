@@ -15,6 +15,7 @@ signal step_completed(current_step: int, total_steps: int)
 signal subsequence_completed(current_round: int, total_rounds: int)
 signal sequence_completed(sequence: Array[SequenceButton])
 signal fast_forward_toggled(is_enabled: bool)
+signal try_again_ready
 
 enum TileShape { SQUARE, HEXAGON }
 
@@ -217,8 +218,8 @@ func play_sequence(sequence: Array[SequenceButton]):
 			play_wrong_sound()
 			pressed_wrong.emit(pressed_button)
 			await pressed_button.this_pressed_wrong()
-			# Wait for mistake notification to display before replaying sequence
-			await get_tree().create_timer(1.5).timeout
+			# Wait for player to click try again button
+			await try_again_ready
 			await flash_sequence(sequence)
 			step = 0
 

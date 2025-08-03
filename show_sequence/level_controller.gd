@@ -70,6 +70,7 @@ func _ready() -> void:
 	level_ui.upgrade_selected.connect(_on_upgrade_selected)
 	level_ui.upgrade_skipped.connect(_on_upgrade_skipped)
 	level_ui.fast_forward_pressed.connect(_on_fast_forward_pressed)
+	level_ui.try_again_pressed.connect(_on_try_again_pressed)
 
 	level_ui.shop_closed.connect(_on_shop_closed)
 
@@ -170,6 +171,8 @@ func start_game() -> void:
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 	# Show mistake notification immediately
 	level_ui.show_mistake_notification()
+	# Show try again button
+	level_ui.show_try_again_button()
 
 	var event_args = LifeLossEventArgs.new(_btn, current_lives)
 	life_about_to_be_lost.emit(event_args)
@@ -287,3 +290,11 @@ func _on_sequence_flash_end() -> void:
 func _on_fast_forward_toggled(is_enabled: bool) -> void:
 	is_fast_forward_enabled = is_enabled
 	level_ui.update_fast_forward_state(is_enabled)
+
+
+func _on_try_again_pressed() -> void:
+	# Hide try again button and mistake notification
+	level_ui.hide_try_again_button()
+	# Signal sequence controller to continue
+	if sequence_controller:
+		sequence_controller.try_again_ready.emit()
