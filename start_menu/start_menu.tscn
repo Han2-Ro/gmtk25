@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://ciwn43pimyoxw"]
+
+[ext_resource type="Script" uid="uid://bsfxtlj4guykw" path="res://start_menu/start_menu.gd" id="1_qdmhb"]
+[ext_resource type="Script" uid="uid://u3j6y3se4wpw" path="res://start_menu/button_3d.gd" id="2_xloss"]
+
+[sub_resource type="TextMesh" id="TextMesh_ndybt"]
+text = "Loop In"
+font_size = 127
+depth = 0.3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pelf0"]
+size = Vector3(2.26215, 0.722412, 0.447998)
+
+[sub_resource type="TextMesh" id="TextMesh_xloss"]
+text = "Start"
+font_size = 96
+
+[node name="StartMenu" type="Node3D" node_paths=PackedStringArray("start_button")]
+script = ExtResource("1_qdmhb")
+start_button = NodePath("Area3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.29289, 0, 0, 0, 1.29289, 0, 0, 0, 1.29289, 0, 1.12887, 0)
+mesh = SubResource("TextMesh_ndybt")
+
+[node name="StartButton" type="Label3D" parent="."]
+transform = Transform3D(1.05257, 0, 0, 0, 1.05257, 0, 0, 0, 1.05257, 0, -0.443572, 0)
+visible = false
+shaded = true
+text = "START"
+font_size = 96
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.449721, 0)
+script = ExtResource("2_xloss")
+mesh = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0162659, -0.041626, -0.0174561)
+shape = SubResource("BoxShape3D_pelf0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("TextMesh_xloss")

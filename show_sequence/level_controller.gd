@@ -78,6 +78,8 @@ func _ready() -> void:
 		cash_manager.add_cash(debug_start_money)
 		print("Debug: Added %d starting money" % debug_start_money)
 
+	var start_menu: StartMenu = $StartMenu
+	await start_menu.start_game
 	if debug_open_shop_on_start:
 		await get_tree().process_frame
 		show_upgrades()

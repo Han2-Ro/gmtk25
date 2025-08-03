@@ -151,7 +151,6 @@ func generate_path(grid: Grid, length: int, start: Vector2i) -> Array[SequenceBu
 		path.append(grid.get_at(current_coordinates.x, current_coordinates.y))
 	return path
 
-
 func start_game() -> void:
 	# Reset player position at the start of each new level
 

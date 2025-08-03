@@ -5,7 +5,7 @@ extends Area3D
 signal pressed()
 
 # Exported properties
-@export var mesh: Mesh
+@export var mesh: MeshInstance3D
 @export var disabled: bool = false : set = set_disabled
 
 # Internal state
@@ -64,15 +64,11 @@ func _update_visual_state():
 	if not mesh:
 		return
 	
-	var mesh_instance = get_child(0) as MeshInstance3D
-	if not mesh_instance:
-		return
-	
-	var material = mesh_instance.get_surface_override_material(0)
+	var material = mesh.get_surface_override_material(0)
 	if not material:
 		# Create a new StandardMaterial3D if none exists
 		material = StandardMaterial3D.new()
-		mesh_instance.set_surface_override_material(0, material)
+		mesh.set_surface_override_material(0, material)
 	
 	# Update color based on current state
 	var target_color: Color
