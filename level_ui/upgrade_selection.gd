@@ -138,21 +138,17 @@ func _update_button_state(button: Button, upgrade: BaseUpgrade) -> void:
 func _on_card1_selected() -> void:
 	if current_upgrades.size() >= 1:
 		upgrade_selected.emit(current_upgrades[0])
-		hide_selection()
 
 
 func _on_card2_selected() -> void:
 	if current_upgrades.size() >= 2:
 		upgrade_selected.emit(current_upgrades[1])
-		hide_selection()
 
 
 func _on_card3_selected() -> void:
 	if current_upgrades.size() >= 3:
 		upgrade_selected.emit(current_upgrades[2])
-		hide_selection()
 
 
 func _on_skip_pressed() -> void:
 	upgrade_skipped.emit()
-	hide_selection()
