@@ -235,8 +235,10 @@ func game_won() -> void:
 func show_upgrades() -> void:
 	var random_upgrades = upgrade_manager.get_random_upgrades(3)
 	if debug_forced_upgrade:
-		random_upgrades.pop_back()
-		random_upgrades.push_front(upgrade_manager.get_upgrade(debug_forced_upgrade))
+		var forced_upgrade = upgrade_manager.get_upgrade(debug_forced_upgrade)
+		if forced_upgrade not in random_upgrades:
+			random_upgrades.pop_back()
+			random_upgrades.push_front(forced_upgrade)
 	level_ui.show_upgrade_selection(random_upgrades)
 
 
