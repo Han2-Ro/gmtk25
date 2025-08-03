@@ -1,10 +1,86 @@
-[gd_scene load_steps=3 format=3 uid="uid://dr3qxcun7fm0y"]
+[gd_scene load_steps=6 format=3 uid="uid://b4gv3fkixu47s"]
 
 [ext_resource type="Script" uid="uid://dvnpkg1cdwtuv" path="res://player/player.gd" id="1_3c3w1"]
 [ext_resource type="PackedScene" uid="uid://dug5lerqvihaj" path="res://player/drone.blend" id="2_rkbax"]
+
+[sub_resource type="Animation" id="Animation_rkbax"]
+resource_name = "rotor_spin"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("drone/Body/RotorCase/RotorBlades:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0), Vector3(0, -6.28319, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("drone/Body/RotorCase/RotorBlades_001:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_g1dw6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("drone/Body/RotorCase/RotorBlades:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("drone/Body/RotorCase/RotorBlades_001:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yw30f"]
+_data = {
+&"RESET": SubResource("Animation_g1dw6"),
+&"rotor_spin": SubResource("Animation_rkbax")
+}
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_3c3w1")
 
 [node name="drone" parent="." instance=ExtResource("2_rkbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.458249, 0)
+
+[node name="RotorBlades" parent="drone/Body/RotorCase" index="0"]
+transform = Transform3D(-1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, -0.324603, 0.0976562, -2.13519e-06)
+
+[node name="RotorBlades_001" parent="drone/Body/RotorCase" index="1"]
+transform = Transform3D(-1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 0.324603, 0.0976562, -2.13519e-06)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yw30f")
+}
+autoplay = "rotor_spin"
+
+[editable path="drone"]
