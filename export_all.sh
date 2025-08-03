@@ -24,6 +24,8 @@ mkdir -p export/{win,linux,web,android}
 (
     echo "Exporting Web..."
     godot --export-release "Web" --headless 2>&1 | sed 's/^/[WEB] /'
+    echo "[WEB] Creating web.zip..."
+    cd export/web && zip -r ../web.zip . -x .gitignore && cd ../..
 ) &
 
 (
