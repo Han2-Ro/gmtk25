@@ -10,19 +10,25 @@ var disabled := false
 
 # TODO: find a way to use the name?
 @export var surface_material_index = 1
-@export_enum("emission", "albedo_color")
-var accent_property := "emission"
+@export_enum("emission", "albedo_color") var accent_property := "emission"
 @export var disabled_color: Color = Color.DIM_GRAY
 @export var enabled_color: Color = Color.DEEP_PINK
+@export var hover_color: Color = Color.LIGHT_PINK
 @export var mistake_color: Color = Color.INDIAN_RED
 @export var correct_color: Color = Color.GREEN_YELLOW
 
 var material: BaseMaterial3D
 
+var _is_showing_correct := false
+
 
 func _ready() -> void:
+	var area: Area3D = $Area3D
 	# Connect to Area3D input_event signal for proper 3D click detection
-	$Area3D.input_event.connect(_on_area_3d_input_event)
+	area.input_event.connect(_on_area_3d_input_event)
+	# Connect mouse enter/exit for cursor management
+	area.mouse_entered.connect(_on_area_3d_mouse_entered)
+	area.mouse_exited.connect(_on_area_3d_mouse_exited)
 
 
 func _setup_material():
@@ -32,7 +38,9 @@ func _setup_material():
 	var original_mesh: Mesh = mesh_instance.mesh
 	# otherwise material overrides apply to all
 	mesh_instance.mesh = original_mesh.duplicate()
-	var new_material = mesh_instance.get_surface_override_material(surface_material_index) as BaseMaterial3D
+	var new_material = (
+		mesh_instance.get_surface_override_material(surface_material_index) as BaseMaterial3D
+	)
 	if not new_material:
 		new_material = mesh_instance.mesh.surface_get_material(surface_material_index)
 	new_material = new_material.duplicate()
@@ -55,6 +63,21 @@ func disable() -> void:
 	self.disabled = true
 	var tween = create_tween()
 	tween.tween_property(material, accent_property, disabled_color, 0.2)
+	await tween.finished
+
+
+func hover() -> void:
+	var tween = create_tween()
+	tween.tween_property(material, accent_property, hover_color, 0.2)
+	await tween.finished
+
+
+func unhover() -> void:
+	var tween = create_tween()
+	if disabled:
+		tween.tween_property(material, accent_property, disabled_color, 0.2)
+	else:
+		tween.tween_property(material, accent_property, enabled_color, 0.2)
 	await tween.finished
 
 
@@ -97,10 +120,12 @@ func _reset():
 
 func this_pressed_correct():
 	var tween = create_tween()
-	tween.tween_property(material, accent_property, correct_color, 0.15)
-	tween.tween_interval(0.05)
-	tween.tween_property(material, accent_property, enabled_color, 0.15)
+	tween.tween_property(self, "_is_showing_correct", true, 0)
+	tween.tween_property(material, accent_property, correct_color, 0.25)
+	tween.tween_interval(0.1)
+	tween.tween_property(material, accent_property, enabled_color, 0.25)
 	tween.tween_property(player, "position", self.position, 0.1)
+	tween.tween_property(self, "_is_showing_correct", false, 0)
 	await tween.finished
 
 
@@ -112,7 +137,7 @@ func this_pressed_wrong():
 	tween.tween_property(material, accent_property, mistake_color, 0.05)
 	tween.tween_interval(0.05)
 	tween.tween_property(material, accent_property, disabled_color, 0.05)
-		
+
 	# Shake animation - quick left-right movement
 	parallel_tween.tween_property(self, "position", original_position + Vector3(0.1, 0, 0), 0.05)
 	parallel_tween.tween_property(self, "position", original_position + Vector3(-0.1, 0, 0), 0.05)
@@ -125,7 +150,21 @@ func this_pressed_wrong():
 func _on_area_3d_input_event(
 	_camera: Camera3D, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int
 ) -> void:
+	if not disabled and not _is_showing_correct:
+		CursorManager.set_hover_cursor()
+		hover()
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if not disabled:
 			pressed.emit()
 			print("tile clicked!")
+
+
+func _on_area_3d_mouse_entered() -> void:
+	if not disabled:
+		CursorManager.set_hover_cursor()
+
+
+func _on_area_3d_mouse_exited() -> void:
+	if not disabled and not _is_showing_correct:
+		CursorManager.set_default_cursor()
+		unhover()
