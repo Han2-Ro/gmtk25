@@ -3,7 +3,7 @@ extends Node3D
 
 # Grid position properties
 var grid_x: int = -1
-var grid_y: int = -1  
+var grid_y: int = -1
 var grid_index: int = -1
 
 signal pressed
@@ -28,6 +28,7 @@ var _is_showing_correct := false
 
 
 func _ready() -> void:
+	self.scale = Vector3.ZERO
 	var area: Area3D = $Area3D
 	# Connect to Area3D input_event signal for proper 3D click detection
 	area.input_event.connect(_on_area_3d_input_event)
@@ -101,6 +102,34 @@ func _on_sequence_flash_end():
 
 func _on_pressed_correct_button(_btn):
 	self._reset()
+
+
+func animate_in(delay: float = 0.0) -> void:
+	# Start with tile scaled down and below its final position
+	self.scale = Vector3.ZERO
+	self.position = original_position + Vector3(0, -0.5, 0)
+	material[accent_property] = Color(disabled_color.r, disabled_color.g, disabled_color.b, 0)
+
+	# Wait for the delay
+	if delay > 0:
+		await get_tree().create_timer(delay).timeout
+
+	# Animate scale, position, and color
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.set_ease(Tween.EASE_OUT)
+
+	# Scale animation with bounce
+	tween.tween_property(self, "scale", Vector3.ONE, 0.4)
+
+	# Position animation (rise up)
+	tween.tween_property(self, "position", original_position, 0.4)
+
+	# Fade in color
+	tween.chain().tween_property(material, accent_property, disabled_color, 0.2)
+
+	await tween.finished
 
 
 func flash():

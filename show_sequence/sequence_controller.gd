@@ -49,11 +49,11 @@ func _ready():
 func play_correct_sound(pressed_button):
 	# Musical scale approach - each button plays a different note
 	var notes = [1.0, 1.125, 1.25, 1.5, 1.67]  # Petatonic
-	
+
 	# Use grid_index to get a consistent note for each button
 	var button_index = pressed_button.grid_index
-	var pitch = notes[button_index % notes.size()] -0.23
-	
+	var pitch = notes[button_index % notes.size()] - 0.23
+
 	print("Button index: ", button_index, " Playing note: ", pitch)
 	AudioManager.play_correct_sound_with_pitch(pitch)
 
@@ -189,6 +189,16 @@ func start_game() -> void:
 		button.pressed.connect(_on_sequence_button_pressed.bind(button))
 		button._controller_ready(self)
 
+	# Animate tiles in with staggered delay
+	for i in grid.array.size():
+		var tile = grid.array[i]
+		var delay = i * 0.05  # 50ms delay between each tile
+		tile.animate_in(delay)
+
+	# Wait for all animations to complete (last tile delay + animation time)
+	if grid.array.size() > 0:
+		await get_tree().create_timer((grid.array.size() - 1) * 0.05 + 0.6).timeout
+
 	var sequence := generate_sequence(grid.array, sequence_length)
 	sequence_start.emit(sequence)
 
@@ -196,8 +206,6 @@ func start_game() -> void:
 	while current_step < len(sequence):
 		for button in grid.array:
 			button.disabled = true
-		# wait a moment between each new subsequence
-		await get_tree().create_timer(2).timeout
 
 		var current_sub_sequence = sequence.slice(0, current_step)
 		subsequence_start.emit(current_step, len(sequence))
@@ -205,10 +213,13 @@ func start_game() -> void:
 		subsequence_completed.emit(current_step, len(sequence))
 		current_step += steps_to_reveal
 
+		# wait a moment between each new subsequence
+		await get_tree().create_timer(1).timeout
+
 	# Always play the full sequence at the end
 	for button in grid.array:
 		button.disabled = true
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(1).timeout
 
 	subsequence_start.emit(len(sequence), len(sequence))
 	await play_sequence(sequence)
