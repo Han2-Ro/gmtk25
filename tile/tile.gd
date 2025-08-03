@@ -66,26 +66,24 @@ func disable() -> void:
 	await tween.finished
 
 
-var _hover_tween: Tween
+var _color_tween: Tween
 
 
 func hover() -> void:
-	if _hover_tween and _hover_tween.is_running():
-		_hover_tween.kill()
-	_hover_tween = create_tween()
-	_hover_tween.tween_property(material, accent_property, hover_color, 0.2)
-	await _hover_tween.finished
+	if material and not (_color_tween and _color_tween.is_running()):
+		var tween = create_tween()
+		tween.tween_property(material, accent_property, hover_color, 0.2)
+		await tween.finished
 
 
 func unhover() -> void:
-	if _hover_tween and _hover_tween.is_running():
-		_hover_tween.kill()
-	_hover_tween = create_tween()
-	if disabled:
-		_hover_tween.tween_property(material, accent_property, disabled_color, 0.2)
-	else:
-		_hover_tween.tween_property(material, accent_property, enabled_color, 0.2)
-	await _hover_tween.finished
+	if material and not (_color_tween and _color_tween.is_running()):
+		var tween = create_tween()
+		if disabled:
+			tween.tween_property(material, accent_property, disabled_color, 0.2)
+		else:
+			tween.tween_property(material, accent_property, enabled_color, 0.2)
+		await tween.finished
 
 
 func _on_sequence_flash_start():
@@ -101,21 +99,21 @@ func _on_pressed_correct_button(_btn):
 
 
 func flash():
-	var tween = create_tween()
-	tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
-	tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
-	tween.tween_interval(0.6)
-	tween.tween_property(self, "position", original_position, 0.2)
-	tween.parallel().tween_property(material, accent_property, disabled_color, 0.2)
+	_color_tween = create_tween()
+	_color_tween.tween_property(self, "position", original_position + Vector3(0, 0.3, 0), 0.2)
+	_color_tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
+	_color_tween.tween_interval(0.6)
+	_color_tween.tween_property(self, "position", original_position, 0.2)
+	_color_tween.parallel().tween_property(material, accent_property, disabled_color, 0.2)
 
-	await tween.finished
+	await _color_tween.finished
 
 
 func enable():
-	var tween = create_tween()
-	tween.tween_property(self, "position", original_position, 0.3)
-	tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
-	await tween.finished
+	_color_tween = create_tween()
+	_color_tween.tween_property(self, "position", original_position, 0.3)
+	_color_tween.parallel().tween_property(material, accent_property, enabled_color, 0.2)
+	await _color_tween.finished
 
 	self.disabled = false
 
@@ -125,25 +123,20 @@ func _reset():
 	self.show()
 
 
-var _pressed_correct_tween: Tween
-
-
 func this_pressed_correct():
-	if _pressed_correct_tween and _pressed_correct_tween.is_running():
-		_pressed_correct_tween.kill()
+	if _color_tween and _color_tween.is_running():
+		_color_tween.kill()
 		# insta reset if clicked fast
 		material[accent_property] = enabled_color
-	if _hover_tween and _hover_tween.is_running():
-		_hover_tween.kill()
 
-	_pressed_correct_tween = create_tween()
-	_pressed_correct_tween.tween_property(self, "_is_showing_correct", true, 0)
-	_pressed_correct_tween.tween_property(material, accent_property, correct_color, 0.1)
-	_pressed_correct_tween.tween_interval(0.1)
-	_pressed_correct_tween.tween_property(material, accent_property, enabled_color, 0.25)
-	_pressed_correct_tween.tween_property(player, "position", self.position, 0.1)
-	_pressed_correct_tween.tween_property(self, "_is_showing_correct", false, 0)
-	await _pressed_correct_tween.finished
+	_color_tween = create_tween()
+	_color_tween.tween_property(self, "_is_showing_correct", true, 0)
+	_color_tween.tween_property(material, accent_property, correct_color, 0.1)
+	_color_tween.tween_interval(0.1)
+	_color_tween.tween_property(material, accent_property, enabled_color, 0.25)
+	_color_tween.tween_property(player, "position", self.position, 0.1)
+	_color_tween.tween_property(self, "_is_showing_correct", false, 0)
+	await _color_tween.finished
 
 
 func this_pressed_wrong():
