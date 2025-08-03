@@ -12,6 +12,7 @@ signal try_again_pressed
 
 @onready var overlay: Control = $Overlay
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
+@onready var overlay_level_label: Label = $Overlay/Panel/VBoxContainer/LevelLabel
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Control = $Cash
 @onready var progress_label: Label = $PanelContainer/MarginContainer/VBoxContainer/Progress
@@ -56,13 +57,15 @@ func show_overlay(is_win: bool, last_completed_level: int = 0) -> void:
 	is_win_state = is_win
 	if is_win:
 		overlay_label.text = "YOU WON!"
+		overlay_level_label.text = ""
 		shop_button.visible = true
 		restart_button.text = "Next level"
 	else:
+		overlay_label.text = "Game Over!"
 		if last_completed_level > 0:
-			overlay_label.text = "Game Over! You completed level %d" % last_completed_level
+			overlay_level_label.text = "You completed level %d" % last_completed_level
 		else:
-			overlay_label.text = "Game Over!"
+			overlay_level_label.text = ""
 		shop_button.visible = false
 		restart_button.text = "Start again"
 	overlay.visible = true
