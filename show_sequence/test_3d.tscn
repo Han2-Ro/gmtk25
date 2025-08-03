@@ -16,9 +16,7 @@ ambient_light_energy = 0.0
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
 sequence_controller_scene = ExtResource("2_fyuqc")
-debug_start_money = 300
-debug_open_shop_on_start = true
-debug_forced_upgrade = "memory_helper"
+debug_start_money = 50
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.423883, 0.905717, 0, -0.905717, 0.423883, 0.00389895, 3.57081, 1.92245)
@@ -31,6 +29,7 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_4xm1u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+visible = false
 script = ExtResource("4_pdy1x")
 
 [node name="UI" parent="." instance=ExtResource("6_g8eee")]
