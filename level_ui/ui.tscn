@@ -1,12 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=10 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
 [ext_resource type="PackedScene" uid="uid://c8oj4lpr53fb3" path="res://level_ui/lives.tscn" id="3_gucvr"]
 [ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
 [ext_resource type="Theme" uid="uid://lodk0caldpdi" path="res://ui_theme.tres" id="4_theme"]
-[ext_resource type="PackedScene" uid="uid://bhonjbmx1s86y" path="res://level_ui/cash.tscn" id="4_u6orx"]
+[ext_resource type="PackedScene" path="res://level_ui/cash.tscn" id="4_u6orx"]
 [ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 [ext_resource type="Script" uid="uid://dj7mubnnbexrg" path="res://show_sequence/level_counter.gd" id="5_level"]
+[ext_resource type="Texture2D" uid="uid://dmqtj4q7725in" path="res://level_ui/assets/panel_glass_notches_bottom.png" id="7_ktlth"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8adj0"]
+texture = ExtResource("7_ktlth")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -21,6 +29,7 @@ script = ExtResource("1_j06nf")
 
 [node name="Lives" parent="." instance=ExtResource("3_gucvr")]
 layout_mode = 0
+offset_right = 241.0
 
 [node name="Cash" parent="." instance=ExtResource("4_u6orx")]
 layout_mode = 1
@@ -46,27 +55,6 @@ offset_top = 200.0
 offset_right = 75.0
 offset_bottom = 240.0
 text = "Try Again"
-
-[node name="Level" type="Label" parent="."]
-layout_mode = 0
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -50.0
-offset_right = 50.0
-offset_bottom = 30.0
-text = "Level 0"
-horizontal_alignment = 1
-script = ExtResource("5_level")
-
-[node name="Progress" type="Label" parent="."]
-layout_mode = 0
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_top = 35.0
-offset_right = 100.0
-offset_bottom = 65.0
-horizontal_alignment = 1
 
 [node name="UpgradesContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -294,6 +282,41 @@ text = "Skip"
 visible = false
 custom_minimum_size = Vector2(400, 300)
 layout_mode = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8adj0")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(156, 64)
+layout_mode = 2
+alignment = 1
+
+[node name="Level" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "Level 0"
+horizontal_alignment = 1
+script = ExtResource("5_level")
+
+[node name="Progress" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Overlay/Panel/VBoxContainer/ShopButton" to="." method="_on_shop_button_pressed"]
 [connection signal="pressed" from="Overlay/Panel/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

@@ -28,7 +28,7 @@ var upgrade_manager: UpgradeManager
 var sequence_controller: SequenceController
 @onready var level_ui: LevelUI = $UI
 @onready var life_counter: Control = $UI/Lives
-@onready var level_counter: Label = $UI/Level
+@onready var level_counter: Label = level_ui.level_label
 @onready var overlay: Control = $UI/Overlay
 @onready var player = $Player
 
