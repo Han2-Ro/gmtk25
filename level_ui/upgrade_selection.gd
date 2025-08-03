@@ -4,6 +4,7 @@ class_name UpgradeSelection
 extends CenterContainer
 
 signal upgrade_selected(upgrade: BaseUpgrade)
+signal upgrade_skipped
 
 var current_upgrades: Array[BaseUpgrade] = []
 var shop_manager: ShopManager
@@ -26,11 +27,14 @@ var card2_button: Button = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer
 @onready
 var card3_button: Button = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
 
+@onready var skip_button: Button = $Panel/VBoxContainer/SkipButton
+
 
 func _ready() -> void:
 	card1_button.pressed.connect(_on_card1_selected)
 	card2_button.pressed.connect(_on_card2_selected)
 	card3_button.pressed.connect(_on_card3_selected)
+	skip_button.pressed.connect(_on_skip_pressed)
 
 
 func setup(manager: ShopManager) -> void:
@@ -94,3 +98,8 @@ func _on_card3_selected() -> void:
 	if current_upgrades.size() >= 3:
 		upgrade_selected.emit(current_upgrades[2])
 		hide_selection()
+
+
+func _on_skip_pressed() -> void:
+	upgrade_skipped.emit()
+	hide_selection()

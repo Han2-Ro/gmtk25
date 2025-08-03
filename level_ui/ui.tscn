@@ -272,6 +272,10 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Select"
 
+[node name="SkipButton" type="Button" parent="UpgradeSelection/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Skip"
+
 [node name="ShopUI" parent="." instance=ExtResource("3_shop")]
 visible = false
 custom_minimum_size = Vector2(400, 300)

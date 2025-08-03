@@ -6,6 +6,7 @@ signal next_level_pressed
 signal shop_button_pressed
 signal shop_closed
 signal upgrade_selected(upgrade: BaseUpgrade)
+signal upgrade_skipped
 signal fast_forward_pressed
 
 @onready var overlay: Control = $Overlay
@@ -28,6 +29,7 @@ func _ready():
 
 	# Connect upgrade selection signal
 	upgrade_selection.upgrade_selected.connect(_on_upgrade_selected)
+	upgrade_selection.upgrade_skipped.connect(_on_upgrade_skipped)
 
 	# Connect fast forward button
 	fast_forward_button.pressed.connect(_on_fast_forward_pressed)
@@ -185,6 +187,12 @@ func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	# Hide upgrade selection and emit signal
 	upgrade_selection.hide()
 	upgrade_selected.emit(upgrade)
+
+
+func _on_upgrade_skipped() -> void:
+	# Hide upgrade selection and emit signal
+	upgrade_selection.hide()
+	upgrade_skipped.emit()
 
 
 func show_fast_forward_button() -> void:

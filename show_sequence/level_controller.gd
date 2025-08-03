@@ -66,6 +66,7 @@ func _ready() -> void:
 	level_ui.next_level_pressed.connect(_on_next_level_button_pressed)
 	level_ui.shop_button_pressed.connect(_on_shop_button_pressed)
 	level_ui.upgrade_selected.connect(_on_upgrade_selected)
+	level_ui.upgrade_skipped.connect(_on_upgrade_skipped)
 	level_ui.fast_forward_pressed.connect(_on_fast_forward_pressed)
 
 	level_ui.shop_closed.connect(_on_shop_closed)
@@ -235,6 +236,14 @@ func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	shop_manager.purchase_upgrade(upgrade.id)
 
 	# Show the win overlay now
+	next_level.emit()
+	if debug_open_shop_on_start and not sequence_controller:
+		start_game()
+
+
+func _on_upgrade_skipped() -> void:
+	# Skip purchasing any upgrade and continue to next level
+	print("Skipped upgrade selection")
 	next_level.emit()
 	if debug_open_shop_on_start and not sequence_controller:
 		start_game()
