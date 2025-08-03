@@ -16,9 +16,9 @@ ambient_light_energy = 0.0
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
 sequence_controller_scene = ExtResource("2_fyuqc")
-debug_start_money = 100
+debug_start_money = 300
 debug_open_shop_on_start = true
-debug_forced_upgrade = "joker_5050"
+debug_forced_upgrade = "memory_helper"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.423883, 0.905717, 0, -0.905717, 0.423883, 0.00389895, 3.57081, 1.92245)
