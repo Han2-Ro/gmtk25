@@ -9,8 +9,11 @@ var level_controller: LevelController
 
 
 func _init():
+	print("(50/50 Joker): init")
 	if ui_scene == null:
+		print("(50/50 Joker): PRELOAD UI SCENE")
 		ui_scene = preload("res://upgrades/joker_5050/joker_button.tscn")
+	print("(50/50 Joker): ui_scene: ", ui_scene)
 
 
 func _on_sequence_start():

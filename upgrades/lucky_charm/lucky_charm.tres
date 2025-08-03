@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://upgrades/lucky_charm/lucky_charm_upgrade.gd" id="1_lucky_charm"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_lucky_charm")
 id = "lucky_charm"
 name = "Lucky Charm"

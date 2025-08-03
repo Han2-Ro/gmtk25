@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://upgrades/extra_life/extra_life_upgrade.gd" id="1_upgrade"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_upgrade")
 id = "extra_life"
 name = "Extra Life"

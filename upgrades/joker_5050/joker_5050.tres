@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bx36hex5wjnxe"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bx36hex5wjnxe"]
 
 [ext_resource type="Script" uid="uid://dd4tdg2nfuy4u" path="res://upgrades/joker_5050/joker_5050_upgrade.gd" id="1_joker"]
+[ext_resource type="PackedScene" uid="uid://bdp5jqxkv8nxm" path="res://upgrades/joker_5050/joker_button.tscn" id="2_b2ksb"]
 
 [resource]
 resource_local_to_scene = true
@@ -13,5 +14,6 @@ description = "Highlights two possible options. Only one is correct."
 cost = 20
 is_stackable = true
 max_stack = -1
+ui_scene = ExtResource("2_b2ksb")
 purchased_count = 0
 is_active = false

@@ -7,8 +7,11 @@ var level_controller: LevelController
 
 
 func _init():
+	print("(Memory Helper): init")
 	if ui_scene == null:
+		print("(Memory Helper): PRELOAD UI SCENE")
 		ui_scene = preload("res://upgrades/memory_helper/memory_helper_button.tscn")
+	print("(Memory Helper): ui_scene: ", ui_scene)
 
 
 func can_use_hint() -> bool:

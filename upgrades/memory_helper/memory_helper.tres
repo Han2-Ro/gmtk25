@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="MemoryHelperUpgrade" load_steps=2 format=3 uid="uid://b6cpft8qfeka1"]
+[gd_resource type="Resource" script_class="MemoryHelperUpgrade" load_steps=3 format=3 uid="uid://b6cpft8qfeka1"]
 
 [ext_resource type="Script" uid="uid://bwcacgtfqs6a8" path="res://upgrades/memory_helper/memory_helper_upgrade.gd" id="1_memory_helper"]
+[ext_resource type="PackedScene" uid="uid://c5g8h4j2k7nan" path="res://upgrades/memory_helper/memory_helper_button.tscn" id="2_memory_ui"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_memory_helper")
 id = "memory_helper"
 name = "Memory Helper"
@@ -10,5 +12,6 @@ description = "Adds a hint button that costs 35 coins per use to highlight the n
 cost = 120
 is_stackable = false
 max_stack = -1
+ui_scene = ExtResource("2_memory_ui")
 purchased_count = 0
 is_active = false
