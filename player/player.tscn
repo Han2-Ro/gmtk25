@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dr3qxcun7fm0y"]
+
+[ext_resource type="Script" uid="uid://dvnpkg1cdwtuv" path="res://player/player.gd" id="1_3c3w1"]
+[ext_resource type="PackedScene" uid="uid://dug5lerqvihaj" path="res://player/drone.blend" id="2_rkbax"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_3c3w1")
+
+[node name="drone" parent="." instance=ExtResource("2_rkbax")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.458249, 0)
