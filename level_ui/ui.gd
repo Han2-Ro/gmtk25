@@ -71,7 +71,7 @@ func _ready():
 	try_again_button.visible = false
 
 	# Hide upgrade selection by default
-	upgrade_selection.hide()
+	upgrade_selection.hide_selection()
 
 	# Hide all UI elements initially
 	hide_ui_elements()
@@ -246,13 +246,13 @@ func show_upgrade_selection(upgrades: Array[BaseUpgrade]) -> void:
 
 func _on_upgrade_selected(upgrade: BaseUpgrade) -> void:
 	# Hide upgrade selection and emit signal
-	upgrade_selection.hide()
+	upgrade_selection.hide_selection()
 	upgrade_selected.emit(upgrade)
 
 
 func _on_upgrade_skipped() -> void:
 	# Hide upgrade selection and emit signal
-	upgrade_selection.hide()
+	upgrade_selection.hide_selection()
 	upgrade_skipped.emit()
 
 
