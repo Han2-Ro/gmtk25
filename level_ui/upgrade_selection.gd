@@ -37,9 +37,16 @@ var card3_price: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3
 var card3_button: Button = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
 
 @onready var skip_button: Button = $Panel/MarginContainer/VBoxContainer/SkipButton
+@onready var panel: Panel = $Panel
+
+# Store original panel scale for animations
+var original_panel_scale: Vector2
 
 
 func _ready() -> void:
+	# Store original panel scale for animations
+	original_panel_scale = panel.scale
+
 	card1_button.pressed.connect(_on_card1_selected)
 	card2_button.pressed.connect(_on_card2_selected)
 	card3_button.pressed.connect(_on_card3_selected)
@@ -72,11 +79,48 @@ func show_upgrades(upgrades: Array[BaseUpgrade]) -> void:
 		card3_price.text = "%d coins" % upgrades[2].cost
 		_update_button_state(card3_button, upgrades[2])
 
-	show()
+	_show_with_animation()
 
 
 func hide_selection() -> void:
-	hide()
+	_hide_with_animation()
+
+
+func _show_with_animation() -> void:
+	# Show the UI and start with scaled down panel
+	show()
+	modulate.a = 0
+	panel.scale = Vector2(0.8, 0.8)
+
+	# Create smooth fade in and scale up animation
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	# Fade in background
+	tween.tween_property(self, "modulate:a", 1.0, 0.3).set_ease(Tween.EASE_OUT)
+
+	# Scale up panel with bounce effect
+	(
+		tween
+		. tween_property(panel, "scale", original_panel_scale, 0.4)
+		. set_ease(Tween.EASE_OUT)
+		. set_trans(Tween.TRANS_BACK)
+	)
+
+
+func _hide_with_animation() -> void:
+	# Create smooth fade out and scale down animation
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	# Fade out background
+	tween.tween_property(self, "modulate:a", 0.0, 0.2).set_ease(Tween.EASE_IN)
+
+	# Scale down panel
+	tween.tween_property(panel, "scale", Vector2(0.8, 0.8), 0.2).set_ease(Tween.EASE_IN)
+
+	# Hide after animation completes
+	tween.tween_callback(hide)
 
 
 func _update_button_state(button: Button, upgrade: BaseUpgrade) -> void:
