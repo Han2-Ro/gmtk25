@@ -6,7 +6,7 @@
 script = ExtResource("1_memory_helper")
 id = "memory_helper"
 name = "Memory Helper"
-description = "Shows a brief highlight on the next correct tile"
+description = "Adds a hint button that costs 35 coins per use to highlight the next correct tile"
 cost = 120
 is_stackable = false
 max_stack = -1

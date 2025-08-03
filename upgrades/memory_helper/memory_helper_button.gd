@@ -34,8 +34,8 @@ func _update_display():
 		disable()
 	elif (
 		not level_controller
-		or not level_controller.upgrade_manager
-		or not level_controller.upgrade_manager.cash_manager.can_afford(35)
+		or not level_controller.cash_manager
+		or not level_controller.cash_manager.can_afford(35)
 	):
 		disable()
 
@@ -49,7 +49,7 @@ func _on_pressed():
 		return
 
 	# Check if player can afford the hint
-	if not level_controller.upgrade_manager.cash_manager.can_afford(35):
+	if not level_controller.cash_manager.can_afford(35):
 		return
 
 	level_controller.upgrade_manager.upgrade_activated.emit(upgrade)
@@ -91,8 +91,8 @@ func enable():
 		return
 	if (
 		not level_controller
-		or not level_controller.upgrade_manager
-		or not level_controller.upgrade_manager.cash_manager.can_afford(35)
+		or not level_controller.cash_manager
+		or not level_controller.cash_manager.can_afford(35)
 	):
 		return
 

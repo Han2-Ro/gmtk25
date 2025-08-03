@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5g8h4j2k7m9n"]
+[gd_scene load_steps=2 format=3 uid="uid://c5g8h4j2k7nan"]
 
 [ext_resource type="Script" path="res://upgrades/memory_helper/memory_helper_button.gd" id="1_memory_helper_button"]
 
