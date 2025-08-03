@@ -123,8 +123,8 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_dkj6a"]
 resource_name = "drone"
-length = 30.0
-loop_mode = 1
+length = 60.0
+loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -135,7 +135,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 30),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(-47.4072, -0.934411, -63.9985), Vector3(10.1379, -1.40827, 19.6554)]
+"values": [Vector3(-47.4072, -0.934411, -63.9985), Vector3(10.1296, -5.02513, 19.6434)]
 }
 
 [sub_resource type="Animation" id="Animation_0uyxu"]
@@ -247,7 +247,7 @@ autoplay = "drone_rotors"
 transform = Transform3D(0.567627, 0.305176, -1.55579, -0.797429, 1.48322, 0, 1.3703, 0.736723, 0.644463, -19.2394, -0.107952, 4.98734)
 
 [node name="Body" parent="drone" index="0"]
-transform = Transform3D(-0.0918208, 0, 1.40016, 0, 1.40317, 0, -1.40016, 0, -0.0918208, 0, 0, 0)
+transform = Transform3D(-0.0918208, -5.96046e-08, 1.40016, 0, 1.40317, 0, -1.40016, 4.47035e-08, -0.0918209, 9.53674e-07, -1.19209e-06, 0)
 
 [node name="RotorBlades" parent="drone/Body/RotorCase" index="0"]
 transform = Transform3D(-1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, -0.324603, 0.0976562, -2.13519e-06)
