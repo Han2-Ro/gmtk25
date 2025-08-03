@@ -43,9 +43,6 @@ var is_fast_forward_enabled: bool = false
 func _ready():
 	audio_player = AudioStreamPlayer.new()
 	add_child(audio_player)
-	# Connect cursor management to sequence phases
-	sequence_flash_start.connect(_on_sequence_flash_start_cursor)
-	sequence_flash_end.connect(_on_sequence_flash_end_cursor)
 
 
 func play_correct_sound():
@@ -232,11 +229,3 @@ func toggle_fast_forward() -> void:
 	is_fast_forward_enabled = not is_fast_forward_enabled
 	fast_forward_toggled.emit(is_fast_forward_enabled)
 	print("Fast forward toggled: ", is_fast_forward_enabled)
-
-
-func _on_sequence_flash_start_cursor():
-	CursorManager.set_disabled_cursor()
-
-
-func _on_sequence_flash_end_cursor():
-	CursorManager.set_default_cursor()

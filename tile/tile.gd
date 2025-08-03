@@ -66,19 +66,26 @@ func disable() -> void:
 	await tween.finished
 
 
+var _hover_tween: Tween
+
+
 func hover() -> void:
-	var tween = create_tween()
-	tween.tween_property(material, accent_property, hover_color, 0.2)
-	await tween.finished
+	if _hover_tween and _hover_tween.is_running():
+		_hover_tween.kill()
+	_hover_tween = create_tween()
+	_hover_tween.tween_property(material, accent_property, hover_color, 0.2)
+	await _hover_tween.finished
 
 
 func unhover() -> void:
-	var tween = create_tween()
+	if _hover_tween and _hover_tween.is_running():
+		_hover_tween.kill()
+	_hover_tween = create_tween()
 	if disabled:
-		tween.tween_property(material, accent_property, disabled_color, 0.2)
+		_hover_tween.tween_property(material, accent_property, disabled_color, 0.2)
 	else:
-		tween.tween_property(material, accent_property, enabled_color, 0.2)
-	await tween.finished
+		_hover_tween.tween_property(material, accent_property, enabled_color, 0.2)
+	await _hover_tween.finished
 
 
 func _on_sequence_flash_start():
@@ -118,15 +125,25 @@ func _reset():
 	self.show()
 
 
+var _pressed_correct_tween: Tween
+
+
 func this_pressed_correct():
-	var tween = create_tween()
-	tween.tween_property(self, "_is_showing_correct", true, 0)
-	tween.tween_property(material, accent_property, correct_color, 0.25)
-	tween.tween_interval(0.1)
-	tween.tween_property(material, accent_property, enabled_color, 0.25)
-	tween.tween_property(player, "position", self.position, 0.1)
-	tween.tween_property(self, "_is_showing_correct", false, 0)
-	await tween.finished
+	if _pressed_correct_tween and _pressed_correct_tween.is_running():
+		_pressed_correct_tween.kill()
+		# insta reset if clicked fast
+		material[accent_property] = enabled_color
+	if _hover_tween and _hover_tween.is_running():
+		_hover_tween.kill()
+
+	_pressed_correct_tween = create_tween()
+	_pressed_correct_tween.tween_property(self, "_is_showing_correct", true, 0)
+	_pressed_correct_tween.tween_property(material, accent_property, correct_color, 0.1)
+	_pressed_correct_tween.tween_interval(0.1)
+	_pressed_correct_tween.tween_property(material, accent_property, enabled_color, 0.25)
+	_pressed_correct_tween.tween_property(player, "position", self.position, 0.1)
+	_pressed_correct_tween.tween_property(self, "_is_showing_correct", false, 0)
+	await _pressed_correct_tween.finished
 
 
 func this_pressed_wrong():
