@@ -181,8 +181,6 @@ func start_game() -> void:
 func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 	# Show mistake notification immediately
 	level_ui.show_mistake_notification()
-	# Show try again button
-	level_ui.show_try_again_button()
 
 	var event_args = LifeLossEventArgs.new(_btn, current_lives)
 	life_about_to_be_lost.emit(event_args)
@@ -193,6 +191,9 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 		life_changed.emit(current_lives, -1)
 		if current_lives <= 0:
 			game_over()
+		else:
+			# Only show try again button if player still has lives
+			level_ui.show_try_again_button()
 
 
 func _on_sequence_controller_sequence_completed() -> void:
