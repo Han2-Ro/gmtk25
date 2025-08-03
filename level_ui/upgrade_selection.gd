@@ -9,25 +9,34 @@ signal upgrade_skipped
 var current_upgrades: Array[BaseUpgrade] = []
 var shop_manager: ShopManager
 
-@onready var card1_title: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Title
-@onready var card1_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Description
-@onready var card1_price: Label = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Price
 @onready
-var card1_button: Button = $Panel/VBoxContainer/UpgradeCards/Card1/VBoxContainer/SelectButton
-
-@onready var card2_title: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Title
-@onready var card2_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Description
-@onready var card2_price: Label = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Price
+var card1_title: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Title
 @onready
-var card2_button: Button = $Panel/VBoxContainer/UpgradeCards/Card2/VBoxContainer/SelectButton
-
-@onready var card3_title: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Title
-@onready var card3_desc: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Description
-@onready var card3_price: Label = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Price
+var card1_desc: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Description
 @onready
-var card3_button: Button = $Panel/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
+var card1_price: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card1/VBoxContainer/Price
+@onready
+var card1_button: Button = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card1/VBoxContainer/SelectButton
 
-@onready var skip_button: Button = $Panel/VBoxContainer/SkipButton
+@onready
+var card2_title: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Title
+@onready
+var card2_desc: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Description
+@onready
+var card2_price: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card2/VBoxContainer/Price
+@onready
+var card2_button: Button = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card2/VBoxContainer/SelectButton
+
+@onready
+var card3_title: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Title
+@onready
+var card3_desc: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Description
+@onready
+var card3_price: Label = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3/VBoxContainer/Price
+@onready
+var card3_button: Button = $Panel/MarginContainer/VBoxContainer/UpgradeCards/Card3/VBoxContainer/SelectButton
+
+@onready var skip_button: Button = $Panel/MarginContainer/VBoxContainer/SkipButton
 
 
 func _ready() -> void:
