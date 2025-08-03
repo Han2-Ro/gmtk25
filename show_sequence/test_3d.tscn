@@ -25,9 +25,7 @@ glow_strength = 2.0
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
 sequence_controller_scene = ExtResource("2_fyuqc")
-debug_start_money = 150
-debug_open_shop_on_start = true
-debug_forced_upgrade = "joker_5050"
+debug_start_money = 50
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("map_look_target", "start_menu_target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00389895, 3.57081, 1.92245)

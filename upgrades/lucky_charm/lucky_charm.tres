@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LuckyCharmUpgrade" load_steps=2 format=3 uid="uid://b1di8uebmacbq"]
 
-[ext_resource type="Script" uid="uid://dsywtbb3qqho8" path="res://upgrades/lucky_charm/lucky_charm_upgrade.gd" id="1_lucky_charm"]
+[ext_resource type="Script" path="res://upgrades/lucky_charm/lucky_charm_upgrade.gd" id="1_lucky_charm"]
 
 [resource]
 resource_local_to_scene = true
