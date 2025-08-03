@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=11 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
 [ext_resource type="PackedScene" uid="uid://c8oj4lpr53fb3" path="res://level_ui/lives.tscn" id="3_gucvr"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bhonjbmx1s86y" path="res://level_ui/cash.tscn" id="4_u6orx"]
 [ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 [ext_resource type="Script" uid="uid://dj7mubnnbexrg" path="res://show_sequence/level_counter.gd" id="5_level"]
+[ext_resource type="Texture2D" uid="uid://b4y50u2w2gpgj" path="res://level_ui/fastForward.png" id="7_8adj0"]
 [ext_resource type="Texture2D" uid="uid://dmqtj4q7725in" path="res://level_ui/assets/panel_glass_notches_bottom.png" id="7_ktlth"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8adj0"]
@@ -69,7 +70,7 @@ theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 
-[node name="FastForwardButton" type="Button" parent="."]
+[node name="FastForwardButton" type="TextureButton" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 1
@@ -80,7 +81,8 @@ offset_top = 517.0
 offset_right = -108.0
 offset_bottom = 572.0
 grow_horizontal = 0
-text = "FF OFF"
+toggle_mode = true
+texture_normal = ExtResource("7_8adj0")
 
 [node name="TryAgainButton" type="Button" parent="."]
 visible = false

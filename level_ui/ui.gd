@@ -18,7 +18,7 @@ signal try_again_pressed
 @onready var cash_label: Control = $Cash
 @onready var progress_label: Label = $PanelContainer/MarginContainer/VBoxContainer/Progress
 @onready var level_label: Label = $PanelContainer/MarginContainer/VBoxContainer/Level
-@onready var fast_forward_button: Button = $FastForwardButton
+@onready var fast_forward_button: TextureButton = $FastForwardButton
 @onready var try_again_button: Button = $TryAgainButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready
@@ -266,10 +266,8 @@ func hide_fast_forward_button() -> void:
 
 func update_fast_forward_state(is_enabled: bool) -> void:
 	if is_enabled:
-		fast_forward_button.text = "FF ON "
 		fast_forward_button.modulate = Color.GREEN
 	else:
-		fast_forward_button.text = "FF OFF"
 		fast_forward_button.modulate = Color.WHITE
 
 
