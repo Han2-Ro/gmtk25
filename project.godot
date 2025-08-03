@@ -25,3 +25,4 @@ CursorManager="*res://cursor_manager.gd"
 anti_aliasing/quality/msaa_3d=1
 anti_aliasing/quality/screen_space_aa=1
 anti_aliasing/quality/use_taa=true
+textures/vram_compression/import_etc2_astc=true
