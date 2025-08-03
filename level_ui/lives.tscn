@@ -1,0 +1,102 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8oj4lpr53fb3"]
+
+[ext_resource type="Script" uid="uid://casspr8yi0vbn" path="res://show_sequence/life_counter.gd" id="1_fw0nq"]
+[ext_resource type="Texture2D" uid="uid://cvnwgwignlm30" path="res://level_ui/assets/Extra/Default/panel_glass_notch_br.png" id="2_tkm3u"]
+[ext_resource type="Texture2D" uid="uid://nkmu2wint7qp" path="res://level_ui/assets/Green/Double/bar_square_large_square.png" id="3_vw5wv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nanrt"]
+texture = ExtResource("2_tkm3u")
+texture_margin_left = 24.0
+texture_margin_top = 24.0
+texture_margin_right = 24.0
+texture_margin_bottom = 24.0
+
+[node name="Lives" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 241.0
+offset_bottom = 65.0
+script = ExtResource("1_fw0nq")
+
+[node name="TextureRect" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nanrt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="EnergyBar" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="EnergyBar2" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="EnergyBar3" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="EnergyBar4" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="EnergyBar5" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="EnergyBar6" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+texture = ExtResource("3_vw5wv")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c42sp7xo4imdi"]
 
 [ext_resource type="Script" uid="uid://gdvsay0fhyfy" path="res://shop/shop_item_button.gd" id="1_0"]
-[ext_resource type="Theme" path="res://ui_theme.tres" id="2_theme"]
+[ext_resource type="Theme" uid="uid://lodk0caldpdi" path="res://ui_theme.tres" id="2_theme"]
 
 [node name="ShopItem" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 80)

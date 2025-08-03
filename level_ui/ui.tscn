@@ -1,11 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=7 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
-[ext_resource type="Script" uid="uid://casspr8yi0vbn" path="res://show_sequence/life_counter.gd" id="1_lpxan"]
+[ext_resource type="PackedScene" uid="uid://c8oj4lpr53fb3" path="res://level_ui/lives.tscn" id="3_gucvr"]
 [ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
+[ext_resource type="Theme" uid="uid://lodk0caldpdi" path="res://ui_theme.tres" id="4_theme"]
 [ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 [ext_resource type="Script" uid="uid://dj7mubnnbexrg" path="res://show_sequence/level_counter.gd" id="5_level"]
-[ext_resource type="Theme" path="res://ui_theme.tres" id="4_theme"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -18,12 +18,8 @@ mouse_filter = 1
 theme = ExtResource("4_theme")
 script = ExtResource("1_j06nf")
 
-[node name="Lives" type="Label" parent="."]
+[node name="Lives" parent="." instance=ExtResource("3_gucvr")]
 layout_mode = 0
-offset_right = 53.0
-offset_bottom = 23.0
-text = "3 Lives"
-script = ExtResource("1_lpxan")
 
 [node name="Cash" type="Label" parent="."]
 layout_mode = 0
