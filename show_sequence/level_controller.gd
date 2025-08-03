@@ -20,6 +20,7 @@ var debug_forced_upgrade: String
 
 var current_lives: int
 var current_level: int = 1
+var is_fast_forward_enabled: bool = false
 var cash_manager: CashManager
 var shop_manager: ShopManager
 var upgrade_manager: UpgradeManager
@@ -97,6 +98,7 @@ func setup_sequence_controller() -> SequenceController:
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
 	sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
 	sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
+	sequence_controller.fast_forward_toggled.connect(_on_fast_forward_toggled)
 
 	return sequence_controller
 
@@ -132,6 +134,11 @@ func start_game() -> void:
 		player.setup(sequence_controller)
 
 		upgrade_manager.register_sequence_controller(sequence_controller)
+
+		# Restore fast forward state from previous level
+		if is_fast_forward_enabled:
+			sequence_controller.is_fast_forward_enabled = true
+			sequence_controller.fast_forward_toggled.emit(true)
 
 		sequence_controller.sequence_length = length
 		sequence_controller.steps_to_reveal = steps_to_reveal
@@ -261,7 +268,7 @@ func _on_upgrade_skipped() -> void:
 
 func _on_fast_forward_pressed() -> void:
 	if sequence_controller:
-		sequence_controller.activate_fast_forward()
+		sequence_controller.toggle_fast_forward()
 
 
 func _on_sequence_flash_start() -> void:
@@ -270,3 +277,8 @@ func _on_sequence_flash_start() -> void:
 
 func _on_sequence_flash_end() -> void:
 	level_ui.hide_fast_forward_button()
+
+
+func _on_fast_forward_toggled(is_enabled: bool) -> void:
+	is_fast_forward_enabled = is_enabled
+	level_ui.update_fast_forward_state(is_enabled)

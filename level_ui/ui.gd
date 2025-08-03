@@ -208,6 +208,15 @@ func hide_fast_forward_button() -> void:
 	fast_forward_button.visible = false
 
 
+func update_fast_forward_state(is_enabled: bool) -> void:
+	if is_enabled:
+		fast_forward_button.text = "►► ON"
+		fast_forward_button.modulate = Color.GREEN
+	else:
+		fast_forward_button.text = "►►"
+		fast_forward_button.modulate = Color.WHITE
+
+
 func _on_fast_forward_pressed() -> void:
 	fast_forward_pressed.emit()
 
