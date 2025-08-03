@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://ciwn43pimyoxw"]
 
 [ext_resource type="Script" uid="uid://bsfxtlj4guykw" path="res://start_menu/start_menu.gd" id="1_qdmhb"]
-[ext_resource type="FontFile" uid="uid://c56q3t4m1p0qv" path="res://rollbox-font/RollboxExtraBold-3zV4X.ttf" id="2_pelf0"]
+[ext_resource type="FontFile" uid="uid://dp5xqlvd4xso0" path="res://rollbox-font/RollboxExtraBold-3zV4X.ttf" id="2_pelf0"]
 [ext_resource type="Script" uid="uid://u3j6y3se4wpw" path="res://start_menu/button_3d.gd" id="2_xloss"]
 [ext_resource type="Material" uid="uid://b73hvbuq80pnr" path="res://start_menu/start_menu_material.tres" id="3_x6gm5"]
 
@@ -27,6 +27,33 @@ font_size = 96
 depth = 0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_pelf0"]
+
+[sub_resource type="Animation" id="Animation_unh8j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLight3D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(6.08135, 3.08137, 3.8054)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpotLight3D5:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(2.71421, 3.16496, 9.79106)]
+}
 
 [sub_resource type="Animation" id="Animation_x6gm5"]
 resource_name = "lights"
@@ -55,33 +82,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(2.71421, 3.16496, 9.79106), Vector3(7.45007, 5.40416, 9.79106), Vector3(2.71421, 3.16496, 9.79106)]
-}
-
-[sub_resource type="Animation" id="Animation_unh8j"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SpotLight3D2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(6.08135, 3.08137, 3.8054)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("SpotLight3D5:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(2.71421, 3.16496, 9.79106)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dkj6a"]

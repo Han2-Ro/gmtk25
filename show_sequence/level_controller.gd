@@ -138,7 +138,7 @@ func start_game() -> void:
 		Map.new(3, SequenceController.TileShape.HEXAGON),
 	]
 	# initialize the difficulty dimensions
-	var map_index = 3
+	var map_index = 0
 	var length = 3
 	var steps_to_reveal = 1
 
@@ -172,7 +172,7 @@ func start_game() -> void:
 		var rng = randf()
 		if rng < .2 and steps_to_reveal < 3:  # 3 is maximum
 			steps_to_reveal += 1
-		elif .2 <= rng and rng < .5 and map_index < (maps.size() - 1):
+		elif .2 <= rng and rng < .6 and map_index < (maps.size() - 1):
 			map_index += 1
 		else:
 			length += 2

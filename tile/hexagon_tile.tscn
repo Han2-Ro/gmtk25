@@ -8,7 +8,7 @@ height = 0.01
 
 [node name="HexagonTile" type="Node3D"]
 script = ExtResource("1_f7y23")
-enabled_color = Color(0, 1, 0.929412, 1)
+hover_color = Color(0, 0.581741, 0.957732, 1)
 
 [node name="Mesh" parent="." instance=ExtResource("1_km7xx")]
 
