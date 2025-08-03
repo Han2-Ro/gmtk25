@@ -135,7 +135,7 @@ func _on_restart_button_pressed() -> void:
 
 
 func update_cash(amount: int) -> void:
-	cash_label.text = "Coins: %d" % amount
+	cash_label.update_cash(amount)
 
 
 func _on_shop_button_pressed() -> void:

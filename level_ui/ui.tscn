@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://nvt00bg5xc4l"]
+[gd_scene load_steps=8 format=3 uid="uid://nvt00bg5xc4l"]
 
 [ext_resource type="Script" uid="uid://isudkhfb6sfj" path="res://level_ui/ui.gd" id="1_j06nf"]
 [ext_resource type="PackedScene" uid="uid://c8oj4lpr53fb3" path="res://level_ui/lives.tscn" id="3_gucvr"]
 [ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
 [ext_resource type="Theme" uid="uid://lodk0caldpdi" path="res://ui_theme.tres" id="4_theme"]
+[ext_resource type="PackedScene" uid="uid://bhonjbmx1s86y" path="res://level_ui/cash.tscn" id="4_u6orx"]
 [ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 [ext_resource type="Script" uid="uid://dj7mubnnbexrg" path="res://show_sequence/level_counter.gd" id="5_level"]
 
@@ -21,14 +22,8 @@ script = ExtResource("1_j06nf")
 [node name="Lives" parent="." instance=ExtResource("3_gucvr")]
 layout_mode = 0
 
-[node name="Cash" type="Label" parent="."]
+[node name="Cash" parent="." instance=ExtResource("4_u6orx")]
 layout_mode = 0
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -100.0
-offset_bottom = 23.0
-text = "Coins: 0"
-horizontal_alignment = 2
 
 [node name="FastForwardButton" type="Button" parent="."]
 visible = false
