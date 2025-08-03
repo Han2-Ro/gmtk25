@@ -1,43 +1,152 @@
-[gd_scene load_steps=6 format=3 uid="uid://ciwn43pimyoxw"]
+[gd_scene load_steps=13 format=3 uid="uid://ciwn43pimyoxw"]
 
 [ext_resource type="Script" uid="uid://bsfxtlj4guykw" path="res://start_menu/start_menu.gd" id="1_qdmhb"]
+[ext_resource type="FontFile" uid="uid://c56q3t4m1p0qv" path="res://rollbox-font/RollboxExtraBold-3zV4X.ttf" id="2_pelf0"]
 [ext_resource type="Script" uid="uid://u3j6y3se4wpw" path="res://start_menu/button_3d.gd" id="2_xloss"]
+[ext_resource type="Material" uid="uid://b73hvbuq80pnr" path="res://start_menu/start_menu_material.tres" id="3_x6gm5"]
 
 [sub_resource type="TextMesh" id="TextMesh_ndybt"]
+material = ExtResource("3_x6gm5")
 text = "Loop In"
+font = ExtResource("2_pelf0")
 font_size = 127
 depth = 0.3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pelf0"]
-size = Vector3(2.26215, 0.722412, 0.447998)
+size = Vector3(3.92918, 1.50922, 0.447998)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unh8j"]
+emission_enabled = true
+emission = Color(0.5, 1, 0, 1)
+emission_energy_multiplier = 0.54
 
 [sub_resource type="TextMesh" id="TextMesh_xloss"]
+material = SubResource("StandardMaterial3D_unh8j")
 text = "Start"
 font_size = 96
+depth = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_pelf0"]
+
+[sub_resource type="Animation" id="Animation_x6gm5"]
+resource_name = "lights"
+length = 30.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLight3D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 8.8709, 19.3581, 30.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(6.08135, 3.08137, 8.47504), Vector3(-0.210952, -3.12903, 8.47504), Vector3(1.59715, 3.92986, 8.47504), Vector3(6.08135, 3.08137, 8.47504)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpotLight3D5:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 14.9227, 30),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(2.71421, 3.16496, 9.79106), Vector3(7.45007, 5.40416, 9.79106), Vector3(2.71421, 3.16496, 9.79106)]
+}
+
+[sub_resource type="Animation" id="Animation_unh8j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpotLight3D2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(6.08135, 3.08137, 3.8054)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpotLight3D5:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(2.71421, 3.16496, 9.79106)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dkj6a"]
+_data = {
+&"RESET": SubResource("Animation_unh8j"),
+&"lights": SubResource("Animation_x6gm5")
+}
 
 [node name="StartMenu" type="Node3D" node_paths=PackedStringArray("start_button")]
 script = ExtResource("1_qdmhb")
 start_button = NodePath("Area3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.29289, 0, 0, 0, 1.29289, 0, 0, 0, 1.29289, 0, 1.12887, 0)
+transform = Transform3D(2.0879, 0, 0, 0, 2.0879, 0, 0, 0, 2.0879, 0, 1.50685, 0)
 mesh = SubResource("TextMesh_ndybt")
 
-[node name="StartButton" type="Label3D" parent="."]
-transform = Transform3D(1.05257, 0, 0, 0, 1.05257, 0, 0, 0, 1.05257, 0, -0.443572, 0)
-visible = false
-shaded = true
-text = "START"
-font_size = 96
-
 [node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("mesh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.449721, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4283, 0)
 script = ExtResource("2_xloss")
 mesh = NodePath("MeshInstance3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0162659, -0.041626, -0.0174561)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00400481, 0.0738832, -0.0174561)
 shape = SubResource("BoxShape3D_pelf0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
 mesh = SubResource("TextMesh_xloss")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(4.16334, 0, 0, 0, 1.55323, 0, 0, 0, 0.349876, 0, 0, -0.235551)
+mesh = SubResource("BoxMesh_pelf0")
+surface_material_override/0 = ExtResource("3_x6gm5")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.998571, 0.0126697, -0.0519102, 0, 0.971483, 0.23711, 0.053434, -0.236771, 0.970095, -5.71646, 3.16496, 11.0572)
+light_color = Color(0.957341, 1.63645e-06, 0.525284, 1)
+light_energy = 10.0
+spot_range = 105.443
+spot_angle = 52.0313
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="."]
+transform = Transform3D(0.908504, -0.124628, 0.398858, 0.00304049, 0.956436, 0.291926, -0.417864, -0.264003, 0.869305, 2.71421, 3.16496, 9.79106)
+light_color = Color(0.957341, 1.63645e-06, 0.525284, 1)
+light_energy = 10.0
+light_indirect_energy = 10.0
+shadow_enabled = true
+spot_range = 237.051
+spot_angle = 52.0313
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.984358, -0.0358686, 0.17249, -0.00847681, 0.96828, 0.249725, -0.175976, -0.247281, 0.95283, 6.08135, 3.08137, 3.8054)
+light_color = Color(0.336717, 0.985248, 3.85046e-07, 1)
+light_energy = 10.0
+shadow_enabled = true
+spot_range = 96.8328
+spot_angle = 52.0313
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="."]
+transform = Transform3D(0.99479, 0.0335381, -0.0962722, -0.0502407, 0.982981, -0.176703, 0.0887075, 0.180619, 0.979545, -2.13628, 0.745522, 11.568)
+light_color = Color(0.336717, 0.985248, 3.85046e-07, 1)
+light_energy = 10.0
+spot_range = 77.7556
+spot_angle = 52.0313
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_dkj6a")
+}

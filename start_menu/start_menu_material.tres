@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b73hvbuq80pnr"]
+
+[resource]
+metallic = 0.71
+roughness = 0.3
+emission = Color(0.932353, 2.26215e-05, 0.64302, 1)
+emission_energy_multiplier = 2.66

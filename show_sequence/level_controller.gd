@@ -138,7 +138,7 @@ func start_game() -> void:
 		Map.new(3, SequenceController.TileShape.HEXAGON),
 	]
 	# initialize the difficulty dimensions
-	var map_index = 0
+	var map_index = 3
 	var length = 3
 	var steps_to_reveal = 1
 

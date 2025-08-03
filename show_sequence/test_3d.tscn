@@ -13,7 +13,15 @@
 
 [sub_resource type="Environment" id="Environment_tkm1j"]
 background_energy_multiplier = 0.0
-ambient_light_energy = 0.0
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+ssr_enabled = true
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 2.2
+glow_strength = 2.0
+glow_bloom = 1.0
 
 [node name="Test3d" type="Node3D"]
 script = ExtResource("1_tkm1j")
@@ -32,8 +40,7 @@ start_menu_target = NodePath("../StartMenu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.690744, -0.149859, -0.707401, 0.7231, 0.143154, 0.675747, -5.31338e-09, -0.978289, 0.207246, 0, 3.60875, 0)
-visible = false
-light_energy = 1.5
+light_energy = 2.0
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_4xm1u")]
@@ -55,10 +62,6 @@ omni_range = 5.89594
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.126, 2.36155, -2.95619)
 omni_range = 5.89594
 
-[node name="OmniLight3D4" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.126, 2.36155, -2.95619)
-omni_range = 5.89594
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_tkm1j")
 
@@ -74,4 +77,4 @@ rng_seed = 1234
 generate_at_origin = false
 
 [node name="StartMenu" parent="." instance=ExtResource("10_slykt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.66288, -4.50806)
+transform = Transform3D(4.03941, 0, 0, 0, 4.03941, 0, 0, 0, 4.03941, 0, 3.66288, -31.6595)
