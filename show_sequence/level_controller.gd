@@ -224,7 +224,8 @@ func _on_cash_changed(new_total: int, _amount_added: int) -> void:
 
 
 func game_over() -> void:
-	level_ui.show_overlay(false)
+	var last_completed_level = current_level - 1
+	level_ui.show_overlay(false, last_completed_level)
 
 
 func game_won() -> void:

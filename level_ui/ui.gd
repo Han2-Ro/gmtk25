@@ -52,14 +52,17 @@ func _ready():
 	hide_ui_elements()
 
 
-func show_overlay(is_win: bool) -> void:
+func show_overlay(is_win: bool, last_completed_level: int = 0) -> void:
 	is_win_state = is_win
 	if is_win:
 		overlay_label.text = "YOU WON!"
 		shop_button.visible = true
 		restart_button.text = "Next level"
 	else:
-		overlay_label.text = "YOU ARE A LOOOOOSER"
+		if last_completed_level > 0:
+			overlay_label.text = "Game Over! You completed level %d" % last_completed_level
+		else:
+			overlay_label.text = "Game Over!"
 		shop_button.visible = false
 		restart_button.text = "Start again"
 	overlay.visible = true
