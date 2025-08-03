@@ -19,6 +19,7 @@ extends Node
 var debug_forced_upgrade: String
 
 var current_lives: int
+var current_level: int = 1
 var cash_manager: CashManager
 var shop_manager: ShopManager
 var upgrade_manager: UpgradeManager
@@ -137,7 +138,7 @@ func start_game() -> void:
 		sequence_controller.grid_width = maps[map_index].map_size
 		sequence_controller.grid_height = maps[map_index].map_size
 		sequence_controller.hex_grid_outer_width = maps[map_index].map_size
-		level_counter.update_level(length)
+		level_counter.update_level(current_level)
 
 		await sequence_controller.start_game()
 		await next_level
@@ -170,6 +171,7 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 
 func _on_sequence_controller_sequence_completed() -> void:
 	cash_manager.award_sequence_completion(sequence_controller.sequence_length)
+	current_level += 1
 	level_ui.clear_progress()
 	level_ui.show_victory_message()
 	# Give player time to enjoy their victory before showing upgrade screen
