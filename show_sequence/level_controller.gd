@@ -24,6 +24,7 @@ var is_fast_forward_enabled: bool = false
 var cash_manager: CashManager
 var shop_manager: ShopManager
 var upgrade_manager: UpgradeManager
+var high_score_manager: HighScoreManager
 
 var sequence_controller: SequenceController
 @onready var level_ui: LevelUI = $UI
@@ -42,6 +43,7 @@ func _ready() -> void:
 	shop_manager = ShopManager.new()
 	cash_manager = CashManager.new()
 	upgrade_manager = UpgradeManager.new(self)
+	high_score_manager = HighScoreManager.new()
 
 	shop_manager.cash_manager = cash_manager
 	shop_manager.upgrade_manager = upgrade_manager
@@ -226,11 +228,16 @@ func _on_cash_changed(new_total: int, _amount_added: int) -> void:
 
 func game_over() -> void:
 	var last_completed_level = current_level - 1
+
+	# Check and update high score
+	var is_new_high_score = high_score_manager.check_and_update_high_score(last_completed_level)
+	var high_score = high_score_manager.get_high_score()
+
 	# Wait a moment to let player see the mistake notification
 	await get_tree().create_timer(1.5).timeout
 	# Hide the notification before showing game over screen
 	level_ui.hide_try_again_button()
-	level_ui.show_overlay(false, last_completed_level)
+	level_ui.show_overlay(false, last_completed_level, is_new_high_score, high_score)
 
 
 func game_won() -> void:
