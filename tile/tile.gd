@@ -1,6 +1,11 @@
 class_name SequenceButton
 extends Node3D
 
+# Grid position properties
+var grid_x: int = -1
+var grid_y: int = -1  
+var grid_index: int = -1
+
 signal pressed
 
 var disabled := false

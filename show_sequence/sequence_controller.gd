@@ -46,8 +46,16 @@ func _ready():
 	add_child(audio_player)
 
 
-func play_correct_sound():
-	AudioManager.play_correct_sound()
+func play_correct_sound(pressed_button):
+	# Musical scale approach - each button plays a different note
+	var notes = [1.0, 1.125, 1.25, 1.5, 1.67]  # Petatonic
+	
+	# Use grid_index to get a consistent note for each button
+	var button_index = pressed_button.grid_index
+	var pitch = notes[button_index % notes.size()] -0.23
+	
+	print("Button index: ", button_index, " Playing note: ", pitch)
+	AudioManager.play_correct_sound_with_pitch(pitch)
 
 
 func play_wrong_sound():
@@ -65,6 +73,7 @@ func flash_sequence(sequence: Array[SequenceButton]):
 
 	for step in sequence:
 		flash_button.emit(step)
+		play_correct_sound(step)
 		await step.flash()
 
 	# Always reset to normal speed after sequence
@@ -96,6 +105,11 @@ func generate_grid() -> Grid:
 			var pos_z = y * tile_spaceing - grid_center_y
 			button_instance.position = Vector3(pos_x, 0, pos_z)
 
+			# Store grid position in the button
+			button_instance.grid_x = x
+			button_instance.grid_y = y
+			button_instance.grid_index = y * grid_width + x
+
 			# Add button to grid
 			button_grid.set_at(x, y, button_instance)
 
@@ -123,6 +137,11 @@ func generate_hexagon_grid() -> Grid:
 			var pos_x = (x - y * 0.5) * tile_spaceing - grid_center_x
 			var pos_z = y * sqrt(3) / 2 * tile_spaceing - grid_center_y
 			button_instance.position = Vector3(pos_x, 0, pos_z)
+
+			# Store grid position in the button
+			button_instance.grid_x = x
+			button_instance.grid_y = y
+			button_instance.grid_index = y * max_width + x
 
 			# Add button to grid
 			button_grid.set_at(x, y, button_instance)
@@ -208,7 +227,7 @@ func play_sequence(sequence: Array[SequenceButton]):
 		var pressed_button: SequenceButton = await sequence_button_pressed
 		if pressed_button == correct_button:
 			print("Correct")
-			play_correct_sound()
+			play_correct_sound(pressed_button)
 			pressed_correct.emit(pressed_button)
 			pressed_button.this_pressed_correct()
 			step_completed.emit(step + 1, len(sequence))

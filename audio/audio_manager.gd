@@ -23,10 +23,17 @@ func play_sound(stream: AudioStream):
 		sound_player.stream = stream
 		sound_player.play()
 
+func play_correct_sound_with_pitch(pitch: float = 1.0):
+	if correct_sound:
+		sound_player.stream = correct_sound
+		sound_player.pitch_scale = pitch
+		sound_player.play()
+
 func play_correct_sound():
-	play_sound(correct_sound)
+	play_correct_sound_with_pitch(1.0)
 
 func play_wrong_sound():
+	sound_player.pitch_scale = 1.0
 	play_sound(wrong_sound)
 
 func play_music(stream: AudioStream, loop: bool = true):
