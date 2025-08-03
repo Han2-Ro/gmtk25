@@ -92,6 +92,7 @@ func setup_sequence_controller() -> SequenceController:
 	sequence_controller.pressed_wrong.connect(_on_sequence_controller_pressed_wrong)
 	sequence_controller.sequence_completed.connect(_on_sequence_controller_sequence_completed)
 	sequence_controller.subsequence_completed.connect(_on_sequence_controller_subsequence_completed)
+	sequence_controller.subsequence_start.connect(_on_sequence_controller_subsequence_start)
 	sequence_controller.step_completed.connect(_on_sequence_controller_step_completed)
 	sequence_controller.sequence_flash_start.connect(_on_sequence_flash_start)
 	sequence_controller.sequence_flash_end.connect(_on_sequence_flash_end)
@@ -169,6 +170,7 @@ func _on_sequence_controller_pressed_wrong(_btn: SequenceButton) -> void:
 
 func _on_sequence_controller_sequence_completed() -> void:
 	cash_manager.award_sequence_completion(sequence_controller.sequence_length)
+	level_ui.clear_progress()
 	level_ui.show_victory_message()
 	# Give player time to enjoy their victory before showing upgrade screen
 	await get_tree().create_timer(2.0).timeout
@@ -180,8 +182,13 @@ func _on_sequence_controller_subsequence_completed(current_round: int, total_rou
 	level_ui.show_mini_win(current_round, total_rounds)
 
 
-func _on_sequence_controller_step_completed(_current_step: int, _total_steps: int) -> void:
+func _on_sequence_controller_subsequence_start(current_round: int, total_rounds: int) -> void:
+	level_ui.update_subsequence_progress(current_round, total_rounds)
+
+
+func _on_sequence_controller_step_completed(current_step: int, total_steps: int) -> void:
 	cash_manager.award_step_completion()
+	level_ui.update_step_progress(current_step, total_steps)
 
 
 func _on_cash_changed(new_total: int, _amount_added: int) -> void:

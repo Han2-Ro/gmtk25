@@ -13,6 +13,7 @@ signal fast_forward_pressed
 @onready var overlay_label: Label = $Overlay/Panel/VBoxContainer/Label
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Label = $Cash
+@onready var progress_label: Label = $Progress
 @onready var fast_forward_button: Button = $FastForwardButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
@@ -205,3 +206,15 @@ func hide_fast_forward_button() -> void:
 
 func _on_fast_forward_pressed() -> void:
 	fast_forward_pressed.emit()
+
+
+func update_step_progress(current_step: int, total_steps: int) -> void:
+	progress_label.text = "Step %d/%d" % [current_step, total_steps]
+
+
+func update_subsequence_progress(current_round: int, total_rounds: int) -> void:
+	progress_label.text = "Round %d/%d" % [current_round, total_rounds]
+
+
+func clear_progress() -> void:
+	progress_label.text = ""
