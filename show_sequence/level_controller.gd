@@ -113,6 +113,7 @@ class Map:
 func start_game() -> void:
 	# TODO: turn into signal?
 	upgrade_manager.broadcast_game_start()
+	level_ui.show_level()
 
 	var maps: Array[Map] = [
 		Map.new(2, SequenceController.TileShape.SQUARE),

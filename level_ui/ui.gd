@@ -14,6 +14,7 @@ signal fast_forward_pressed
 @onready var mini_win_label: Label = $MiniWinContainer/MiniWinLabel
 @onready var cash_label: Label = $Cash
 @onready var progress_label: Label = $Progress
+@onready var level_label: Label = $Level
 @onready var fast_forward_button: Button = $FastForwardButton
 @onready var shop_button: Button = $Overlay/Panel/VBoxContainer/ShopButton
 @onready var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButton
@@ -27,6 +28,9 @@ func _ready():
 	# Ensure overlay is hidden at start
 	overlay.visible = false
 	overlay_label.text = ""
+
+	# Hide level until game starts
+	level_label.visible = false
 
 	# Connect upgrade selection signal
 	upgrade_selection.upgrade_selected.connect(_on_upgrade_selected)
@@ -218,3 +222,7 @@ func update_subsequence_progress(current_round: int, total_rounds: int) -> void:
 
 func clear_progress() -> void:
 	progress_label.text = ""
+
+
+func show_level() -> void:
+	level_label.visible = true
