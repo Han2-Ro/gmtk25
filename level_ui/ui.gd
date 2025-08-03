@@ -25,11 +25,33 @@ signal try_again_pressed
 var restart_button: Button = $Overlay/Panel/VBoxContainer/RestartButtonContainer/RestartButton
 @onready var shop_ui: ShopUI = $ShopUI
 @onready var upgrade_selection: UpgradeSelection = $UpgradeSelection
+@onready var lives: Control = $Lives
+@onready var panel_container: PanelContainer = $PanelContainer
+@onready var upgrades_container: HBoxContainer = $UpgradesContainer
+@onready var mini_win_container: CenterContainer = $MiniWinContainer
 
 var is_win_state: bool = false
 
+# Store original positions for animations
+var original_lives_pos: Vector2
+var original_cash_pos: Vector2
+var original_panel_pos: Vector2
+var original_upgrades_pos: Vector2
+var original_ff_button_pos: Vector2
+var original_try_again_pos: Vector2
+var original_mini_win_alpha: float
+
 
 func _ready():
+	# Store original positions for animations
+	original_lives_pos = lives.position
+	original_cash_pos = cash_label.position
+	original_panel_pos = panel_container.position
+	original_upgrades_pos = upgrades_container.position
+	original_ff_button_pos = fast_forward_button.position
+	original_try_again_pos = try_again_button.position
+	original_mini_win_alpha = mini_win_container.modulate.a
+
 	# Ensure overlay is hidden at start
 	overlay.visible = false
 	overlay_label.text = ""
@@ -318,10 +340,88 @@ func show_mistake_notification() -> void:
 
 
 func hide_ui_elements() -> void:
-	# Hide all game UI elements
-	self.visible = false
+	# Position elements off-screen but keep UI visible for animations
+	self.visible = true
+
+	# Move elements off-screen
+	lives.position = Vector2(original_lives_pos.x - 200, original_lives_pos.y - 100)
+	cash_label.position = Vector2(original_cash_pos.x, original_cash_pos.y - 100)
+	panel_container.position = Vector2(original_panel_pos.x, original_panel_pos.y - 150)
+	upgrades_container.position = Vector2(original_upgrades_pos.x + 350, original_upgrades_pos.y)
+	fast_forward_button.position = Vector2(original_ff_button_pos.x + 100, original_ff_button_pos.y)
+	try_again_button.position = Vector2(original_try_again_pos.x, original_try_again_pos.y + 300)
+	mini_win_container.modulate.a = 0
 
 
 func show_ui_elements() -> void:
-	# Show all game UI elements
+	# Show all game UI elements with staggered slide-in animations
 	self.visible = true
+
+	# Create staggered animations for each element
+	var animation_duration = 0.4
+	var stagger_delay = 0.1
+
+	# Lives - slide in from top-left
+	var lives_tween = create_tween()
+	lives_tween.tween_interval(0.0)
+	lives_tween.tween_property(lives, "position", original_lives_pos, animation_duration).set_ease(
+		Tween.EASE_OUT
+	)
+
+	# Cash - slide in from top-right
+	var cash_tween = create_tween()
+	cash_tween.tween_interval(stagger_delay)
+	(
+		cash_tween
+		. tween_property(cash_label, "position", original_cash_pos, animation_duration)
+		. set_ease(Tween.EASE_OUT)
+	)
+
+	# Panel container - slide down from top-center
+	var panel_tween = create_tween()
+	panel_tween.tween_interval(stagger_delay * 2)
+	(
+		panel_tween
+		. tween_property(panel_container, "position", original_panel_pos, animation_duration)
+		. set_ease(Tween.EASE_OUT)
+	)
+
+	# Upgrades container - slide in from right
+	var upgrades_tween = create_tween()
+	upgrades_tween.tween_interval(stagger_delay * 3)
+	(
+		upgrades_tween
+		. tween_property(upgrades_container, "position", original_upgrades_pos, animation_duration)
+		. set_ease(Tween.EASE_OUT)
+	)
+
+	# Fast forward button - slide in from right
+	var ff_tween = create_tween()
+	ff_tween.tween_interval(stagger_delay * 4)
+	(
+		ff_tween
+		. tween_property(
+			fast_forward_button, "position", original_ff_button_pos, animation_duration
+		)
+		. set_ease(Tween.EASE_OUT)
+	)
+
+	# Try again button - slide up from bottom
+	var try_again_tween = create_tween()
+	try_again_tween.tween_interval(stagger_delay * 5)
+	(
+		try_again_tween
+		. tween_property(try_again_button, "position", original_try_again_pos, animation_duration)
+		. set_ease(Tween.EASE_OUT)
+	)
+
+	# Mini win container - fade in
+	var mini_win_tween = create_tween()
+	mini_win_tween.tween_interval(stagger_delay * 6)
+	(
+		mini_win_tween
+		. tween_property(
+			mini_win_container, "modulate:a", original_mini_win_alpha, animation_duration
+		)
+		. set_ease(Tween.EASE_OUT)
+	)

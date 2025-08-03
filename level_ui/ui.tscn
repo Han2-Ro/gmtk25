@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c8oj4lpr53fb3" path="res://level_ui/lives.tscn" id="3_gucvr"]
 [ext_resource type="PackedScene" uid="uid://dpfpjghkspelg" path="res://shop/shop_ui.tscn" id="3_shop"]
 [ext_resource type="Theme" uid="uid://lodk0caldpdi" path="res://ui_theme.tres" id="4_theme"]
-[ext_resource type="PackedScene" path="res://level_ui/cash.tscn" id="4_u6orx"]
+[ext_resource type="PackedScene" uid="uid://bhonjbmx1s86y" path="res://level_ui/cash.tscn" id="4_u6orx"]
 [ext_resource type="Script" uid="uid://dtktsmbm8hok" path="res://level_ui/upgrade_selection.gd" id="4_upgrade"]
 [ext_resource type="Script" uid="uid://dj7mubnnbexrg" path="res://show_sequence/level_counter.gd" id="5_level"]
 [ext_resource type="Texture2D" uid="uid://dmqtj4q7725in" path="res://level_ui/assets/panel_glass_notches_bottom.png" id="7_ktlth"]
